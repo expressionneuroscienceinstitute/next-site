@@ -78,7 +78,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-8 sm:flex sm:justify-center lg:justify-start gap-4"
+                className="mt-8 flex justify-center sm:justify-center lg:justify-start gap-4"
               >
                 <Link
                   href="/donate"
@@ -87,7 +87,7 @@ export default function Hero() {
                   Support Our Research
                 </Link>
                 <Link
-                  href="/papers"
+                  href="/research#:~:text=Publications"
                   className="inline-block px-8 py-3 border-2 border-accent-light dark:border-accent-dark text-accent-light dark:text-accent-dark font-semibold rounded-lg hover:bg-accent-light hover:text-background-light dark:hover:bg-accent-dark dark:hover:text-background-dark transition-colors"
                 >
                   Read Our Papers

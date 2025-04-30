@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import ThemeToggle from './ThemeToggle'
+import { useState } from 'react'
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -12,6 +13,12 @@ const navItems = [
 ]
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen)
+  }
+
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-sm dark:shadow-none dark:border-b dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,7 +41,33 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+
+          {/* Mobile menu button */}
+          <div className="-mr-2 flex items-center sm:hidden">
+            <ThemeToggle />
+            <button
+              onClick={toggleMenu}
+              type="button"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-light dark:hover:bg-gray-800 dark:focus:ring-accent-dark"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+            >
+              <span className="sr-only">Open main menu</span>
+              {/* Icon when menu is closed */}
+              {!isOpen ? (
+                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              ) : ( /* Icon when menu is open */
+                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </button>
+          </div>
+
+          {/* Desktop buttons */}
+          <div className="hidden sm:flex items-center space-x-4">
             <Link
               href="/donate"
               className="btn-primary"
@@ -43,6 +76,29 @@ export default function Navbar() {
             </Link>
             <ThemeToggle />
           </div>
+        </div>
+      </div>
+
+      {/* Mobile menu, show/hide based on menu state. */}
+      <div className={`${isOpen ? 'block' : 'hidden'} sm:hidden`} id="mobile-menu">
+        <div className="px-2 pt-2 pb-3 space-y-1">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="block px-3 py-2 rounded-md text-base font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={toggleMenu} // Close menu on click
+            >
+              {item.name}
+            </Link>
+          ))}
+          <Link
+            href="/donate"
+            className="block px-3 py-2 rounded-md text-base font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark hover:bg-gray-100 dark:hover:bg-gray-800"
+            onClick={toggleMenu} // Close menu on click
+          >
+            Donate
+          </Link>
         </div>
       </div>
     </nav>

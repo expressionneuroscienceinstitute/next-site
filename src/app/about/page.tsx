@@ -2,6 +2,7 @@
 
 import Navbar from '@/components/Navbar'
 import { motion } from 'framer-motion'
+import Footer from '@/components/Footer'
 
 const boardMembers = [
   {
@@ -50,47 +51,25 @@ export default function AboutPage() {
 
           <section className="mb-12">
             <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">Board Members</h2>
-            <div className="grid gap-8 md:grid-cols-3">
+            <div className="grid gap-8 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
               {boardMembers.map((member, index) => (
                 <motion.div
                   key={member.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="card flex flex-col items-center text-center"
+                  className="card flex flex-col items-center"
                 >
                   <div className="w-48 h-48 bg-gray-200 dark:bg-gray-700 rounded-xl mb-4 flex-shrink-0"></div>
                   <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-1">
                     {member.name}
                   </h3>
                   <p className="text-purple-light dark:text-purple-dark mb-3">{member.role}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 text-left">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 text-left min-w-0">
                     {member.bio}
                   </p>
                 </motion.div>
               ))}
-            </div>
-          </section>
-
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">Governance</h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-              Our governance documents outline our organizational structure, policies,
-              and commitment to transparency.
-            </p>
-            <div className="flex gap-4">
-              <a
-                href="/governance/bylaws.pdf"
-                className="text-accent-light dark:text-accent-dark hover:opacity-80 font-medium"
-              >
-                Bylaws
-              </a>
-              <a
-                href="/governance/policies.pdf"
-                className="text-accent-light dark:text-accent-dark hover:opacity-80 font-medium"
-              >
-                Policies
-              </a>
             </div>
           </section>
 
@@ -103,6 +82,7 @@ export default function AboutPage() {
 
         </motion.div>
       </div>
+      <Footer />
     </div>
   )
 } 

@@ -30,7 +30,7 @@ export default function PublicationItem({ paper, index }: PublicationItemProps) 
             {paper.title}
           </h3>
           {isComingSoon && (
-            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 flex-shrink-0 ml-2">
+            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 flex-shrink-0 ml-2 whitespace-nowrap">
               Coming Soon
             </span>
           )}

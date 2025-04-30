@@ -12,13 +12,13 @@ const statusColors = {
     circle: 'bg-accent-light dark:bg-accent-dark',
     border: 'border-accent-light dark:border-accent-dark',
     text: 'text-accent-light dark:text-accent-dark',
-    bg: 'bg-accent-light/10 dark:bg-accent-dark/10',
+    bg: 'bg-accent-light dark:bg-accent-dark',
   },
   'in-progress': {
     circle: 'bg-purple-500 dark:bg-purple-400',
     border: 'border-purple-500 dark:border-purple-400',
-    text: 'text-purple-600 dark:text-purple-400',
-    bg: 'bg-purple-100 dark:bg-purple-900/30',
+    text: 'text-purple-800 dark:text-purple-200',
+    bg: 'bg-purple-300 dark:bg-purple-700',
   },
   planned: {
     circle: 'bg-gray-400 dark:bg-gray-500',
