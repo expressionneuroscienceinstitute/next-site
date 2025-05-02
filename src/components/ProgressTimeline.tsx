@@ -20,9 +20,9 @@ export default function ProgressTimeline({ updates }: ProgressTimelineProps) {
   return (
     <div className="space-y-4">
       {sortedUpdates.map((update, index) => (
-        <div key={index} className="relative pl-8 border-l-2 border-gray-300 dark:border-gray-600">
+        <div key={index} className="relative pl-10 border-l-2 border-gray-300 dark:border-gray-600">
           {/* Dot on the timeline */}
-          <div className="absolute -left-[5px] top-1 w-3 h-3 bg-accent-light dark:bg-accent-dark rounded-full border-2 border-white dark:border-gray-800"></div>
+          <div className="absolute left-4 top-1 w-3 h-3 bg-accent-light dark:bg-accent-dark rounded-full border-2 border-white dark:border-gray-800"></div>
           <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
             {new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
           </p>

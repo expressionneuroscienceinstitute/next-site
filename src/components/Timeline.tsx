@@ -1,7 +1,23 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Milestone } from '@/lib/milestones'
+// Remove broken import
+// import { Milestone } from '@/lib/milestones'
+
+// Define the Milestone type here
+interface MilestoneLink {
+  title: string;
+  url: string;
+}
+
+interface Milestone {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  status: 'completed' | 'in-progress' | 'planned';
+  links?: MilestoneLink[]; // Optional links array
+}
 
 interface TimelineProps {
   milestones: Milestone[]
@@ -39,6 +55,10 @@ export default function Timeline({ milestones }: TimelineProps) {
       <div className="space-y-12">
         {milestones.map((milestone, index) => {
           const colors = statusColors[milestone.status]
+          // Define specific text color for the pill
+          const pillTextClass = milestone.status === 'completed'
+            ? 'text-gray-900 dark:text-gray-900' // Dark text for green/cyan bg
+            : colors.text; // Use default text color for other statuses
 
           return (
             <motion.div
@@ -99,7 +119,7 @@ export default function Timeline({ milestones }: TimelineProps) {
                     <h3 className={`text-base font-semibold ${colors.text}`}>
                       {milestone.title}
                     </h3>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${colors.bg} ${colors.text}`}>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${colors.bg} ${pillTextClass}`}>
                       {milestone.status.replace('-', ' ')}
                     </span>
                   </div>

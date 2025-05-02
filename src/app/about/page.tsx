@@ -3,6 +3,13 @@
 import Navbar from '@/components/Navbar'
 import { motion } from 'framer-motion'
 import Footer from '@/components/Footer'
+import { aboutConfig } from '../data/aboutConfig'
+import { 
+  TitleSkeleton, 
+  MissionSkeleton, 
+  BoardSkeleton, 
+  FutureSkeleton 
+} from '@/components/AboutPageSkeleton'
 
 const boardMembers = [
   {
@@ -28,36 +35,55 @@ const boardMembers = [
 ]
 
 export default function AboutPage() {
+
   return (
     <div className="min-h-screen">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-8">About ENI</h1>
-          
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">Our Mission</h2>
+        {aboutConfig?.pageTitle ? (
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }} 
+            className="text-4xl font-bold text-text-light dark:text-text-dark mb-8"
+          >
+            {aboutConfig.pageTitle}
+          </motion.h1>
+        ) : (
+          <TitleSkeleton />
+        )}
+        
+        {aboutConfig?.mission?.title && aboutConfig?.mission?.text ? (
+          <motion.section 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }} 
+            className="mb-12"
+          >
+            <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">{aboutConfig.mission.title}</h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-              The Expression Neuroscience Institute (ENI) is dedicated to advancing our
-              understanding of the brain through innovative, accessible research. We believe
-              that scientific discovery should be open, collaborative, and driven by the
-              next generation of researchers.
+              {aboutConfig.mission.text}
             </p>
-          </section>
+          </motion.section>
+        ) : (
+          <MissionSkeleton />
+        )}
 
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">Board Members</h2>
+        {aboutConfig?.board?.title && aboutConfig.board.members?.length > 0 ? (
+          <motion.section 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-12"
+          >
+            <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">{aboutConfig.board.title}</h2>
             <div className="grid gap-8 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-              {boardMembers.map((member, index) => (
+              {aboutConfig.board.members.map((member, index) => (
                 <motion.div
                   key={member.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="card flex flex-col items-center"
                 >
                   <div className="w-48 h-48 bg-gray-200 dark:bg-gray-700 rounded-xl mb-4 flex-shrink-0"></div>
@@ -71,16 +97,26 @@ export default function AboutPage() {
                 </motion.div>
               ))}
             </div>
-          </section>
+          </motion.section>
+        ) : (
+          <BoardSkeleton />
+        )}
 
-          <section className="text-center py-12 border-t border-gray-200 dark:border-gray-700 mt-12">
-            <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">Building the Future Together</h2>
+        {aboutConfig?.future?.title && aboutConfig?.future?.text ? (
+          <motion.section 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-center py-12 border-t border-gray-200 dark:border-gray-700 mt-12"
+          >
+            <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">{aboutConfig.future.title}</h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Our work thrives on openness and collaboration. Whether you're a researcher, a student, a patient, or simply passionate about understanding the brain, your engagement matters. The future belongs to those who show up to build it. You showed up. Let's shape the future of neuroscience, together.
+             {aboutConfig.future.text}
             </p>
-          </section>
-
-        </motion.div>
+          </motion.section>
+        ) : (
+          <FutureSkeleton />
+        )}
       </div>
       <Footer />
     </div>

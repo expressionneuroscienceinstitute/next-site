@@ -29,7 +29,7 @@ export default function ProgressModal({ isOpen, onClose, title, children }: Prog
             className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full overflow-hidden"
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
           >
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="relative p-4 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg font-semibold text-text-light dark:text-text-dark">{title}</h2>
               <button 
                 onClick={onClose} 
