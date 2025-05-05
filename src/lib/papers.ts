@@ -10,21 +10,20 @@ export interface Paper {
   updates?: { date: string; description: string }[];
 }
 
-// Start with an empty array, add examples
 export const papers: Paper[] = [
   {
-    id: 'bvd-mechanisms-2025',
-    title: 'Neural Mechanisms Underlying Binocular Vision Dysfunction',
-    authors: ['Chen, S.', 'Rodriguez, M.', 'Hart, G.'],
-    journal: 'Journal of Vision (submitted)',
+    id: 'insight-design-document-2025',
+    title: 'Insight Design Document',
+    authors: ['Carney, D.'],
+    journal: 'Self-Published',
     year: 2025,
-    url: '', // No URL yet
-    abstract: 'Investigating the cortical and subcortical changes associated with BVD using advanced neuroimaging.',
-    status: 'coming soon',
+    url: '',
+    abstract: 'The preliminary design document for the Insight Diagnostic Platform, a virtual reality application for the diagnosis and measurement of Binocular Vision Dysfunction (BVD).',
+    status: 'available',
     updates: [
-      { date: '2024-07-20', description: 'Manuscript submitted for peer review.' },
-      { date: '2024-08-15', description: 'Awaiting initial reviewer feedback.' },
+      { date: '2025-05-04', description: 'Design document submitted to capstone advisor for review.' },
+      { date: '2025-05-05', description: 'Design document uploaded to GitHub.' },
+      { date: '2025-05-06', description: 'Design document posted to ENI website.' },
     ]
   },
-  // Add more papers here as they become available or planned
 ]; 

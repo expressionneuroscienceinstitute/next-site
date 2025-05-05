@@ -38,7 +38,7 @@ export default function Hero() {
                   Science by the next generation, for the next generation.
                 </span>
                 <h1 className="mt-2 text-4xl tracking-tight font-extrabold text-text-light dark:text-text-dark sm:text-5xl md:text-6xl">
-                  <span className="block">Decoding the Brain's</span>
+                  <span className="block">Decoding the Brain&apos;s</span>
                   <span className="block text-accent-light dark:text-accent-dark">Hidden Patterns</span>
                 </h1>
               </motion.div>

@@ -5,7 +5,7 @@ export const roadmapConfig = {
   programs: [
     { id: "company", name: "Company Roadmap", description: "Overall organization roadmap" },
     { id: "insight", name: "Insight Program", description: "Visual processing research program" },
-    { id: "mhlp", name: "Mental Health Labeling Platform", description: "Mental health data analysis platform", comingSoon: true }
+    { id: "ceEEG", name: "Continuous Embeded Electroencephalogram", description: "Mental health data analysis platform", comingSoon: true }
   ],
   
   // Company-wide roadmap
@@ -16,62 +16,55 @@ export const roadmapConfig = {
       title: "Company Timeline",
       milestones: [
         {
-          id: "founding-2023q3",
-          date: "2023-Q3",
+          id: "founding-a142025",
+          date: "April 14, 2025",
           title: "Organization Founding",
-          description: "Establishment of the Expression Neuroscience Initiative as a nonprofit research organization.",
+          description: "Incorporation of the Expression Neuroscience Initiative as a nonprofit public-benefit research organization.",
           status: "completed"
         },
         {
-          id: "initial-funding-2023q4",
-          date: "2023-Q4",
-          title: "Initial Funding Secured",
-          description: "Secured seed funding to launch our first research program and establish organizational infrastructure.",
+          id: "submit-501c3-a162025",
+          date: "April 16, 2025",
+          title: "501(c)(3) Application Submitted",
+          description: "Submission of the 1023-EZ 501(c)(3) application to be recognized as a public-benefit research organization by the IRS.",
           status: "completed"
         },
         {
-          id: "insight-launch-2024q1",
-          date: "2024-Q1",
+          id: "insight-launch-2025q4",
+          date: "2025-Q4",
           title: "Insight Program Launch",
-          description: "Official launch of our flagship Insight Program focused on visual processing research.",
-          status: "completed"
-        },
-        {
-          id: "grant-applications-2024q2",
-          date: "2024-Q2",
-          title: "Major Grant Applications",
-          description: "Submission of multiple research grant applications to expand our programs.",
+          description: "Official launch of the Insight Research Program.",
           status: "in-progress"
         },
         {
-          id: "mhlp-development-2024q3",
-          date: "2024-Q3",
-          title: "MHLP Development Start",
-          description: "Begin development of the Mental Health Labeling Platform.",
+          id: "mna-research-2026q3",
+          date: "2026-Q3",
+          title: "Microneedle Array Research Begins",
+          description: "Research on Conductive Microneedle Arrays as a technology for the creating of a new generation of EEG devices.",
           status: "planned"
         },
         {
-          id: "strategic-partnerships-2024q4",
-          date: "2024-Q4",
-          title: "Strategic Partnership Development",
-          description: "Establish partnerships with academic institutions and healthcare organizations.",
-          status: "planned"
+          id: "mna-patent-2026q4",
+          date: "2026-Q4",
+          title: "Conductive Microneedle Array Patent Filing",
+          description: "Filing of a provisional patent for the Conductive Microneedle Array.",
+          status: "speculative"
         }
       ]
     },
-    futureResearch: {
-      title: "Future Research Directions",
-      cards: [
-        {
-          title: "Multi-Program Integration",
-          text: "Creating integrated research platforms that connect findings across our different programs."
-        },
-        {
-          title: "International Expansion",
-          text: "Expanding our research collaborations across international boundaries to address global health challenges."
-        }
-      ]
-    }
+    // futureResearch: {
+    //   title: "Future Research Directions",
+    //   cards: [
+    //     {
+    //       title: "Binocular Vision Dysfunction Dataset",
+    //       text: "Creating and publishing a dataset of Binocular Vision Dysfunction (BVD) cases to advance research and diagnosis."
+    //     },
+    //     {
+    //       title: "Vision Therapy Research",
+    //       text: "Expanding the Insight Diagnostic Platform to include vision therapy interventions."
+    //     }
+    //   ]
+    // }
   },
   
   // Program-specific roadmaps
@@ -81,48 +74,57 @@ export const roadmapConfig = {
       title: "Insight Program",
       text: `Our flagship research program focusing on Binocular Vision Dysfunction (BVD)
         and how this underdiagnosed condition can lead to broad neurological and visual impairments. This program combines behavioral studies,
-        neuroimaging, and machine learning approaches to better understand and
-        treat BVD.`,
-      links: [
-        { text: "View Datasets", href: "/data" },
-        { text: "Read Papers", href: "/papers" }
-      ],
+        neuroimaging, and Virtual Reality (VR) to better understand and treat BVD.`,
+      links: [],
       timeline: {
         title: "Insight Program Timeline",
         milestones: [
           {
-            id: "kickoff-2023q4",
-            date: "2023-Q4",
-            title: "Project Kickoff & Initial Research",
-            description: "Established project goals, assembled the core team, and conducted preliminary literature reviews on BVD.",
-            status: "completed"
-          },
-          {
-            id: "protocol-2024q1",
-            date: "2024-Q1",
-            title: "Data Collection Protocol Finalized",
-            description: "Developed and finalized protocols for behavioral data collection and neuroimaging studies.",
-            status: "completed"
-          },
-          {
-            id: "pilot-recruit-2024q2",
+            id: "kickoff-2024q2",
             date: "2024-Q2",
-            title: "Begin Pilot Study Recruitment",
-            description: "Started recruitment for the initial pilot study to test data collection methods.",
+            title: "Project Kickoff & Initial Research",
+            description: "Established project goals and conducted preliminary research on BVD.",
+            status: "completed"
+          },{
+            id: "unity-development-2024q3",
+            date: "2024-Q3",
+            title: "Begin Unity Development",
+            description: "Begin development of the Insight Diagnostic Platform in Unity.",
+            status: "completed"
+          },
+          {
+            id: "unity-pre-alpha-2025q1",
+            date: "2025-Q1",
+            title: "Proof of Concept Testing",
+            description: "Begin proof of concept testing of the Insight Diagnostic Platform.",
+            status: "completed"
+          },
+          {
+            id: "capstone-2025q1",
+            date: "2025-Q1",
+            title: "Capstone Project",
+            description: "The Insight Diagnostic Platform becomes the capstone project for Dylan (Anki) Carney's undergraduate degree.",
+            status: "completed"
+          },
+          {
+            id: "design-2025q1",
+            date: "2025-Q2",
+            title: "Design Document",
+            description: "Create the design document for the Insight Diagnostic Platform.",
+            status: "completed"
+          },
+          {
+            id: "capstone-completion-2025q4",
+            date: "2025-Q4",
+            title: "Capstone Completion",
+            description: "Anki completes his undergraduate degree with the Insight Diagnostic Platform pre-alpha as his capstone project.",
             status: "in-progress"
           },
           {
-            id: "neuroimaging-start-2024q3",
-            date: "2024-Q3",
-            title: "Neuroimaging Data Acquisition Begins",
-            description: "Commence fMRI and EEG data collection for the pilot study participants.",
-            status: "planned"
-          },
-          {
-            id: "pilot-analysis-2024q4",
-            date: "2024-Q4",
-            title: "Pilot Data Analysis & First Draft",
-            description: "Analyze initial data from the pilot study and begin drafting preliminary findings.",
+            id: "program-handoff-2025q4",
+            date: "2025-Q2",
+            title: "Program Handoff",
+            description: "The Insight Diagnostic Platform is handed off to ENI to continue development.",
             status: "planned"
           }
         ]
@@ -131,12 +133,12 @@ export const roadmapConfig = {
         title: "Future Insight Research",
         cards: [
           {
-            title: "Neural Plasticity Studies",
-            text: "Investigating the brain's ability to adapt and reorganize in response to visual training interventions."
+            title: "Binocular Vision Dysfunction Dataset",
+            text: "Creating and publishing a dataset of Binocular Vision Dysfunction (BVD) cases to advance research and diagnosis."
           },
           {
-            title: "AI-Assisted Diagnosis",
-            text: "Developing machine learning models to improve early detection and diagnosis of visual processing disorders."
+            title: "Vision Therapy Research",
+            text: "Expanding the Insight Diagnostic Platform to include vision therapy interventions."
           }
         ]
       }

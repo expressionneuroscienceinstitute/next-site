@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   body {
     @apply text-text-light dark:text-text-dark bg-background-light dark:bg-background-dark transition-colors duration-300;

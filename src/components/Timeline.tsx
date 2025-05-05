@@ -1,8 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-// Remove broken import
-// import { Milestone } from '@/lib/milestones'
+import { useState, useEffect } from 'react';
 
 // Define the Milestone type here
 interface MilestoneLink {
@@ -15,7 +14,7 @@ interface Milestone {
   date: string;
   title: string;
   description: string;
-  status: 'completed' | 'in-progress' | 'planned';
+  status: 'completed' | 'in-progress' | 'planned' | 'speculative';
   links?: MilestoneLink[]; // Optional links array
 }
 
@@ -23,43 +22,120 @@ interface TimelineProps {
   milestones: Milestone[]
 }
 
-const statusColors = {
+// Define direct color values for consistency
+const statusColorValues = {
   completed: {
-    circle: 'bg-accent-light dark:bg-accent-dark',
-    border: 'border-accent-light dark:border-accent-dark',
-    text: 'text-accent-light dark:text-accent-dark',
-    bg: 'bg-accent-light dark:bg-accent-dark',
+    circle: { light: '#059669', dark: '#10B981' }, // emerald-600 / emerald-500
+    border: { light: '#059669', dark: '#10B981' },
+    text: { light: '#047857', dark: '#34D399' }, // emerald-700 / emerald-400
+    bg: { light: '#065F46', dark: 'rgba(6, 78, 59, 0.4)' }, // emerald-800 / emerald-900 with opacity
   },
   'in-progress': {
-    circle: 'bg-purple-500 dark:bg-purple-400',
-    border: 'border-purple-500 dark:border-purple-400',
-    text: 'text-purple-800 dark:text-purple-200',
-    bg: 'bg-purple-300 dark:bg-purple-700',
+    circle: { light: '#3B82F6', dark: '#60A5FA' }, // blue-500 / blue-400
+    border: { light: '#3B82F6', dark: '#60A5FA' },
+    text: { light: '#1D4ED8', dark: '#93C5FD' }, // blue-700 / blue-300
+    bg: { light: '#1E40AF', dark: 'rgba(30, 58, 138, 0.3)' }, // blue-800 / blue-900 with opacity
   },
   planned: {
-    circle: 'bg-gray-400 dark:bg-gray-500',
-    border: 'border-gray-400 dark:border-gray-500',
-    text: 'text-gray-600 dark:text-gray-400',
-    bg: 'bg-gray-100 dark:bg-gray-800',
+    circle: { light: '#8B5CF6', dark: '#A78BFA' }, // violet-500 / violet-400
+    border: { light: '#8B5CF6', dark: '#A78BFA' },
+    text: { light: '#6D28D9', dark: '#C4B5FD' }, // violet-700 / violet-300
+    bg: { light: '#5B21B6', dark: 'rgba(76, 29, 149, 0.3)' }, // violet-800 / violet-900 with opacity
+  },
+  speculative: {
+    circle: { light: '#F59E0B', dark: '#FBBF24' }, // amber-500 / amber-400
+    border: { light: '#F59E0B', dark: '#FBBF24' },
+    text: { light: '#B45309', dark: '#FCD34D' }, // amber-700 / amber-300
+    bg: { light: '#92400E', dark: 'rgba(120, 53, 15, 0.3)' }, // amber-800 / amber-900 with opacity
   }
 }
 
 export default function Timeline({ milestones }: TimelineProps) {
+  // State to hold the current theme, change default to light mode
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  
+  // Check if the page is in dark mode by looking at HTML classes
+  useEffect(() => {
+    const checkDocumentDarkMode = () => {
+      const isDarkMode = 
+        document.documentElement.classList.contains('dark') || 
+        document.body.classList.contains('dark') ||
+        document.querySelector('html')?.getAttribute('data-theme') === 'dark';
+      
+      console.log("Document is in dark mode:", isDarkMode);
+      setTheme(isDarkMode ? 'dark' : 'light');
+    };
+
+    // Check on initial load
+    if (typeof window !== 'undefined') {
+      checkDocumentDarkMode();
+      
+      // Set up a MutationObserver to watch for class changes on the document
+      const observer = new MutationObserver(checkDocumentDarkMode);
+      observer.observe(document.documentElement, { 
+        attributes: true,
+        attributeFilter: ['class', 'data-theme']
+      });
+      
+      // Clean up
+      return () => observer.disconnect();
+    }
+  }, []);
+  
+  // Generate the dynamic gradient based on milestone statuses
+  const gradientColors = milestones.map(m => {
+    return statusColorValues[m.status].circle[theme]; 
+  }).filter(Boolean); 
+
+  // Construct the gradient string
+  const gradientStyle = gradientColors.length > 0 
+    ? `linear-gradient(to bottom, ${gradientColors.join(', ')})`
+    : 'none';
+    
+
   return (
     <div className="max-w-2xl mx-auto relative py-8">
-      {/* Central timeline line with gradient */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 bg-gradient-to-b from-accent-light via-purple-500 to-gray-400 dark:from-accent-dark dark:via-purple-400 dark:to-gray-500 opacity-50 z-10" />
+      {/* Central timeline line with dynamic gradient */}
+      <div 
+        className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 opacity-70 z-10"
+        style={{ 
+          background: gradientStyle,
+          transform: 'translateX(5px)' // Fine-tune the line position
+        }} 
+      />
       
-      {/* Add line terminator soon */}
+      {/* Line terminator */}
+      <motion.div 
+        className="absolute -bottom-2 z-20"
+        style={{ 
+          borderColor: theme === 'light' ? '#e5e7eb' : '#374151',
+          backgroundColor: theme === 'light' ? 'white' : '#111827',
+          width: '16px',
+          height: '16px',
+          borderRadius: '50%',
+          borderWidth: '3px',
+          left: '50%',
+          transform: 'translateX(-50%)'
+        }}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 20 }}
+      />
 
       <div className="space-y-12">
         {milestones.map((milestone, index) => {
-          const colors = statusColors[milestone.status]
-          // Define specific text color for the pill
-          const pillTextClass = milestone.status === 'completed'
-            ? 'text-gray-900 dark:text-gray-900' // Dark text for green/cyan bg
-            : colors.text; // Use default text color for other statuses
-
+          const colorSet = statusColorValues[milestone.status];
+          const isLightMode = theme === 'light';
+          const pillTextColor = isLightMode 
+            ? '#FFFFFF' // White for light mode
+            : milestone.status === 'completed' 
+              ? '#34D399' // emerald-400
+              : milestone.status === 'in-progress' 
+                ? '#93C5FD' // blue-300
+                : milestone.status === 'planned' 
+                  ? '#C4B5FD' // violet-300
+                  : '#FCD34D'; // amber-300
+          
           return (
             <motion.div
               key={milestone.id}
@@ -71,8 +147,8 @@ export default function Timeline({ milestones }: TimelineProps) {
               {/* Timeline node */}
               <div className="absolute left-1/2 -translate-x-1/2 top-6 flex items-center justify-center z-20">
                 <motion.div
-                  className={`relative w-4 h-4 rounded-full ${colors.circle} shadow-lg
-                    border-2 border-white dark:border-gray-900`}
+                  className="relative w-4 h-4 rounded-full shadow-lg border-2 border-white dark:border-gray-900"
+                  style={{ backgroundColor: colorSet.circle[theme] }}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   whileHover={{ scale: 1.2 }}
@@ -81,7 +157,8 @@ export default function Timeline({ milestones }: TimelineProps) {
                   {milestone.status === 'in-progress' && (
                     <>
                       <motion.div
-                        className={`absolute -inset-2 rounded-full ${colors.circle} opacity-20`}
+                        className="absolute -inset-2 rounded-full opacity-20"
+                        style={{ backgroundColor: colorSet.circle[theme] }}
                         initial={{ scale: 0.8, opacity: 0.2 }}
                         animate={{ scale: 1.8, opacity: 0 }}
                         transition={{ 
@@ -91,7 +168,8 @@ export default function Timeline({ milestones }: TimelineProps) {
                         }}
                       />
                       <motion.div
-                        className={`absolute -inset-1 rounded-full ${colors.circle} opacity-20`}
+                        className="absolute -inset-1 rounded-full opacity-20"
+                        style={{ backgroundColor: colorSet.circle[theme] }}
                         initial={{ scale: 0.8, opacity: 0.2 }}
                         animate={{ scale: 1.4, opacity: 0 }}
                         transition={{ 
@@ -109,25 +187,33 @@ export default function Timeline({ milestones }: TimelineProps) {
               {/* Content card */}
               <div className="relative mx-auto w-full max-w-lg px-4">
                 <motion.div
-                  className={`relative p-6 rounded-xl bg-white dark:bg-gray-900
-                    border ${colors.border} shadow-[0_8px_30px_rgb(0,0,0,0.06)] z-20
-                    transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)]`}
+                  className="relative p-6 rounded-xl bg-white dark:bg-gray-900 border shadow-[0_4px_20px_rgb(0,0,0,0.08)] z-20 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                  style={{ borderColor: colorSet.border[theme] }}
                   whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <div className="flex justify-between items-start gap-3 mb-3">
-                    <h3 className={`text-base font-semibold ${colors.text}`}>
+                    <h3 
+                      className="text-base font-bold"
+                      style={{ color: colorSet.text[theme] }}
+                    >
                       {milestone.title}
                     </h3>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${colors.bg} ${pillTextClass}`}>
+                    <span 
+                      className="text-xs font-extrabold px-2.5 py-1 rounded-full"
+                      style={{ 
+                        backgroundColor: colorSet.bg[theme],
+                        color: pillTextColor
+                      }}
+                    >
                       {milestone.status.replace('-', ' ')}
                     </span>
                   </div>
                   
-                  <p className="text-xs font-medium text-text-light dark:text-text-dark mb-2">
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
                     {milestone.date}
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
                     {milestone.description}
                   </p>
                   {milestone.links && milestone.links.length > 0 && (
@@ -136,8 +222,8 @@ export default function Timeline({ milestones }: TimelineProps) {
                         <a
                           key={link.url}
                           href={link.url}
-                          className={`inline-flex items-center text-xs ${colors.text} 
-                            hover:underline transition-transform hover:translate-x-1`}
+                          className="inline-flex items-center text-xs font-medium hover:underline transition-transform hover:translate-x-1"
+                          style={{ color: colorSet.text[theme] }}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

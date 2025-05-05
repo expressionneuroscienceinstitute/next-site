@@ -28,7 +28,7 @@ interface RoadmapContent {
       status: string;
     }[];
   };
-  futureResearch: {
+  futureResearch?: {
     title: string;
     cards: {
       title: string;
@@ -188,24 +188,27 @@ export default function RoadmapPage() {
               )}
             </section>
 
-            {/* Future Research Section */}
-            <section className="mt-12">
-              <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-6">
-                {roadmapContent.futureResearch.title}
-              </h2>
-              <div className="grid gap-6 md:grid-cols-2">
-                {roadmapContent.futureResearch.cards.map((card, index) => (
-                  <div key={index} className="card bg-background-light-secondary dark:bg-background-dark-secondary border border-border-light dark:border-border-dark rounded-lg p-6">
-                    <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-2">
-                      {card.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      {card.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {/* Future Research Section - only render if futureResearch exists and has cards */}
+            {roadmapContent.futureResearch && roadmapContent.futureResearch.cards && 
+             roadmapContent.futureResearch.cards.length > 0 && (
+              <section className="mt-12">
+                <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-6">
+                  {roadmapContent.futureResearch.title}
+                </h2>
+                <div className="grid gap-6 md:grid-cols-2">
+                  {roadmapContent.futureResearch.cards.map((card, index) => (
+                    <div key={index} className="card bg-background-light-secondary dark:bg-background-dark-secondary border border-border-light dark:border-border-dark rounded-lg p-6">
+                      <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-2">
+                        {card.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300">
+                        {card.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
           </motion.div>
         ) : (
           <RoadmapPageSkeleton />

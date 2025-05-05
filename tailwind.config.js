@@ -1,9 +1,40 @@
 /** @type {import('@tailwindcss/postcss7-compat').Config} */
 module.exports = {
+  mode: 'jit',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  purge: {
+    content: [
+      './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+      './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+      './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    ],
+    options: {
+      safelist: [
+        /^bg-(emerald|blue|violet|amber)/,
+        /^text-(emerald|blue|violet|amber)/,
+        /^border-(emerald|blue|violet|amber)/,
+        'text-white',
+      ],
+    },
+  },
+  safelist: [
+    {
+      pattern: /^bg-(emerald|blue|violet|amber)-(700|900)(-\d+)?$/,
+      variants: ['dark']
+    },
+    {
+      pattern: /^text-(emerald|blue|violet|amber)-(300|400|700)$/,
+      variants: ['dark']
+    },
+    {
+      pattern: /^border-(emerald|blue|violet|amber)-(400|500|600)$/,
+      variants: ['dark']
+    },
+    'text-white',
   ],
   darkMode: 'class',
   theme: {
@@ -27,7 +58,10 @@ module.exports = {
         'purple': {
           light: '#c77dff',
           dark: '#7b2cbf'
-        }
+        },
+        // Define the specific colors used by the classes in Timeline.tsx
+        'accent-light': '#4CAF50', // Your light accent color
+        'accent-dark': '#00f5d4',  // Your dark accent color
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
