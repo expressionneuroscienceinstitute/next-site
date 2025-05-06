@@ -9,6 +9,7 @@ const navItems = [
   { name: 'Research', href: '/research' },
   { name: 'About', href: '/about' },
   { name: 'Roadmap', href: '/roadmap' },
+  { name: 'Programs', href: '/programs' },
 ]
 
 export default function Navbar() {

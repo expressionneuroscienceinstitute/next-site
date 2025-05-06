@@ -5,7 +5,7 @@ export const roadmapConfig = {
   programs: [
     { id: "company", name: "Company Roadmap", description: "Overall organization roadmap" },
     { id: "insight", name: "Insight Program", description: "Visual processing research program" },
-    { id: "ceEEG", name: "Continuous Embeded Electroencephalogram", description: "Mental health data analysis platform", comingSoon: true }
+    { id: "ceEEG", name: "Continuous Embedded Electroencephalogram", description: "Mental health data analysis platform", comingSoon: true }
   ],
   
   // Company-wide roadmap
@@ -75,7 +75,12 @@ export const roadmapConfig = {
       text: `Our flagship research program focusing on Binocular Vision Dysfunction (BVD)
         and how this underdiagnosed condition can lead to broad neurological and visual impairments. This program combines behavioral studies,
         neuroimaging, and Virtual Reality (VR) to better understand and treat BVD.`,
-      links: [],
+      links: [
+        {
+          text: "Insight Design Document",
+          href: "https://raw.githubusercontent.com/expressionneuroscienceinstitute/next-site/e5a8cbe0aeb7a51795f9516b5b0b0a1d0645f9df/Insight_Design_Document.pdf"
+        }
+      ],
       timeline: {
         title: "Insight Program Timeline",
         milestones: [

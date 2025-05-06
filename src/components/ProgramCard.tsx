@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import ProgramLink from './ProgramLink'
 
 interface ProgramCardProps {
   title: string
@@ -27,13 +27,7 @@ export default function ProgramCard({ title, description, href, comingSoon }: Pr
           )}
         </h3>
         <p className="text-gray-600 dark:text-gray-300 mb-4">{description}</p>
-        <Link
-          href={href}
-          className={`inline-flex items-center text-accent-light dark:text-accent-dark font-medium ${
-            comingSoon ? 'opacity-50 cursor-not-allowed' : 'hover:underline'
-          }`}
-          onClick={e => comingSoon && e.preventDefault()}
-        >
+        <ProgramLink href={href} comingSoon={comingSoon}>
           Learn More
           <svg
             className="ml-2 w-4 h-4"
@@ -48,7 +42,7 @@ export default function ProgramCard({ title, description, href, comingSoon }: Pr
               d="M9 5l7 7-7 7"
             />
           </svg>
-        </Link>
+        </ProgramLink>
       </div>
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 dark:from-accent-dark/5 dark:to-purple-dark/5"

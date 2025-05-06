@@ -19,7 +19,7 @@ export const aboutConfig = {
       {
         name: 'Desiree Astabie',
         role: 'Board Secretary',
-        bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.',
+        bio: 'Hello! My name is Desireé Astabie. I am currently pursuing a Bachelor’s Degree in Computer Science with a Minor in Information Technology. I was born in San Francisco, California, and am currently in the process of obtaining my French citizenship by descent. My first hand observation of the significantly imbalanced gender ratio in my chosen major has shown me the importance of encouraging the next generation to explore difficult and unfamiliar fields. I have struggled with mental health issues for most of my life, which unfortunately went undiagnosed until this past year when I was diagnosed with Obsessive Compulsive Disorder (OCD), Agoraphobia, and Social Phobia. My personal struggles with mental health, and the struggles of those I care about, have made me very passionate about helping further our generation’s understanding of our brains and how they work.',
         image: '/images/desiree.jpg'
       },
       {

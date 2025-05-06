@@ -3,13 +3,12 @@
 import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import Timeline from '@/components/Timeline'
-import { roadmapConfig } from '../data/roadmapConfig' // Import config
-import { RoadmapPageSkeleton } from '@/components/RoadmapPageSkeleton' // Import skeleton
-import { motion } from 'framer-motion' // Import motion
-import Footer from '@/components/Footer' // Import Footer
-import Link from 'next/link' // Import Link for internal navigation
+import { roadmapConfig } from '../data/roadmapConfig'
+import { RoadmapPageSkeleton } from '@/components/RoadmapPageSkeleton'
+import { motion } from 'framer-motion'
+import Footer from '@/components/Footer'
+import Link from 'next/link'
 
-// Define interfaces for type safety
 interface Link {
   text: string;
   href: string;
@@ -163,6 +162,7 @@ export default function RoadmapPage() {
                       <Link 
                         key={link.href} 
                         href={link.href}
+                        target="_blank"
                         className="text-link-light dark:text-link-dark hover:underline font-medium"
                       >
                         {link.text}
