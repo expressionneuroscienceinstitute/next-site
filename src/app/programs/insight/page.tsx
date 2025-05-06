@@ -69,7 +69,7 @@ export default function InsightProgram() {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Join our studies to help advance our understanding of visual processing.
               </p>
-              <a href="mailto:participants@expression-neuroscience.org" className="text-accent-light dark:text-accent-dark hover:underline">
+              <a href="mailto:participants@expressionneuroscienceinstitute.org" className="text-accent-light dark:text-accent-dark hover:underline">
                 Contact us
               </a>
             </div>
@@ -79,7 +79,7 @@ export default function InsightProgram() {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Collaborate with our team or use our open-source tools in your own research.
               </p>
-              <a href="mailto:research@expression-neuroscience.org" className="text-accent-light dark:text-accent-dark hover:underline">
+              <a href="mailto:research@expressionneuroscienceinstitute.org" className="text-accent-light dark:text-accent-dark hover:underline">
                 Learn more
               </a>
             </div>
@@ -89,7 +89,7 @@ export default function InsightProgram() {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Contribute to our open-source projects and help build the next generation of neural diagnostics.
               </p>
-              <a href="https://github.com/expression-neuroscience" className="text-accent-light dark:text-accent-dark hover:underline">
+              <a href="https://github.com/expressionneuroscienceinstitute" className="text-accent-light dark:text-accent-dark hover:underline">
                 GitHub
               </a>
             </div>
