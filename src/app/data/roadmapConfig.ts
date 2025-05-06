@@ -25,46 +25,62 @@ export const roadmapConfig = {
         {
           id: "submit-501c3-a162025",
           date: "April 16, 2025",
-          title: "501(c)(3) Application Submitted",
+          title: "501(c)(3) Application",
           description: "Submission of the 1023-EZ 501(c)(3) application to be recognized as a public-benefit research organization by the IRS.",
-          status: "completed"
-        },
-        {
-          id: "insight-launch-2025q4",
-          date: "2025-Q4",
-          title: "Insight Program Launch",
-          description: "Official launch of the Insight Research Program.",
           status: "in-progress"
         },
         {
-          id: "mna-research-2026q3",
-          date: "2026-Q3",
-          title: "Microneedle Array Research Begins",
-          description: "Research on Conductive Microneedle Arrays as a technology for the creating of a new generation of EEG devices.",
+          id: "website-launch-may62025",
+          date: "May 6, 2025",
+          title: "Website Launch",
+          description: "Launch of the ENI website to provide a platform for our research and initiatives.",
           status: "planned"
         },
         {
-          id: "mna-patent-2026q4",
-          date: "2026-Q4",
-          title: "Conductive Microneedle Array Patent Filing",
-          description: "Filing of a provisional patent for the Conductive Microneedle Array.",
-          status: "speculative"
-        }
+          id: "board-meeting-a262025",
+          date: "April 26, 2025",
+          title: "Board Meeting",
+          description: "First board meeting to discuss the future of ENI and the direction of the organization.",
+          status: "completed"
+        },
+        {
+          id: "ftb-form-3500-submission-2025q2",
+          date: "2025-Q2",
+          title: "FTB Form 3500 Submission",
+          description: "File the FTB Form 3500, Exemption Application, with the Franchise Tax Board (FTB) to be recognized as a public-benefit research organization.",
+          status: "planned"
+        },
+        {
+          id: "form-ct1-submission-2025q2",
+          date: "2025-Q2",
+          title: "Form CT1 Submission",
+          description: "Submit the Form CT1, Initial Registration Form to the Office of the Attorney General",
+          status: "planned"
+        },
+      
+        // {
+        //   id: "insight-launch-2025q4",
+        //   date: "2025-Q4",
+        //   title: "Insight Program Launch",
+        //   description: "Official launch of the Insight Research Program.",
+        //   status: "in-progress"
+        // },
+        // {
+        //   id: "mna-research-2026q3",
+        //   date: "2026-Q3",
+        //   title: "Microneedle Array Research Begins",
+        //   description: "Research on Conductive Microneedle Arrays as a technology for the creating of a new generation of EEG devices.",
+        //   status: "planned"
+        // },
+        // {
+        //   id: "mna-patent-2026q4",
+        //   date: "2026-Q4",
+        //   title: "Conductive Microneedle Array Patent Filing",
+        //   description: "Filing of a provisional patent for the Conductive Microneedle Array.",
+        //   status: "speculative"
+        // }
       ]
-    },
-    // futureResearch: {
-    //   title: "Future Research Directions",
-    //   cards: [
-    //     {
-    //       title: "Binocular Vision Dysfunction Dataset",
-    //       text: "Creating and publishing a dataset of Binocular Vision Dysfunction (BVD) cases to advance research and diagnosis."
-    //     },
-    //     {
-    //       title: "Vision Therapy Research",
-    //       text: "Expanding the Insight Diagnostic Platform to include vision therapy interventions."
-    //     }
-    //   ]
-    // }
+    }
   },
   
   // Program-specific roadmaps
@@ -109,7 +125,7 @@ export const roadmapConfig = {
             date: "2025-Q1",
             title: "Capstone Project",
             description: "The Insight Diagnostic Platform becomes the capstone project for Dylan (Anki) Carney's undergraduate degree.",
-            status: "completed"
+            status: "in-progress"
           },
           {
             id: "design-2025q1",

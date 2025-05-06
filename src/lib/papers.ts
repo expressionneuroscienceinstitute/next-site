@@ -17,7 +17,7 @@ export const papers: Paper[] = [
     authors: ['Carney, D.'],
     journal: 'Self-Published',
     year: 2025,
-    url: '',
+    url: 'https://raw.githubusercontent.com/expressionneuroscienceinstitute/next-site/refs/heads/documents/Insight_Design_Document.pdf',
     abstract: 'The preliminary design document for the Insight Diagnostic Platform, a virtual reality application for the diagnosis and measurement of Binocular Vision Dysfunction (BVD).',
     status: 'available',
     updates: [

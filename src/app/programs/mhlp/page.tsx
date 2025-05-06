@@ -64,7 +64,7 @@ export default function MHLPProgram() {
           <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-6">Interested in Contributing?</h2>
           
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            We're looking for researchers, developers, and mental health professionals to help shape this platform. If you're interested in contributing to the development of the MHLP, we'd love to hear from you.
+            We&apos;re looking for researchers, developers, and mental health professionals to help shape this platform. If you&apos;re interested in contributing to the development of the MHLP, we&apos;d love to hear from you.
           </p>
           
           <div className="flex justify-center">

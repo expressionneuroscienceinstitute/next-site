@@ -38,6 +38,11 @@ export default function PublicationItem({ paper, index }: PublicationItemProps) 
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
           {paper.authors.join(', ')} ({paper.year})
         </p>
+        {paper.abstract && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+            {paper.abstract}
+          </p>
+        )}
         {paper.journal && (
           <p className="text-sm italic text-gray-500 dark:text-gray-400 mb-2">
             {paper.journal}
