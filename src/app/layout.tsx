@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from '@/components/ThemeProvider'
 
 const inter = Inter({ subsets: ["latin"] });
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: "Expression Neuroscience Institute",
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider>
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
