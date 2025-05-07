@@ -40,6 +40,18 @@ export default function Footer() {
             </Link>
           </div>
         </div>
+        
+        <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex justify-center gap-4">
+            <Link href="/governance/terms-of-service" className="hover:underline">
+              Terms of Service
+            </Link>
+            <span className="text-gray-400 dark:text-gray-600">•</span>
+            <Link href="/governance/privacy-policy" className="hover:underline">
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   )

@@ -19,6 +19,16 @@ export const footerConfig = {
         {
             text: "April 26, 2025 Meeting Minutes",
             href: "https://raw.githubusercontent.com/expressionneuroscienceinstitute/next-site/refs/heads/documents/ENI%20Meeting%20Mintutes%204_26_25_signed.pdf"
+        },
+        {
+            text: "Terms of Service",
+            href: "/governance/terms-of-service",
+            isInternal: true
+        },
+        {
+            text: "Privacy Policy",
+            href: "/governance/privacy-policy",
+            isInternal: true
         }
     ]
 }

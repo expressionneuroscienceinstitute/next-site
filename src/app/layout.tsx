@@ -21,8 +21,8 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider>
           {children}
-          <Analytics />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

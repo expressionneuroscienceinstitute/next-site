@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const ThemeContext = createContext({
   isDark: false,
@@ -50,16 +50,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTimeout(() => setIsTransitioning(false), 400)
   }
 
-  // Don't render anything until after hydration to avoid SSR flickering
-  if (!mounted) {
-    return null
-  }
-
   return (
     <ThemeContext.Provider value={{ isDark, toggle }}>
       <div className="relative overflow-hidden min-h-screen">
-        <div className={`min-h-screen ${isDark ? 'bg-background-dark' : 'bg-background-light'} transition-colors duration-300`}>
-          {isTransitioning && (
+        <div className={`min-h-screen transition-colors duration-300 ${mounted ? (isDark ? 'bg-background-dark' : 'bg-background-light') : ''}`}>
+          {mounted && isTransitioning && (
             <motion.div 
               className="pointer-events-none fixed inset-0 z-50 bg-accent-light dark:bg-accent-dark mix-blend-difference opacity-5"
               initial={{ opacity: 0 }}
