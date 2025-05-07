@@ -34,7 +34,7 @@ export const roadmapConfig = {
           date: "May 6, 2025",
           title: "Website Launch",
           description: "Launch of the ENI website to provide a platform for our research and initiatives.",
-          status: "planned"
+          status: "in-progress"
         },
         {
           id: "board-meeting-a262025",
@@ -57,6 +57,13 @@ export const roadmapConfig = {
           description: "Submit the Form CT1, Initial Registration Form to the Office of the Attorney General",
           status: "planned"
         },
+        {
+          id:"accept-donations-2025q2",
+          date: "2025-Q2",
+          title: "Accept Donations",
+          description: "Start accepting donations from the public to support our research programs. Fixing the website to accept donations.",
+          status: "planned"
+        }
       
         // {
         //   id: "insight-launch-2025q4",
