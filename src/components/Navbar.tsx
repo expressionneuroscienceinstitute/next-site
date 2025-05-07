@@ -67,13 +67,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop buttons */}
-          <div className="hidden sm:flex items-center space-x-4">
-            <Link
-              href="/donate"
-              className="btn-primary"
-            >
-              Donate
-            </Link>
+          <div className="hidden sm:flex items-center">
             <ThemeToggle />
           </div>
         </div>
@@ -92,13 +86,6 @@ export default function Navbar() {
               {item.name}
             </Link>
           ))}
-          <Link
-            href="/donate"
-            className="block px-3 py-2 rounded-md text-base font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark hover:bg-gray-100 dark:hover:bg-gray-800"
-            onClick={toggleMenu} // Close menu on click
-          >
-            Donate
-          </Link>
         </div>
       </div>
     </nav>

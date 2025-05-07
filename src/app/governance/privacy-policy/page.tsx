@@ -7,14 +7,14 @@ export default function PrivacyPolicy() {
       <p className="mb-4"><strong>Last Updated:</strong> [Insert Date]</p>
 
       <p className="mb-4">
-        The Expression Neuroscience Institute ("ENI", "we", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your data in compliance with the General Data Protection Regulation (GDPR).
+        The Expression Neuroscience Institute (&quot;ENI&quot;, &quot;we&quot;, &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your data in compliance with the General Data Protection Regulation (GDPR).
       </p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">1. Who We Are</h2>
       <p className="mb-4">
         We are a nonprofit based in California, USA. You can contact us at:<br/>
         <strong>Email:</strong> [your email] <br/>
-        <strong>Address:</strong> [your address or "available on request"]
+        <strong>Address:</strong> [your address or &quot;available on request&quot;]
       </p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">2. What We Collect</h2>
@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">4. Your GDPR Rights</h2>
       <p className="mb-4">
-        If you're in the EU/EEA, you have the right to:
+        If you&apos;re in the EU/EEA, you have the right to:
       </p>
       <ul className="list-disc list-inside mb-4">
         <li>Access, correct, or delete your data</li>
@@ -58,7 +58,7 @@ export default function PrivacyPolicy() {
       <p className="mb-4">We use HTTPS and secure third-party platforms to protect your information.</p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">8. Changes</h2>
-      <p className="mb-4">We may update this Privacy Policy. If we do, we'll update the date above and let you know if it's a major change.</p>
+      <p className="mb-4">We may update this Privacy Policy. If we do, we&apos;ll update the date above and let you know if it&apos;s a major change.</p>
 
       <div className="mt-8">
         <button 

@@ -1,10 +1,23 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useTheme } from './ThemeProvider'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
-  const { isDark, toggle } = useTheme()
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  
+  // Wait for component to mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted && theme === 'dark'
+  
+  const toggle = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
 
   const svgVariants = {
     rotate: {
@@ -15,6 +28,10 @@ export default function ThemeToggle() {
       rotate: 0,
       scale: 1,
     }
+  }
+
+  if (!mounted) {
+    return <div className="w-10 h-10" />
   }
 
   return (
