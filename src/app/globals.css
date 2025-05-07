@@ -5,17 +5,22 @@
 
 @layer base {
   body {
-    @apply text-text-light dark:text-text-dark bg-background-light dark:bg-background-dark transition-colors duration-300;
+    @apply text-text-light dark:text-text-dark bg-background-light dark:bg-background-dark transition-colors duration-300 ease-in-out;
+  }
+
+  /* Apply transitions only to interactive elements */
+  a, button, input, select, textarea {
+    @apply transition-all duration-200 ease-in-out;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-200 bg-accent-light dark:bg-accent-dark text-text-light dark:text-background-dark hover:opacity-90;
+    @apply px-6 py-3 rounded-lg font-semibold bg-accent-light dark:bg-accent-dark text-text-light dark:text-background-dark hover:opacity-90;
   }
   
   .btn-primary:hover {
-    @apply scale-105;
+    @apply scale-[1.03] transition-transform duration-200;
   }
   
   .card {

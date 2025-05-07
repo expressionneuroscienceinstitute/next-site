@@ -1,26 +1,10 @@
-/** @type {import('@tailwindcss/postcss7-compat').Config} */
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: 'jit',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  purge: {
-    content: [
-      './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-      './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-      './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    ],
-    options: {
-      safelist: [
-        /^bg-(emerald|blue|violet|amber)/,
-        /^text-(emerald|blue|violet|amber)/,
-        /^border-(emerald|blue|violet|amber)/,
-        'text-white',
-      ],
-    },
-  },
   safelist: [
     {
       pattern: /^bg-(emerald|blue|violet|amber)-(700|900)(-\d+)?$/,
@@ -67,14 +51,8 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      animation: {
-        'theme-transition': 'theme 0.5s ease-in-out',
-      },
-      keyframes: {
-        theme: {
-          '0%': { opacity: '0.8' },
-          '100%': { opacity: '1' },
-        },
+      transitionTimingFunction: {
+        'expo': 'cubic-bezier(0.19, 1.0, 0.22, 1.0)',
       },
     },
   },

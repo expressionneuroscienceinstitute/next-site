@@ -6,12 +6,24 @@ import { useTheme } from './ThemeProvider'
 export default function ThemeToggle() {
   const { isDark, toggle } = useTheme()
 
+  const svgVariants = {
+    rotate: {
+      rotate: isDark ? 30 : 0,
+      scale: 1.1,
+    },
+    normal: {
+      rotate: 0,
+      scale: 1,
+    }
+  }
+
   return (
     <motion.button
       onClick={toggle}
-      className="relative p-2 rounded-lg bg-secondary dark:bg-purple-dark hover:opacity-80 transition-opacity"
+      className="relative p-2 rounded-full bg-secondary/20 dark:bg-purple-dark/20 hover:bg-secondary/30 dark:hover:bg-purple-dark/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-light dark:focus-visible:ring-accent-dark"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      title="Toggle theme"
     >
       <span className="sr-only">Toggle theme</span>
       <motion.svg
@@ -24,11 +36,14 @@ export default function ThemeToggle() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        animate={{ rotate: isDark ? 40 : 0 }}
-        transition={{ duration: 0.3 }}
+        initial="normal"
+        animate={isDark ? "rotate" : "normal"}
+        variants={svgVariants}
+        transition={{ duration: 0.3, type: "tween" }}
         className="text-text-light dark:text-text-dark"
       >
         {isDark ? (
+          // Sun icon
           <>
             <circle cx="12" cy="12" r="4" />
             <path d="M12 2v2" />
@@ -41,9 +56,8 @@ export default function ThemeToggle() {
             <path d="M19.07 4.93l-1.41 1.41" />
           </>
         ) : (
-          <>
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </>
+          // Moon icon
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         )}
       </motion.svg>
     </motion.button>
