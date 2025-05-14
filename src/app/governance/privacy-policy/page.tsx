@@ -4,7 +4,7 @@ export default function PrivacyPolicy() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-8 text-left">
       <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
-      <p className="mb-4"><strong>Last Updated:</strong> [Insert Date]</p>
+      <p className="mb-4"><strong>Last Updated:</strong> April 14, 2025</p>
 
       <p className="mb-4">
         The Expression Neuroscience Institute (&quot;ENI&quot;, &quot;we&quot;, &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your data in compliance with the General Data Protection Regulation (GDPR).
@@ -13,8 +13,8 @@ export default function PrivacyPolicy() {
       <h2 className="text-2xl font-semibold mt-6 mb-2">1. Who We Are</h2>
       <p className="mb-4">
         We are a nonprofit based in California, USA. You can contact us at:<br/>
-        <strong>Email:</strong> [your email] <br/>
-        <strong>Address:</strong> [your address or &quot;available on request&quot;]
+        <strong>Email:</strong> support@expressionneuroscienceinstitute.org <br/>
+        <strong>Address:</strong> available on request
       </p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">2. What We Collect</h2>

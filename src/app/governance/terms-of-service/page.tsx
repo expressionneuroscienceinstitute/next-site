@@ -4,7 +4,7 @@ export default function TermsOfService() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-8 text-left">
       <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
-      <p className="mb-4"><strong>Last Updated:</strong> [Insert Date]</p>
+      <p className="mb-4"><strong>Last Updated:</strong> April 14, 2025</p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">1. Using Our Site</h2>
       <p className="mb-4">
