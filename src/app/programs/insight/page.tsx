@@ -20,41 +20,41 @@ export default function InsightProgram() {
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-text-light dark:text-text-dark">Insight Program</h1>
           <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">
-            Open-Source VR Diagnostics for understanding visual processing and neural patterns.
+          Open-source VR tools for visual processing and Binocular Vision Dysfunction (BVD) research.
           </p>
         </div>
 
         <div className="bg-white/80 dark:bg-background-dark/50 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-secondary/20 dark:border-purple-dark/20 mb-12">
-          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4">Overview</h2>
+          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4">What is Insight?</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            The Insight Program is our flagship initiative focused on developing open-source virtual reality tools for understanding visual processing and binocular vision dysfunctions. Our VR diagnostics aim to provide researchers, clinicians, and patients with powerful tools to assess visual processing and binocular vision dysfunctions.
+            We&apos;re making VR software to study visual processing and binocular vision dysfunction. The goal is to help researchers and clinicians understand how vision can affect people&apos;s lives - especially those with conditions like OCD, ADHD, or Autism. 
           </p>
           
-          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4 mt-8">Key Objectives</h2>
+          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4 mt-8">What We&apos;re Working On</h2>
           <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-300">
-            <li>Develop accessible VR-based tools for assessing visual processing capabilities</li>
-            <li>Create open-source software for researchers to adapt and extend for their specific studies</li>
-            <li>Establish standardized protocols for measuring misalignment and accommodative responses in binocular vision dysfunctions</li>
-            <li>Build a collaborative community of researchers contributing to the advancement of visual neuroscience</li>
+            <li>VR experiences that can measure how well your eyes work together</li>
+            <li>Open-source code that anyone can use and modify - yes even you!</li>
+            <li>Better ways to diagnose and treatbinocular vision dysfunction and other visual processing disorders</li>
+            <li>Tools that work for people who can&apos;t afford expensive vision testing and treatment</li>
           </ul>
           
-          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4 mt-8">Current Research</h2>
+          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4 mt-8">Current Projects</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Our team is currently working on several projects within the Insight Program framework:
+            Right now we&apos;re focused on:
           </p>
           
           <div className="grid md:grid-cols-2 gap-6 mt-6">
             <div className="bg-background-light/50 dark:bg-background-dark/80 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">VR Diagnostic Tool Development</h3>
+              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">VR Eye Tests</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Creating immersive VR environments that can isolate and test specific real world visual stimuli, allowing for precise measurements of misalignment.
+                Creating VR environments that can test specific visual abilities and measure how well your eyes coordinate with each other.
               </p>
             </div>
             
             <div className="bg-background-light/50 dark:bg-background-dark/80 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">Pattern Recognition Algorithms</h3>
+              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">Pattern Detection</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Developing algorithms to identify misalignments in visual processing associated with different types of binocular vision dysfunctions.
+                Software that can spot patterns (called biomarkers) that can be used to diagnose and treat visual processing disorders.
               </p>
             </div>
           </div>
@@ -65,9 +65,9 @@ export default function InsightProgram() {
           
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-background-light/50 dark:bg-background-dark/80 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">Research Participants</h3>
+              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">Be a Test Participant</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Join our studies to help advance our understanding of visual processing.
+                Help us test our VR tools and contribute to research.
               </p>
               <a href="mailto:participants@expressionneuroscienceinstitute.org" className="text-accent-light dark:text-accent-dark hover:underline">
                 Contact us
@@ -75,9 +75,9 @@ export default function InsightProgram() {
             </div>
             
             <div className="bg-background-light/50 dark:bg-background-dark/80 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">Researchers</h3>
+              <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">For Researchers</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Collaborate with our team or use our open-source tools in your own research.
+                Use our tools in your own research or collaborate with us.
               </p>
               <a href="mailto:research@expressionneuroscienceinstitute.org" className="text-accent-light dark:text-accent-dark hover:underline">
                 Learn more
@@ -87,11 +87,8 @@ export default function InsightProgram() {
             <div className="bg-background-light/50 dark:bg-background-dark/80 rounded-lg p-6">
               <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-3">Developers</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Contribute to our open-source projects and help build the next generation of neural diagnostics.
+                All our code is open source - check it out on <a href="https://github.com/expressionneuroscienceinstitute" className="text-accent-light dark:text-accent-dark hover:underline">our GitHub</a> and contribute if you want.
               </p>
-              <a href="https://github.com/expressionneuroscienceinstitute" className="text-accent-light dark:text-accent-dark hover:underline">
-                GitHub
-              </a>
             </div>
           </div>
         </div>

@@ -25,14 +25,14 @@ export default function MHLPProgram() {
             </span>
           </div>
           <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">
-            Advanced tools for analyzing and understanding mental health data patterns.
+            Data analysis tools for mental health research and pattern recognition.
           </p>
         </div>
 
         <div className="bg-white/80 dark:bg-background-dark/50 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-secondary/20 dark:border-purple-dark/20 mb-12">
-          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4">Project Overview</h2>
+          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4">What We&apos;re Planning</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            The Mental Health Labeling Platform (MHLP) is our upcoming initiative focused on developing advanced tools for analyzing and understanding patterns in mental health data. By leveraging machine learning and data science techniques, we aim to identify subtle patterns that may be relevant for diagnosis and treatment of various mental health conditions.
+            A platform for creating and sharing mental health datasets to find patterns that might be useful for research. We&apos;re focused on making these tools accessible to everyone who wants to study mental health conditions.
           </p>
           
           <div className="flex items-center justify-center p-8 bg-background-light/50 dark:bg-background-dark/80 rounded-lg my-8">
@@ -50,21 +50,21 @@ export default function MHLPProgram() {
             </div>
           </div>
           
-          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4 mt-8">Planned Features</h2>
+          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4 mt-8">What We Want to Build</h2>
           <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-300">
-            <li>Interactive visualization tools for mental health data patterns</li>
-            <li>Machine learning algorithms for identifying correlations in complex datasets</li>
-            <li>Collaborative platform for researchers to share and analyze anonymized data</li>
-            <li>Open API for integration with existing research tools and frameworks</li>
-            <li>Standardized protocols for ethical data collection and analysis</li>
+            <li>Tools and datasets to help researchers visualize mental health data</li>
+            <li>Ways to find patterns in datasets that might be hard to spot otherwise</li>
+            <li>A place for researchers to share anonymized data safely</li>
+            <li>Simple tools that don&apos;t require a PhD in machine learning to use. We like to make it easy for anyone to contribute to the platform.</li>
+            <li>Clear guidelines for ethical data collection and sharing</li>
           </ul>
         </div>
         
         <div className="bg-white/80 dark:bg-background-dark/50 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-secondary/20 dark:border-purple-dark/20">
-          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-6">Interested in Contributing?</h2>
+          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-6">Want to Help?</h2>
           
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            We&apos;re looking for researchers, developers, and mental health professionals to help shape this platform. If you&apos;re interested in contributing to the development of the MHLP, we&apos;d love to hear from you.
+            We&apos;re looking for researchers, developers, and mental health professionals to help shape this platform. We believe the best research happens when people with different backgrounds and experiences work together. If you&apos;re interested in neuroscience, have ideas about mental health research, or want to contribute to open science, we&apos;d love to hear from you.
           </p>
           
           <div className="flex justify-center">

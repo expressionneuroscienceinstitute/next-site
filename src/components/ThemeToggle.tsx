@@ -5,10 +5,10 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  
-  // Wait for component to mount to avoid hydration mismatch
+  const { theme, setTheme } = useTheme()
+
+  /* Hydration Safety */
   useEffect(() => {
     setMounted(true)
   }, [])

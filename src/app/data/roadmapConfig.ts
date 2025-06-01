@@ -1,17 +1,16 @@
 export const roadmapConfig = {
   pageTitle: "Research Roadmap",
   
-  // List of available programs for the dropdown selector
   programs: [
     { id: "company", name: "Company Roadmap", description: "Overall organization roadmap" },
     { id: "insight", name: "Insight Program", description: "Visual processing research program" },
     { id: "ceEEG", name: "Continuous Embedded Electroencephalogram", description: "Mental health data analysis platform", comingSoon: true }
   ],
   
-  // Company-wide roadmap
+  /* Organization Roadmap */
   company: {
     title: "ENI Organization Roadmap",
-    description: "Our overall company direction and funding strategy focuses on advancing neuroscience research through open-source technologies and collaborative approaches. We aim to secure sustainable funding for our research programs while maintaining our commitment to open science and accessible research tools.",
+    description: "Our plan for building a sustainable nonprofit research organization focused on open neuroscience research. We&apos;re working on getting our legal status sorted out and building the infrastructure to support our research programs.",
     timeline: {
       title: "Company Timeline",
       milestones: [
@@ -64,40 +63,16 @@ export const roadmapConfig = {
           description: "Start accepting donations from the public to support our research programs. Fixing the website to accept donations.",
           status: "planned"
         }
-      
-        // {
-        //   id: "insight-launch-2025q4",
-        //   date: "2025-Q4",
-        //   title: "Insight Program Launch",
-        //   description: "Official launch of the Insight Research Program.",
-        //   status: "in-progress"
-        // },
-        // {
-        //   id: "mna-research-2026q3",
-        //   date: "2026-Q3",
-        //   title: "Microneedle Array Research Begins",
-        //   description: "Research on Conductive Microneedle Arrays as a technology for the creating of a new generation of EEG devices.",
-        //   status: "planned"
-        // },
-        // {
-        //   id: "mna-patent-2026q4",
-        //   date: "2026-Q4",
-        //   title: "Conductive Microneedle Array Patent Filing",
-        //   description: "Filing of a provisional patent for the Conductive Microneedle Array.",
-        //   status: "speculative"
-        // }
       ]
     }
   },
   
-  // Program-specific roadmaps
+  /* Research Program Roadmaps */
   currentPrograms: {
     title: "Current Programs",
     insight: {
       title: "Insight Program",
-      text: `Our flagship research program focusing on Binocular Vision Dysfunction (BVD)
-        and how this underdiagnosed condition can lead to broad neurological and visual impairments. This program combines behavioral studies,
-        neuroimaging, and Virtual Reality (VR) to better understand and treat BVD.`,
+      text: `We&apos;re building VR tools to study binocular vision dysfunction (BVD) - a condition where your eyes don&apos;t work together properly. This can cause headaches, reading problems, and other life-altering issues that get missed by regular eye exams. We think VR could make testing for this much easier and cheaper for everyone.`,
       links: [
         {
           text: "Insight Design Document",
@@ -131,7 +106,7 @@ export const roadmapConfig = {
             id: "capstone-2025q1",
             date: "2025-Q1",
             title: "Capstone Project",
-            description: "The Insight Diagnostic Platform becomes the capstone project for Dylan (Anki) Carney's undergraduate degree.",
+            description: "The Insight Diagnostic Platform becomes the capstone project for Dylan (Anki) Carney&apos;s undergraduate degree.",
             status: "in-progress"
           },
           {
@@ -173,7 +148,7 @@ export const roadmapConfig = {
     },
     mhlp: {
       title: "Mental Health Labeling Platform",
-      text: `Our research platform for analyzing and understanding mental health data patterns. Currently in development.`,
+      text: `A platform for researchers to analyze mental health datasets and find patterns. We want to make these kinds of tools accessible to researchers who don&apos;t have big tech company budgets or machine learning expertise.`,
       links: [],
       timeline: {
         title: "MHLP Timeline",
@@ -189,7 +164,7 @@ export const roadmapConfig = {
             id: "mhlp-development-2024q3",
             date: "2024-Q3",
             title: "Development Phase",
-            description: "Begin development of the platform's core functionality and data infrastructure.",
+            description: "Begin development of the platform&apos;s core functionality and data infrastructure.",
             status: "planned"
           },
           {
@@ -205,72 +180,29 @@ export const roadmapConfig = {
         title: "Future MHLP Research",
         cards: [
           {
-            title: "Pattern Recognition Algorithms",
-            text: "Developing advanced algorithms to identify patterns in mental health data."
+            title: "Open Mental Health Datasets",
+            text: "Creating standardized, anonymized datasets for mental health research."
           },
           {
-            title: "Multimodal Data Integration",
-            text: "Integrating diverse data types to create more comprehensive mental health assessments."
+            title: "Pattern Recognition Tools",
+            text: "Developing accessible tools for identifying patterns in large amounts of mental health data."
           }
         ]
       }
     }
   },
-  
-  // Default timeline (keep for backward compatibility)
+
+  /* Legacy Timeline Data */
   timeline: {
     title: "Timeline",
     milestones: [
-      {
-        id: "kickoff-2023q4",
-        date: "2023-Q4",
-        title: "Project Kickoff & Initial Research",
-        description: "Established project goals, assembled the core team, and conducted preliminary literature reviews on BVD.",
-        status: "completed"
-      },
-      {
-        id: "protocol-2024q1",
-        date: "2024-Q1",
-        title: "Data Collection Protocol Finalized",
-        description: "Developed and finalized protocols for behavioral data collection and neuroimaging studies.",
-        status: "completed"
-      },
-      {
-        id: "pilot-recruit-2024q2",
-        date: "2024-Q2",
-        title: "Begin Pilot Study Recruitment",
-        description: "Started recruitment for the initial pilot study to test data collection methods.",
-        status: "in-progress"
-      },
-      {
-        id: "neuroimaging-start-2024q3",
-        date: "2024-Q3",
-        title: "Neuroimaging Data Acquisition Begins",
-        description: "Commence fMRI and EEG data collection for the pilot study participants.",
-        status: "planned"
-      },
-      {
-        id: "pilot-analysis-2024q4",
-        date: "2024-Q4",
-        title: "Pilot Data Analysis & First Draft",
-        description: "Analyze initial data from the pilot study and begin drafting preliminary findings.",
-        status: "planned"
-      }
     ]
   },
-  
-  // Default future research (keep for backward compatibility)
+
+  /* Legacy Future Research Data */
   futureResearch: {
     title: "Future Research",
     cards: [
-      {
-        title: "Neural Plasticity Studies",
-        text: "Investigating the brain's ability to adapt and reorganize in response to visual training interventions."
-      },
-      {
-        title: "AI-Assisted Diagnosis",
-        text: "Developing machine learning models to improve early detection and diagnosis of visual processing disorders."
-      }
     ]
   }
 }; 

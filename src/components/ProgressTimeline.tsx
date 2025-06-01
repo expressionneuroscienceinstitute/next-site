@@ -14,7 +14,6 @@ export default function ProgressTimeline({ updates }: ProgressTimelineProps) {
     return <p className="text-gray-500 dark:text-gray-400">No progress updates available yet.</p>;
   }
 
-  // Sort updates by date, descending (most recent first)
   const sortedUpdates = [...updates].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
@@ -32,5 +31,5 @@ export default function ProgressTimeline({ updates }: ProgressTimelineProps) {
         </div>
       ))}
     </div>
-  );
+  )
 } 

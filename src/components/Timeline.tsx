@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react';
 
-// Define the Milestone type here
 interface MilestoneLink {
   title: string;
   url: string;
@@ -15,7 +14,7 @@ interface Milestone {
   title: string;
   description: string;
   status: 'completed' | 'in-progress' | 'planned' | 'speculative';
-  links?: MilestoneLink[]; // Optional links array
+  links?: MilestoneLink[];
 }
 
 interface TimelineProps {
@@ -51,10 +50,10 @@ const statusColorValues = {
 }
 
 export default function Timeline({ milestones }: TimelineProps) {
-  // State to hold the current theme, change default to light mode
+  /* Theme State Management */
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   
-  // Check if the page is in dark mode by looking at HTML classes
+  /* Theme Detection and Monitoring */
   useEffect(() => {
     const checkDocumentDarkMode = () => {
       const isDarkMode = 
@@ -66,28 +65,24 @@ export default function Timeline({ milestones }: TimelineProps) {
       setTheme(isDarkMode ? 'dark' : 'light');
     };
 
-    // Check on initial load
     if (typeof window !== 'undefined') {
       checkDocumentDarkMode();
       
-      // Set up a MutationObserver to watch for class changes on the document
       const observer = new MutationObserver(checkDocumentDarkMode);
       observer.observe(document.documentElement, { 
         attributes: true,
         attributeFilter: ['class', 'data-theme']
       });
       
-      // Clean up
       return () => observer.disconnect();
     }
   }, []);
   
-  // Generate the dynamic gradient based on milestone statuses
+  /* Dynamic Gradient Generation */
   const gradientColors = milestones.map(m => {
     return statusColorValues[m.status].circle[theme]; 
   }).filter(Boolean); 
 
-  // Construct the gradient string
   const gradientStyle = gradientColors.length > 0 
     ? `linear-gradient(to bottom, ${gradientColors.join(', ')})`
     : 'none';
@@ -100,11 +95,11 @@ export default function Timeline({ milestones }: TimelineProps) {
         className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 opacity-70 z-10"
         style={{ 
           background: gradientStyle,
-          transform: 'translateX(5px)' // Fine-tune the line position
+          transform: 'translateX(5px)' // Fine-tune the line position otherwise it is off center and will not look good with line terminator
         }} 
       />
       
-      {/* Line terminator */}
+      {/* Timeline Terminator */}
       <motion.div 
         className="absolute -bottom-2 z-20"
         style={{ 
@@ -122,8 +117,10 @@ export default function Timeline({ milestones }: TimelineProps) {
         transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 20 }}
       />
 
+      {/* Milestone Cards */}
       <div className="space-y-12">
         {milestones.map((milestone, index) => {
+          /* Color Theme Resolution */
           const colorSet = statusColorValues[milestone.status];
           const isLightMode = theme === 'light';
           const pillTextColor = isLightMode 
@@ -144,7 +141,7 @@ export default function Timeline({ milestones }: TimelineProps) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative"
             >
-              {/* Timeline node */}
+              {/* Timeline Node */}
               <div className="absolute left-1/2 -translate-x-1/2 top-6 flex items-center justify-center z-20">
                 <motion.div
                   className="relative w-4 h-4 rounded-full shadow-lg border-2 border-white dark:border-gray-900"
@@ -154,6 +151,7 @@ export default function Timeline({ milestones }: TimelineProps) {
                   whileHover={{ scale: 1.2 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
+                  {/* Pulse Animation for In-Progress Items */}
                   {milestone.status === 'in-progress' && (
                     <>
                       <motion.div
@@ -184,7 +182,7 @@ export default function Timeline({ milestones }: TimelineProps) {
                 </motion.div>
               </div>
 
-              {/* Content card */}
+              {/* Milestone Content Card */}
               <div className="relative mx-auto w-full max-w-lg px-4">
                 <motion.div
                   className="relative p-6 rounded-xl bg-white dark:bg-gray-900 border shadow-[0_4px_20px_rgb(0,0,0,0.08)] z-20 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
@@ -192,6 +190,7 @@ export default function Timeline({ milestones }: TimelineProps) {
                   whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
+                  {/* Card Header */}
                   <div className="flex justify-between items-start gap-3 mb-3">
                     <h3 
                       className="text-base font-bold"
@@ -210,12 +209,15 @@ export default function Timeline({ milestones }: TimelineProps) {
                     </span>
                   </div>
                   
+                  {/* Card Content */}
                   <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
                     {milestone.date}
                   </p>
                   <p className="text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
                     {milestone.description}
                   </p>
+                  
+                  {/* Card Links */}
                   {milestone.links && milestone.links.length > 0 && (
                     <div className="flex flex-wrap gap-3">
                       {milestone.links.map((link) => (

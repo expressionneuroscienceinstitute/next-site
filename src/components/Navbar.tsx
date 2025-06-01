@@ -20,7 +20,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-sm dark:shadow-none dark:border-b dark:border-gray-700">
+    <nav className="bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -53,12 +53,12 @@ export default function Navbar() {
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
-              {/* Icon when menu is closed */}
+              {/* Mobile Menu Icon */}
               {!isOpen ? (
                 <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-              ) : ( /* Icon when menu is open */
+              ) : (
                 <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -66,14 +66,14 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Desktop buttons */}
+          {/* Desktop Theme Toggle */}
           <div className="hidden sm:flex items-center">
             <ThemeToggle />
           </div>
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state. */}
+      {/* Mobile Navigation Menu */}
       <div className={`${isOpen ? 'block' : 'hidden'} sm:hidden`} id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1">
           {navItems.map((item) => (
@@ -81,7 +81,7 @@ export default function Navbar() {
               key={item.name}
               href={item.href}
               className="block px-3 py-2 rounded-md text-base font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark hover:bg-gray-100 dark:hover:bg-gray-800"
-              onClick={toggleMenu} // Close menu on click
+              onClick={toggleMenu}
             >
               {item.name}
             </Link>

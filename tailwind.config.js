@@ -43,9 +43,8 @@ module.exports = {
           light: '#c77dff',
           dark: '#7b2cbf'
         },
-        // Define the specific colors used by the classes in Timeline.tsx
-        'accent-light': '#4CAF50', // Your light accent color
-        'accent-dark': '#00f5d4',  // Your dark accent color
+        'accent-light': '#4CAF50', // light accent color
+        'accent-dark': '#00f5d4',  // dark accent color
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

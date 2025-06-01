@@ -8,12 +8,12 @@ import ProgramCard from './ProgramCard'
 const programs = [
   {
     title: 'Insight Program',
-    description: 'Open-Source VR Diagnostics for understanding visual processing and neural patterns.',
+    description: 'Open-source VR tools for visual processing and Binocular Vision Dysfunction (BVD) research.',
     href: '/programs/insight',
   },
   {
     title: 'Mental Health Labeling Platform',
-    description: 'Advanced tools for analyzing and understanding mental health data patterns.',
+    description: 'Data analysis tools for mental health research and pattern recognition in Electroencephalography (EEG), eye-tracking, and other neurophysiological data.',
     href: '/programs/mhlp',
     comingSoon: true,
   },
@@ -36,8 +36,8 @@ export default function Hero() {
                   Science by the next generation, for the next generation.
                 </span>
                 <h1 className="mt-2 text-4xl tracking-tight font-extrabold text-text-light dark:text-text-dark sm:text-5xl md:text-6xl">
-                  <span className="block">Decoding the Brain&apos;s</span>
-                  <span className="block text-accent-light dark:text-accent-dark">Hidden Patterns</span>
+                  <span className="block">The future is built by people</span>
+                  <span className="block text-accent-light dark:text-accent-dark">who show up to build it</span>
                 </h1>
               </motion.div>
               
@@ -75,9 +75,7 @@ export default function Hero() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-base text-gray-600 dark:text-gray-300 sm:text-lg md:text-xl lg:max-w-2xl"
               >
-                We study how the brain expresses itself through patterns of neural activity, 
-                behavior, and biological signals. Our innovative research aims to decode these 
-                complex patterns to better understand neurological conditions and human cognition.
+                We&apos;re a group of students and researchers studying how brains work by looking at electrical activity in the brain, behavior, and sociology. Our research focuses on understanding mental health conditions and brain function through open, collaborative science. We hope to also enable the next generation of scientists to more easily transition into the world of research and build the world we want to live in.
               </motion.p>
 
               <motion.div
@@ -87,16 +85,16 @@ export default function Hero() {
                 className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
               >
                 <div className="bg-white/80 dark:bg-background-dark/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-secondary/20 dark:border-purple-dark/20">
-                  <h3 className="text-accent-light dark:text-accent-dark font-semibold text-lg mb-2">Innovation</h3>
-                  <p className="text-gray-600 dark:text-gray-300">Developing new methods to capture and analyze neural expression patterns</p>
+                  <h3 className="text-accent-light dark:text-accent-dark font-semibold text-lg mb-2">Open Source</h3>
+                  <p className="text-gray-600 dark:text-gray-300">All our tools and research are freely available for anyone to use and build upon. We enourage you to provide feedback and contribute to our cause wherever you see fit!</p>
                 </div>
                 <div className="bg-white/80 dark:bg-background-dark/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-secondary/20 dark:border-purple-dark/20">
-                  <h3 className="text-accent-light dark:text-accent-dark font-semibold text-lg mb-2">Impact</h3>
-                  <p className="text-gray-600 dark:text-gray-300">Advancing our understanding of brain function and neurological conditions</p>
+                  <h3 className="text-accent-light dark:text-accent-dark font-semibold text-lg mb-2">Student-Led</h3>
+                  <p className="text-gray-600 dark:text-gray-300">Research driven by undergraduate and graduate students (with the help of our post-graduate advisors) with lived experience of mental health disorders.</p>
                 </div>
                 <div className="bg-white/80 dark:bg-background-dark/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-secondary/20 dark:border-purple-dark/20">
-                  <h3 className="text-accent-light dark:text-accent-dark font-semibold text-lg mb-2">Accessibility</h3>
-                  <p className="text-gray-600 dark:text-gray-300">Making neuroscience research and data freely available to the global community</p>
+                  <h3 className="text-accent-light dark:text-accent-dark font-semibold text-lg mb-2">Real Impact</h3>
+                  <p className="text-gray-600 dark:text-gray-300">Developing practical tools for VR diagnostics and mental health research while also evolving the way we do science.</p>
                 </div>
               </motion.div>
 

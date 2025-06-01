@@ -6,15 +6,15 @@ import ProgramLink from '@/components/ProgramLink'
 const programs = [
   {
     title: 'Insight Program',
-    description: 'Open-Source VR Diagnostics for understanding visual processing and neural patterns.',
+    description: 'Open-source VR tools for visual processing and Binocular Vision Dysfunction (BVD) research.',
     href: '/programs/insight',
-    longDescription: 'The Insight Program focuses on developing open-source virtual reality tools for understanding visual processing and neural patterns. Our VR diagnostics aim to provide researchers and clinicians with powerful tools to assess neural functioning and visual perception patterns.',
+    longDescription: 'Insight is a platform built to diagnose and measure Binocular Vision Dysfunction (BVD) and other visual processing disorders, then provide a personalized treatment plan and vision therapy exercises. We believe that, with opensource tools like Insight, BVD could be treated by anyone, anywhere, at any time within the next decade. All our code and tools are open source and free to use for anyone.',
   },
   {
     title: 'Mental Health Labeling Platform',
-    description: 'Advanced tools for analyzing and understanding mental health data patterns.',
+    description: 'Data analysis tools for mental health research and pattern recognition in Electroencephalography (EEG), eye-tracking, and other neurophysiological data.',
     href: '/programs/mhlp',
-    longDescription: 'Our Mental Health Labeling Platform is designed to help researchers analyze and understand patterns in mental health data. By leveraging advanced machine learning techniques, we aim to identify subtle patterns that may be relevant for diagnosis and treatment.',
+    longDescription: 'A platform for creating and sharing mental health datasets to find patterns that might be useful for research. We&apos;re focused on making these tools and datasets accessible to everyone who wants to study mental health conditions and other neurological conditions.',
     comingSoon: true,
   },
 ]
@@ -27,7 +27,7 @@ export default function Programs() {
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-text-light dark:text-text-dark">Our Programs</h1>
           <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">
-            We develop innovative research programs to advance our understanding of neural patterns and expressions.
+            We build open-source tools and datasets for neuroscience and mental health research.
           </p>
         </div>
 

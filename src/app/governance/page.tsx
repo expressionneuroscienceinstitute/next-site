@@ -7,7 +7,7 @@ export const metadata = {
 }
 
 export default function GovernancePage() {
-  // Group documents into categories
+  /* Document Categorization */
   const documents = footerConfig.documentLinks
   const bylaws = documents.filter(doc => doc.text.toLowerCase().includes('bylaw'))
   const policies = documents.filter(doc => doc.text.toLowerCase().includes('policy'))

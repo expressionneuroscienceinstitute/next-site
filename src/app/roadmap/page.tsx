@@ -38,37 +38,31 @@ interface RoadmapContent {
 }
 
 export default function RoadmapPage() {
-  // Default to "company" roadmap
   const [selectedProgram, setSelectedProgram] = useState('company')
   
-  // Get program from URL hash if present
+  /* URL Hash Management */
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '')
-      // Check if hash corresponds to a valid program
       if (hash && roadmapConfig.programs.some(program => program.id === hash)) {
         setSelectedProgram(hash)
       }
     }
     
-    // Run once on component mount
     handleHashChange()
-    
-    // Add listener for hash changes
     window.addEventListener('hashchange', handleHashChange)
     
-    // Cleanup on unmount
     return () => {
       window.removeEventListener('hashchange', handleHashChange)
     }
   }, [])
   
-  // Determine which roadmap to display
+  /* Roadmap Content Resolution */
   const getRoadmapContent = (): RoadmapContent => {
     if (selectedProgram === 'company') {
       return {
         ...roadmapConfig.company,
-        links: [] // Company roadmap doesn't have links
+        links: []
       }
     } else if (selectedProgram === 'insight') {
       const insightProgram = roadmapConfig.currentPrograms.insight
@@ -90,23 +84,22 @@ export default function RoadmapPage() {
       }
     }
     
-    // Fallback to company roadmap
     return {
       ...roadmapConfig.company,
       links: []
     }
   }
-  
+
   const roadmapContent = getRoadmapContent()
   
-  // Check if config data is available (basic check)
+  /* Configuration Validation */
   const isConfigValid = 
     roadmapConfig?.pageTitle &&
     roadmapConfig?.programs?.length > 0;
 
+  /* Program Selection Handler */
   const handleProgramChange = (programId: string) => {
     setSelectedProgram(programId)
-    // Update URL hash without triggering a page reload
     window.history.pushState(null, '', `#${programId}`)
   }
   
