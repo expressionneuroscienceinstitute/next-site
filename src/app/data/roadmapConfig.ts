@@ -10,7 +10,7 @@ export const roadmapConfig = {
   /* Organization Roadmap */
   company: {
     title: "ENI Organization Roadmap",
-    description: "Our plan for building a sustainable nonprofit research organization focused on open neuroscience research. We&apos;re working on getting our legal status sorted out and building the infrastructure to support our research programs.",
+    description: "Our plan for building a sustainable nonprofit research organization focused on open neuroscience research. We're working on getting our legal status sorted out and building the infrastructure to support our research programs.",
     timeline: {
       title: "Company Timeline",
       milestones: [
@@ -72,7 +72,7 @@ export const roadmapConfig = {
     title: "Current Programs",
     insight: {
       title: "Insight Program",
-      text: `We&apos;re building VR tools to study binocular vision dysfunction (BVD) - a condition where your eyes don&apos;t work together properly. This can cause headaches, reading problems, and other life-altering issues that get missed by regular eye exams. We think VR could make testing for this much easier and cheaper for everyone.`,
+      text: `We're building VR tools to study binocular vision dysfunction (BVD) - a condition where your eyes don't work together properly. This can cause headaches, reading problems, and other life-altering issues that get missed by regular eye exams. We think VR could make testing for this much easier and cheaper for everyone.`,
       links: [
         {
           text: "Insight Design Document",
@@ -106,7 +106,7 @@ export const roadmapConfig = {
             id: "capstone-2025q1",
             date: "2025-Q1",
             title: "Capstone Project",
-            description: "The Insight Diagnostic Platform becomes the capstone project for Dylan (Anki) Carney&apos;s undergraduate degree.",
+            description: "The Insight Diagnostic Platform becomes the capstone project for Dylan (Anki) Carney's undergraduate degree.",
             status: "in-progress"
           },
           {
@@ -148,7 +148,7 @@ export const roadmapConfig = {
     },
     mhlp: {
       title: "Mental Health Labeling Platform",
-      text: `A platform for researchers to analyze mental health datasets and find patterns. We want to make these kinds of tools accessible to researchers who don&apos;t have big tech company budgets or machine learning expertise.`,
+      text: `A platform for researchers to analyze mental health datasets and find patterns. We want to make these kinds of tools accessible to researchers who don't have big tech company budgets or machine learning expertise.`,
       links: [],
       timeline: {
         title: "MHLP Timeline",
@@ -164,7 +164,7 @@ export const roadmapConfig = {
             id: "mhlp-development-2024q3",
             date: "2024-Q3",
             title: "Development Phase",
-            description: "Begin development of the platform&apos;s core functionality and data infrastructure.",
+              description: "Begin development of the platform's core functionality and data infrastructure.",
             status: "planned"
           },
           {
