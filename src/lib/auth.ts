@@ -33,8 +33,17 @@ export async function createSession(payload: SessionPayload): Promise<string> {
 export async function verifySession(token: string): Promise<SessionPayload | null> {
   try {
     const { payload } = await jwtVerify(token, secret);
-    return payload as SessionPayload;
+    
+    // Convert expiresAt back to Date object since JWT serializes it as a string
+    const sessionPayload: SessionPayload = {
+      userId: payload.userId as string,
+      username: payload.username as string,
+      expiresAt: new Date(payload.expiresAt as string)
+    };
+    
+    return sessionPayload;
   } catch (error) {
+    // Invalid or expired token - this is expected for unauthenticated requests
     return null;
   }
 }
