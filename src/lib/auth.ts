@@ -16,6 +16,9 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  if (!hash || !password) {
+    return false;
+  }
   return bcrypt.compare(password, hash);
 }
 
@@ -37,34 +40,22 @@ export async function verifySession(token: string): Promise<SessionPayload | nul
 }
 
 export async function authenticate(username: string, password: string): Promise<boolean> {
-  console.log('authenticate() called with username:', username);
+  if (!username || !password) {
+    return false;
+  }
   
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '';
-  
-  console.log('Environment check in authenticate():');
-  console.log('- adminUsername from env:', adminUsername);
-  console.log('- adminPasswordHash from env:', adminPasswordHash ? 'Set' : 'Missing');
-  console.log('- provided username matches:', username === adminUsername);
-  
-  if (username !== adminUsername) {
-    console.log('Username mismatch');
-    return false;
-  }
+  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
   
   if (!adminPasswordHash) {
-    console.log('No password hash found in environment');
     return false;
   }
   
-  try {
-    const result = await verifyPassword(password, adminPasswordHash);
-    console.log('Password verification result:', result);
-    return result;
-  } catch (error) {
-    console.log('Error in password verification:', error);
+  if (username !== adminUsername) {
     return false;
   }
+  
+  return await verifyPassword(password, adminPasswordHash);
 }
 
 export function isSessionExpired(expiresAt: Date): boolean {

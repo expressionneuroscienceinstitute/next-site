@@ -8,12 +8,6 @@ export async function POST(request: NextRequest) {
                      request.headers.get('x-real-ip') || 
                      'unknown';
 
-    // Debug logging
-    console.log('Environment variables check:');
-    console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Missing');
-    console.log('ADMIN_USERNAME:', process.env.ADMIN_USERNAME);
-    console.log('ADMIN_PASSWORD_HASH:', process.env.ADMIN_PASSWORD_HASH ? 'Set' : 'Missing');
-
     // Rate limiting
     if (rateLimiter.isRateLimited(clientIP)) {
       const remainingTime = rateLimiter.getRemainingTime(clientIP);
@@ -29,8 +23,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { username, password } = body;
 
-    console.log('Login attempt:', { username, passwordLength: password?.length });
-
     if (!username || !password) {
       rateLimiter.recordAttempt(clientIP);
       return NextResponse.json(
@@ -40,7 +32,6 @@ export async function POST(request: NextRequest) {
     }
 
     const isValid = await authenticate(username, password);
-    console.log('Authentication result:', isValid);
 
     if (!isValid) {
       rateLimiter.recordAttempt(clientIP);
