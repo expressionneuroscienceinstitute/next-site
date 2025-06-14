@@ -1,6 +1,6 @@
 # 🔐 Secure Content Management System
 
-A secure, web-based content management system for your Expression Neuroscience Institute website at **https://expression.ngo**. This system allows you to edit all text content through a modern, secure web interface with live preview functionality.
+A secure, web-based content management system for your Expression Neuroscience Institute website at **https://expression.ngo**. This system allows you to edit all text content through a modern, secure web interface with live preview functionality and **WYSIWYG editing**.
 
 ## 🌐 Website Information
 
@@ -29,7 +29,7 @@ A secure, web-based content management system for your Expression Neuroscience I
    - Username: `admin`
    - Password: `admin123!`
 
-## � Content Management Workflow
+## 🔄 Content Management Workflow
 
 ### Option A: Local Development → Deploy (Recommended)
 1. **Edit Locally**: Use `http://localhost:3000/admin` to edit content
@@ -43,7 +43,13 @@ A secure, web-based content management system for your Expression Neuroscience I
 3. **Preview First**: Use preview to test before saving
 4. **Save Changes**: Content immediately goes live on expression.ngo
 
-## �🛡️ Security Features
+### Option C: WYSIWYG Edit in Preview ✨ (New!)
+1. **Open Editor**: Click "Edit in Preview" from any content editor
+2. **Click to Edit**: Click on any text in the preview to edit it inline
+3. **Real-time Changes**: See your edits instantly in the actual website layout
+4. **Save When Ready**: Click "Save Changes" to make edits permanent
+
+## 🛡️ Security Features
 
 ### Authentication & Authorization
 - **JWT-based sessions** with secure HTTP-only cookies
@@ -58,6 +64,7 @@ A secure, web-based content management system for your Expression Neuroscience I
 - **File access controls** - only predefined config files can be edited
 - **Input sanitization** and validation on all endpoints
 - **Live preview mode** - test changes before saving
+- **WYSIWYG protection** - real-time validation during inline editing
 
 ### Security Headers & Best Practices
 - **Secure cookies** in production with HTTPS
@@ -69,13 +76,13 @@ A secure, web-based content management system for your Expression Neuroscience I
 
 The CMS allows you to edit the following content files on expression.ngo:
 
-| File | Description | Content |
-|------|-------------|---------|
-| **About Page** | Mission, board members, future vision | Team bios, mission statement, organization goals |
-| **Roadmap** | Research timeline and program roadmap | Project timelines, milestones, research programs |
-| **Donate Page** | Donation page content and messaging | Call-to-action text, donation messaging |
-| **Research Page** | Research datasets and publications | Research listings, publication links |
-| **Document Links** | Footer document links and navigation | PDF links, governance documents |
+| File | Description | Content | WYSIWYG Support |
+|------|-------------|---------|-----------------|
+| **About Page** | Mission, board members, future vision | Team bios, mission statement, organization goals | ✅ Full inline editing |
+| **Roadmap** | Research timeline and program roadmap | Project timelines, milestones, research programs | ⚠️ Partial support |
+| **Donate Page** | Donation page content and messaging | Call-to-action text, donation messaging | ✅ Full inline editing |
+| **Research Page** | Research datasets and publications | Research listings, publication links | ⚠️ Basic support |
+| **Document Links** | Footer document links and navigation | PDF links, governance documents | ⚠️ Basic support |
 
 ## 🎯 How to Use
 
@@ -85,29 +92,46 @@ The CMS allows you to edit the following content files on expression.ngo:
 - Enter your credentials
 - You'll be automatically redirected to the dashboard
 
-### 2. Edit Content
-- Click "Edit Content" on any content file
-- Make your changes in the editor
-- The system shows unsaved changes with visual indicators
+### 2. Choose Your Editing Method
 
-### 3. Preview Your Changes ✨
+**Traditional Code Editor:**
+- Click "Edit Content" on any content file
+- Edit the raw configuration code
+- Use "Preview" to see how changes look
+
+**WYSIWYG Editor (Recommended):** ✨
+- Click "Edit in Preview" on any content file
+- Edit text directly in the website layout
+- See changes instantly as you type
+
+### 3. Preview Your Changes
 - **Click "Preview"** to see how your changes will look on the live website
 - Preview opens in a new tab showing the actual page layout
 - Make further edits if needed
 - **Preview doesn't affect the live site** - only saved changes go live
 
-### 4. Save Changes
+### 4. Edit in Preview Mode ✨ (New!)
+- **Click "Edit in Preview"** for the ultimate editing experience
+- **Visual Editing**: Click on any text to edit it inline
+- **Real-time Updates**: See changes instantly in the actual website layout
+- **Contextual Editing**: Edit headings, paragraphs, and content in place
+- **Smart Controls**: Save/Cancel buttons appear when editing
+- **Keyboard Shortcuts**: Enter to save, Escape to cancel
+
+### 5. Save Changes
 - Click "Save Changes" to apply your edits to the live website
+- In WYSIWYG mode, click the "Save Changes" button in the header
 - Only save when you're satisfied with the preview
 
-### 5. Features
+### 6. Features
 - **Real-time feedback**: See character/line counts and change indicators
 - **Live preview**: Test changes safely before publishing
+- **WYSIWYG editing**: Click-to-edit functionality with real-time updates ✨
 - **Revert changes**: Undo modifications before saving
 - **Automatic backups**: Previous versions are saved automatically
 - **Syntax highlighting**: Code-friendly editor for TypeScript files
 
-### 6. Logout
+### 7. Logout
 - Click the "Logout" button in the top right
 - Your session will be securely terminated
 
@@ -163,14 +187,16 @@ NODE_ENV=production
 - **`/api/admin/auth/logout`** - Session termination
 - **`/api/admin/content`** - List available content files
 - **`/api/admin/content/[id]`** - Get/update specific content files
-- **`/api/admin/preview`** - Create and serve content previews ✨
+- **`/api/admin/preview`** - Create and serve content previews
+- **`/api/admin/preview/edit`** - Save content from WYSIWYG editor ✨
 
 ### Frontend (Admin Interface)
 - **`/admin`** - Main admin page with authentication flow
-- **`/preview`** - Live preview page for testing content changes ✨
+- **`/preview`** - Live preview page for testing content changes
+- **`/preview?edit=true`** - WYSIWYG editing mode ✨
 - **`AdminLogin`** - Secure login form with error handling
 - **`AdminDashboard`** - Content file overview and navigation
-- **`ContentEditor`** - Rich text editor with preview and save functionality
+- **`ContentEditor`** - Rich text editor with preview and WYSIWYG functionality
 
 ### Security Middleware
 - **Authentication verification** on all protected routes
@@ -186,7 +212,7 @@ src/
 │   ├── admin/
 │   │   └── page.tsx              # Main admin page
 │   ├── preview/
-│   │   └── page.tsx              # Live preview page ✨
+│   │   └── page.tsx              # Live preview + WYSIWYG editor ✨
 │   └── api/
 │       └── admin/
 │           ├── auth/
@@ -195,12 +221,14 @@ src/
 │           ├── content/
 │           │   ├── route.ts          # List content files
 │           │   └── [id]/route.ts     # Get/update content
-│           └── preview/route.ts      # Preview API ✨
+│           ├── preview/
+│           │   ├── route.ts          # Preview API
+│           │   └── edit/route.ts     # WYSIWYG save API ✨
 ├── components/
 │   └── admin/
 │       ├── AdminLogin.tsx        # Login component
 │       ├── AdminDashboard.tsx    # Dashboard component
-│       └── ContentEditor.tsx     # Editor with preview ✨
+│       └── ContentEditor.tsx     # Editor with preview + WYSIWYG ✨
 └── lib/
     ├── auth.ts                   # Authentication utilities
     ├── auth-middleware.ts        # Route protection
@@ -248,6 +276,12 @@ src/
 - Ensure you're logged in when creating previews
 - Preview links expire after 30 minutes
 
+**WYSIWYG editor issues**: ✨
+- Ensure you're logged in when using edit mode
+- Check browser console for JavaScript errors
+- Try refreshing the preview if editing stops working
+- Changes are auto-validated in real-time
+
 **Save errors**:
 - Check file permissions
 - Verify TypeScript syntax is valid
@@ -271,29 +305,50 @@ If you encounter issues:
 - [ ] Login at `http://localhost:3000/admin`
 - [ ] Change default password
 - [ ] Test editing content files
-- [ ] **Try the preview feature** ✨
+- [ ] **Try the preview feature**
+- [ ] **Try the WYSIWYG "Edit in Preview" mode** ✨
 - [ ] Verify backups are created
 - [ ] Configure production environment variables for Vercel deployment
 - [ ] Deploy to expression.ngo and test production admin
 
-## ✨ Preview Feature
+## ✨ Preview & WYSIWYG Features
 
-The new **live preview system** allows you to:
+### Traditional Preview
+- **Safe Testing**: See exactly how your changes will look before publishing
+- **Real Layout**: Preview shows the actual website design and styling
+- **No Risk**: Preview doesn't affect your live website at expression.ngo
 
-1. **Safe Testing**: See exactly how your changes will look before publishing
-2. **Real Layout**: Preview shows the actual website design and styling
-3. **No Risk**: Preview doesn't affect your live website at expression.ngo
-4. **Easy Workflow**: Edit → Preview → Refine → Save
+### WYSIWYG Edit in Preview (New!) ✨
+The revolutionary **click-to-edit preview system** allows you to:
+
+1. **Visual Editing**: Edit content directly in the website layout
+2. **Click to Edit**: Simply click on any text to start editing
+3. **Real-time Updates**: See changes instantly as you type
+4. **Context Aware**: Edit headings, paragraphs, and content in place
+5. **Smart Validation**: Content is validated in real-time
+6. **Easy Workflow**: Click text → Edit → Save → Done!
+
+**Perfect for:**
+- Quick content updates
+- Seeing exactly how text fits in the design
+- Non-technical content editing
+- Real-time content experimentation
 
 **How it works:**
-- Click "Preview" in the content editor
-- Your changes are temporarily processed and displayed
-- Preview opens in a new tab with a clear "Preview Mode" header
-- Make adjustments and preview again as needed
-- Only save when you're completely satisfied
+- Click "Edit in Preview" from any content editor
+- Click on any text in the preview to edit it
+- Edit inline with smart save/cancel controls
+- See changes instantly in the real website layout
+- Click "Save Changes" when satisfied
 
 **Available both locally and on production:**
-- Local development: Preview before deploying to expression.ngo
-- Production admin: Preview changes before they go live on expression.ngo
+- Local development: Perfect for testing and development
+- Production admin: Direct content editing on expression.ngo
 
-Your secure content management system is now ready to manage content for **https://expression.ngo** with safe preview capabilities! 🎉
+Your secure content management system now offers **three powerful editing modes** for managing content on **https://expression.ngo**:
+
+1. **Code Editor**: Raw configuration editing for advanced users
+2. **Preview Mode**: Safe testing before publishing
+3. **WYSIWYG Editor**: Visual click-to-edit experience ✨
+
+Choose the method that works best for your workflow! 🎉

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Save, AlertCircle, Check, RefreshCw, Eye } from 'lucide-react';
+import { ArrowLeft, Save, AlertCircle, Check, RefreshCw, Eye, Edit } from 'lucide-react';
 
 interface ConfigFile {
   id: string;
@@ -21,6 +21,7 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isCreatingPreview, setIsCreatingPreview] = useState(false);
+  const [isCreatingEditPreview, setIsCreatingEditPreview] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [hasChanges, setHasChanges] = useState(false);
@@ -115,6 +116,37 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
     }
   };
 
+  const handleEditInPreview = async () => {
+    setIsCreatingEditPreview(true);
+    setError('');
+    
+    try {
+      const response = await fetch('/api/admin/preview', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          configId: file.id,
+          content: content
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Open preview in edit mode in a new tab
+        window.open(`${data.previewUrl}&edit=true`, '_blank');
+      } else {
+        setError(data.error || 'Failed to create preview');
+      }
+    } catch (error) {
+      setError('Network error creating preview');
+    } finally {
+      setIsCreatingEditPreview(false);
+    }
+  };
+
   const handleRevert = () => {
     setContent(originalContent);
     setError('');
@@ -158,6 +190,18 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
                 <Eye className="h-4 w-4 mr-2" />
               )}
               {isCreatingPreview ? 'Creating...' : 'Preview'}
+            </button>
+            <button
+              onClick={handleEditInPreview}
+              disabled={isCreatingEditPreview || !content}
+              className="inline-flex items-center px-3 py-2 border border-blue-300 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isCreatingEditPreview ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-700 mr-2"></div>
+              ) : (
+                <Edit className="h-4 w-4 mr-2" />
+              )}
+              {isCreatingEditPreview ? 'Creating...' : 'Edit in Preview'}
             </button>
             {hasChanges && (
               <button
@@ -228,7 +272,7 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
           </div>
           <p className="mt-2 text-xs text-gray-500">
             This editor allows you to modify TypeScript configuration files. 
-            Use the Preview button to see how your changes will look on the website before saving.
+            Use the Preview button to see how your changes will look, or use "Edit in Preview" for real-time WYSIWYG editing.
           </p>
         </div>
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Eye, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Eye, AlertCircle, ArrowLeft, Edit, Save, X, Check } from 'lucide-react';
 import Link from 'next/link';
 
 // Import your page components
@@ -17,12 +17,122 @@ interface PreviewData {
   content: any;
 }
 
+interface EditableFieldProps {
+  value: string;
+  onChange: (value: string) => void;
+  multiline?: boolean;
+  className?: string;
+  placeholder?: string;
+}
+
+function EditableField({ value, onChange, multiline = false, className = '', placeholder }: EditableFieldProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(value);
+
+  useEffect(() => {
+    setEditValue(value);
+  }, [value]);
+
+  const handleSave = () => {
+    onChange(editValue);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setEditValue(value);
+    setIsEditing(false);
+  };
+
+  if (!isEditing) {
+    return (
+      <div 
+        onClick={() => setIsEditing(true)}
+        className={`cursor-pointer hover:bg-blue-50 hover:ring-2 hover:ring-blue-200 rounded px-2 py-1 transition-all ${className}`}
+        title="Click to edit"
+      >
+        {value || placeholder}
+      </div>
+    );
+  }
+
+  if (multiline) {
+    return (
+      <div className="relative">
+        <textarea
+          value={editValue}
+          onChange={(e) => setEditValue(e.target.value)}
+          className={`w-full border border-blue-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+          rows={Math.max(3, editValue.split('\n').length)}
+          autoFocus
+          placeholder={placeholder}
+        />
+        <div className="flex items-center space-x-2 mt-2">
+          <button
+            onClick={handleSave}
+            className="inline-flex items-center px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+          >
+            <Check className="h-3 w-3 mr-1" />
+            Save
+          </button>
+          <button
+            onClick={handleCancel}
+            className="inline-flex items-center px-2 py-1 bg-gray-300 text-gray-700 text-xs rounded hover:bg-gray-400"
+          >
+            <X className="h-3 w-3 mr-1" />
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative">
+      <input
+        type="text"
+        value={editValue}
+        onChange={(e) => setEditValue(e.target.value)}
+        className={`border border-blue-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+        autoFocus
+        placeholder={placeholder}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSave();
+          } else if (e.key === 'Escape') {
+            handleCancel();
+          }
+        }}
+      />
+      <div className="flex items-center space-x-2 mt-1">
+        <button
+          onClick={handleSave}
+          className="inline-flex items-center px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+        >
+          <Check className="h-3 w-3 mr-1" />
+          Save
+        </button>
+        <button
+          onClick={handleCancel}
+          className="inline-flex items-center px-2 py-1 bg-gray-300 text-gray-700 text-xs rounded hover:bg-gray-400"
+        >
+          <X className="h-3 w-3 mr-1" />
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function PreviewPage() {
   const searchParams = useSearchParams();
   const previewId = searchParams.get('id');
+  const isEditMode = searchParams.get('edit') === 'true';
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
+  const [editedContent, setEditedContent] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   useEffect(() => {
     if (!previewId) {
@@ -33,6 +143,18 @@ export default function PreviewPage() {
 
     loadPreviewData();
   }, [previewId]);
+
+  useEffect(() => {
+    if (previewData && !editedContent) {
+      setEditedContent(JSON.parse(JSON.stringify(previewData.content)));
+    }
+  }, [previewData]);
+
+  useEffect(() => {
+    if (editedContent && previewData) {
+      setHasUnsavedChanges(JSON.stringify(editedContent) !== JSON.stringify(previewData.content));
+    }
+  }, [editedContent, previewData]);
 
   const loadPreviewData = async () => {
     try {
@@ -57,19 +179,73 @@ export default function PreviewPage() {
     }
   };
 
-  const getPageTitle = (configId: string) => {
-    switch (configId) {
-      case 'about': return 'About Page Preview';
-      case 'roadmap': return 'Roadmap Preview';
-      case 'donate': return 'Donate Page Preview';
-      case 'research': return 'Research Page Preview';
-      case 'documents': return 'Document Links Preview';
-      default: return 'Content Preview';
+  const handleSaveChanges = async () => {
+    if (!previewData || !editedContent) return;
+
+    setIsSaving(true);
+    setError('');
+
+    try {
+      // Convert edited content back to TypeScript format
+      const configName = `${previewData.configId}Config`;
+      const tsContent = `export const ${configName} = ${JSON.stringify(editedContent, null, 2)};`;
+
+      const response = await fetch('/api/admin/preview/edit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          configId: previewData.configId,
+          content: tsContent,
+          saveChanges: true
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setHasUnsavedChanges(false);
+        // Update the original preview data
+        setPreviewData(prev => prev ? { ...prev, content: editedContent } : null);
+      } else {
+        setError(data.error || 'Failed to save changes');
+      }
+    } catch (error) {
+      setError('Network error saving changes');
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const renderPreviewContent = (configId: string, content: any) => {
-    // Safety check for content
+  const updateEditedContent = (path: string[], value: string) => {
+    if (!editedContent) return;
+
+    const newContent = JSON.parse(JSON.stringify(editedContent));
+    let current = newContent;
+    
+    for (let i = 0; i < path.length - 1; i++) {
+      if (!current[path[i]]) current[path[i]] = {};
+      current = current[path[i]];
+    }
+    
+    current[path[path.length - 1]] = value;
+    setEditedContent(newContent);
+  };
+
+  const getPageTitle = (configId: string) => {
+    const baseTitle = {
+      'about': 'About Page',
+      'roadmap': 'Roadmap',
+      'donate': 'Donate Page',
+      'research': 'Research Page',
+      'documents': 'Document Links'
+    }[configId] || 'Content';
+    
+    return isEditMode ? `${baseTitle} - Edit Mode` : `${baseTitle} Preview`;
+  };
+
+  const renderEditableContent = (configId: string, content: any) => {
     if (!content || typeof content !== 'object') {
       return (
         <div className="max-w-4xl mx-auto py-8 px-4">
@@ -82,44 +258,69 @@ export default function PreviewPage() {
       );
     }
 
+    const displayContent = isEditMode ? editedContent : content;
+
     switch (configId) {
       case 'about':
         return (
           <div className="max-w-4xl mx-auto py-8 px-4">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">
-              {content.pageTitle || 'About Page'}
-            </h1>
+            <EditableField
+              value={displayContent.pageTitle || 'About Page'}
+              onChange={(value) => updateEditedContent(['pageTitle'], value)}
+              className="text-4xl font-bold text-gray-900 mb-8 block w-full"
+              placeholder="Page Title"
+            />
             
             {/* Mission Section */}
-            {content.mission && (
+            {displayContent.mission && (
               <section className="mb-12">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  {content.mission.title || 'Mission'}
-                </h2>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {content.mission.text || 'Mission text not available'}
-                </p>
+                <EditableField
+                  value={displayContent.mission.title || 'Mission'}
+                  onChange={(value) => updateEditedContent(['mission', 'title'], value)}
+                  className="text-2xl font-semibold text-gray-900 mb-4 block w-full"
+                  placeholder="Mission Title"
+                />
+                <EditableField
+                  value={displayContent.mission.text || 'Mission text not available'}
+                  onChange={(value) => updateEditedContent(['mission', 'text'], value)}
+                  multiline
+                  className="text-lg text-gray-700 leading-relaxed block w-full"
+                  placeholder="Mission description"
+                />
               </section>
             )}
 
             {/* Board Members */}
-            {content.board && content.board.members && (
+            {displayContent.board && displayContent.board.members && (
               <section className="mb-12">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-8">
-                  {content.board.title || 'Board Members'}
-                </h2>
+                <EditableField
+                  value={displayContent.board.title || 'Board Members'}
+                  onChange={(value) => updateEditedContent(['board', 'title'], value)}
+                  className="text-2xl font-semibold text-gray-900 mb-8 block w-full"
+                  placeholder="Board Section Title"
+                />
                 <div className="grid gap-8 md:grid-cols-2">
-                  {content.board.members.map((member: any, index: number) => (
+                  {displayContent.board.members.map((member: any, index: number) => (
                     <div key={index} className="bg-white p-6 rounded-lg shadow-sm border">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                        {member.name || 'Name not available'}
-                      </h3>
-                      <p className="text-blue-600 font-medium mb-4">
-                        {member.role || 'Role not specified'}
-                      </p>
-                      <p className="text-gray-700 leading-relaxed">
-                        {member.bio || 'Bio not available'}
-                      </p>
+                      <EditableField
+                        value={member.name || 'Name not available'}
+                        onChange={(value) => updateEditedContent(['board', 'members', index.toString(), 'name'], value)}
+                        className="text-xl font-semibold text-gray-900 mb-2 block w-full"
+                        placeholder="Member Name"
+                      />
+                      <EditableField
+                        value={member.role || 'Role not specified'}
+                        onChange={(value) => updateEditedContent(['board', 'members', index.toString(), 'role'], value)}
+                        className="text-blue-600 font-medium mb-4 block w-full"
+                        placeholder="Member Role"
+                      />
+                      <EditableField
+                        value={member.bio || 'Bio not available'}
+                        onChange={(value) => updateEditedContent(['board', 'members', index.toString(), 'bio'], value)}
+                        multiline
+                        className="text-gray-700 leading-relaxed block w-full"
+                        placeholder="Member Biography"
+                      />
                     </div>
                   ))}
                 </div>
@@ -127,14 +328,21 @@ export default function PreviewPage() {
             )}
 
             {/* Future Section */}
-            {content.future && (
+            {displayContent.future && (
               <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  {content.future.title || 'Future'}
-                </h2>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {content.future.text || 'Future text not available'}
-                </p>
+                <EditableField
+                  value={displayContent.future.title || 'Future'}
+                  onChange={(value) => updateEditedContent(['future', 'title'], value)}
+                  className="text-2xl font-semibold text-gray-900 mb-4 block w-full"
+                  placeholder="Future Section Title"
+                />
+                <EditableField
+                  value={displayContent.future.text || 'Future text not available'}
+                  onChange={(value) => updateEditedContent(['future', 'text'], value)}
+                  multiline
+                  className="text-lg text-gray-700 leading-relaxed block w-full"
+                  placeholder="Future description"
+                />
               </section>
             )}
           </div>
@@ -143,17 +351,34 @@ export default function PreviewPage() {
       case 'donate':
         return (
           <div className="max-w-2xl mx-auto py-8 px-4 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">
-              {content.pageTitle || 'Donate'}
-            </h1>
-            <p className="text-lg text-gray-700 leading-relaxed mb-8">
-              {content.paragraph || 'Donation message not available'}
-            </p>
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-              {content.buttonText || 'Donate'}
-            </button>
-            {content.note && (
-              <p className="text-sm text-gray-500 mt-4">{content.note}</p>
+            <EditableField
+              value={displayContent.pageTitle || 'Donate'}
+              onChange={(value) => updateEditedContent(['pageTitle'], value)}
+              className="text-4xl font-bold text-gray-900 mb-8 block w-full text-center"
+              placeholder="Page Title"
+            />
+            <EditableField
+              value={displayContent.paragraph || 'Donation message not available'}
+              onChange={(value) => updateEditedContent(['paragraph'], value)}
+              multiline
+              className="text-lg text-gray-700 leading-relaxed mb-8 block w-full"
+              placeholder="Donation message"
+            />
+            <EditableField
+              value={displayContent.buttonText || 'Donate'}
+              onChange={(value) => updateEditedContent(['buttonText'], value)}
+              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors inline-block"
+              placeholder="Button Text"
+            />
+            {displayContent.note && (
+              <div className="mt-4">
+                <EditableField
+                  value={displayContent.note}
+                  onChange={(value) => updateEditedContent(['note'], value)}
+                  className="text-sm text-gray-500 block w-full text-center"
+                  placeholder="Note text"
+                />
+              </div>
             )}
           </div>
         );
@@ -162,27 +387,27 @@ export default function PreviewPage() {
         return (
           <div className="max-w-4xl mx-auto py-8 px-4">
             <h1 className="text-4xl font-bold text-gray-900 mb-8">
-              {content.pageTitle || 'Research'}
+              {displayContent.pageTitle || 'Research'}
             </h1>
             
-            {content.datasets && (
+            {displayContent.datasets && (
               <section className="mb-12">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  {content.datasets.title || 'Datasets'}
+                  {displayContent.datasets.title || 'Datasets'}
                 </h2>
                 <p className="text-gray-600">
-                  {content.datasets.emptyMessage || 'No datasets available'}
+                  {displayContent.datasets.emptyMessage || 'No datasets available'}
                 </p>
               </section>
             )}
 
-            {content.publications && (
+            {displayContent.publications && (
               <section>
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  {content.publications.title || 'Publications'}
+                  {displayContent.publications.title || 'Publications'}
                 </h2>
                 <p className="text-gray-600">
-                  {content.publications.emptyMessage || 'No publications available'}
+                  {displayContent.publications.emptyMessage || 'No publications available'}
                 </p>
               </section>
             )}
@@ -193,15 +418,15 @@ export default function PreviewPage() {
         return (
           <div className="max-w-6xl mx-auto py-8 px-4">
             <h1 className="text-4xl font-bold text-gray-900 mb-8">
-              {content.pageTitle || 'Roadmap'}
+              {displayContent.pageTitle || 'Roadmap'}
             </h1>
             
             {/* Programs */}
-            {content.programs && Array.isArray(content.programs) && (
+            {displayContent.programs && Array.isArray(displayContent.programs) && (
               <section className="mb-12">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-6">Programs</h2>
                 <div className="grid gap-4 md:grid-cols-3">
-                  {content.programs.map((program: any, index: number) => (
+                  {displayContent.programs.map((program: any, index: number) => (
                     <div key={program.id || index} className="bg-white p-6 rounded-lg border shadow-sm">
                       <h3 className="font-semibold text-lg mb-2">
                         {program.name || 'Program Name'}
@@ -221,17 +446,17 @@ export default function PreviewPage() {
             )}
 
             {/* Company Timeline */}
-            {content.company && content.company.timeline && content.company.timeline.milestones && (
+            {displayContent.company && displayContent.company.timeline && displayContent.company.timeline.milestones && (
               <section className="mb-12">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                  {content.company.title || 'Timeline'}
+                  {displayContent.company.title || 'Timeline'}
                 </h2>
-                {content.company.description && (
-                  <p className="text-gray-700 mb-6">{content.company.description}</p>
+                {displayContent.company.description && (
+                  <p className="text-gray-700 mb-6">{displayContent.company.description}</p>
                 )}
                 
                 <div className="space-y-4">
-                  {content.company.timeline.milestones.map((milestone: any, index: number) => (
+                  {displayContent.company.timeline.milestones.map((milestone: any, index: number) => (
                     <div key={milestone.id || index} className="flex items-start space-x-4 p-4 bg-white rounded-lg border">
                       <div className={`w-3 h-3 rounded-full mt-1 ${
                         milestone.status === 'completed' ? 'bg-green-500' :
@@ -268,9 +493,9 @@ export default function PreviewPage() {
         return (
           <div className="max-w-4xl mx-auto py-8 px-4">
             <h1 className="text-4xl font-bold text-gray-900 mb-8">Document Links Preview</h1>
-            {content.documentLinks && Array.isArray(content.documentLinks) ? (
+            {displayContent.documentLinks && Array.isArray(displayContent.documentLinks) ? (
               <div className="grid gap-4 md:grid-cols-2">
-                {content.documentLinks.map((link: any, index: number) => (
+                {displayContent.documentLinks.map((link: any, index: number) => (
                   <div key={index} className="bg-white p-4 rounded-lg border shadow-sm">
                     <h3 className="font-semibold mb-2">
                       {link.text || 'Document Link'}
@@ -296,7 +521,7 @@ export default function PreviewPage() {
             <h1 className="text-4xl font-bold text-gray-900 mb-8">Content Preview</h1>
             <div className="bg-gray-100 p-4 rounded-lg">
               <pre className="text-sm overflow-auto">
-                {JSON.stringify(content, null, 2)}
+                {JSON.stringify(displayContent, null, 2)}
               </pre>
             </div>
           </div>
@@ -351,19 +576,42 @@ export default function PreviewPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Preview Header */}
-      <div className="bg-blue-600 text-white py-3 px-4 sticky top-0 z-50">
+      <div className={`${isEditMode ? 'bg-green-600' : 'bg-blue-600'} text-white py-3 px-4 sticky top-0 z-50`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center">
-            <Eye className="h-5 w-5 mr-2" />
-            <span className="font-semibold">Preview Mode</span>
+            {isEditMode ? <Edit className="h-5 w-5 mr-2" /> : <Eye className="h-5 w-5 mr-2" />}
+            <span className="font-semibold">
+              {isEditMode ? 'Edit Mode' : 'Preview Mode'}
+            </span>
             <span className="mx-2">•</span>
-            <span className="text-blue-100">{getPageTitle(previewData?.configId || '')}</span>
+            <span className={isEditMode ? 'text-green-100' : 'text-blue-100'}>
+              {getPageTitle(previewData?.configId || '')}
+            </span>
           </div>
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-blue-100">Changes are not saved</span>
+            {isEditMode && hasUnsavedChanges && (
+              <span className="text-sm text-yellow-200 font-medium">Unsaved changes</span>
+            )}
+            {isEditMode && (
+              <button
+                onClick={handleSaveChanges}
+                disabled={isSaving || !hasUnsavedChanges}
+                className="inline-flex items-center px-3 py-1 bg-green-500 text-white rounded hover:bg-green-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSaving ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-1"></div>
+                ) : (
+                  <Save className="h-4 w-4 mr-1" />
+                )}
+                {isSaving ? 'Saving...' : 'Save Changes'}
+              </button>
+            )}
+            <span className="text-sm text-blue-100">
+              {isEditMode ? 'Click on text to edit' : 'Changes are not saved'}
+            </span>
             <Link 
               href="/admin"
-              className="inline-flex items-center px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-400 transition-colors"
+              className={`inline-flex items-center px-3 py-1 ${isEditMode ? 'bg-green-500' : 'bg-blue-500'} text-white rounded hover:${isEditMode ? 'bg-green-400' : 'bg-blue-400'} transition-colors`}
             >
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back to Admin
@@ -374,8 +622,20 @@ export default function PreviewPage() {
 
       {/* Preview Content */}
       <div className="bg-white">
-        {previewData && renderPreviewContent(previewData.configId, previewData.content)}
+        {previewData && renderEditableContent(previewData.configId, previewData.content)}
       </div>
+
+      {/* Edit Mode Instructions */}
+      {isEditMode && (
+        <div className="bg-green-50 border-t border-green-200 py-3 px-4">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-sm text-green-800">
+              <strong>Edit Mode:</strong> Click on any text to edit it inline. Changes are shown in real-time. 
+              Click "Save Changes" to make your edits permanent.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
