@@ -1,6 +1,13 @@
 # 🔐 Secure Content Management System
 
-A secure, web-based content management system for your Expression Neuroscience Institute website. This system allows you to edit all text content through a modern, secure web interface with live preview functionality.
+A secure, web-based content management system for your Expression Neuroscience Institute website at **https://expression.ngo**. This system allows you to edit all text content through a modern, secure web interface with live preview functionality.
+
+## 🌐 Website Information
+
+- **Live Website**: https://expression.ngo
+- **Local Development**: http://localhost:3000
+- **Admin Panel (Local)**: http://localhost:3000/admin
+- **Admin Panel (Production)**: https://expression.ngo/admin
 
 ## 🚀 Quick Start
 
@@ -15,13 +22,28 @@ A secure, web-based content management system for your Expression Neuroscience I
    ```
 
 3. **Access Admin Panel**:
-   Visit: `http://localhost:3000/admin`
+   - **Local**: `http://localhost:3000/admin`
+   - **Production**: `https://expression.ngo/admin`
    
    **Default Credentials**:
    - Username: `admin`
    - Password: `admin123!`
 
-## 🛡️ Security Features
+## � Content Management Workflow
+
+### Option A: Local Development → Deploy (Recommended)
+1. **Edit Locally**: Use `http://localhost:3000/admin` to edit content
+2. **Preview Changes**: Test how changes will look with the preview feature
+3. **Commit & Deploy**: Push changes to trigger deployment to expression.ngo
+4. **Go Live**: Changes automatically appear on https://expression.ngo
+
+### Option B: Direct Production Editing
+1. **Production Admin**: Login to `https://expression.ngo/admin`
+2. **Edit Content**: Make changes directly on the live site
+3. **Preview First**: Use preview to test before saving
+4. **Save Changes**: Content immediately goes live on expression.ngo
+
+## �🛡️ Security Features
 
 ### Authentication & Authorization
 - **JWT-based sessions** with secure HTTP-only cookies
@@ -45,7 +67,7 @@ A secure, web-based content management system for your Expression Neuroscience I
 
 ## 📝 Editable Content
 
-The CMS allows you to edit the following content files:
+The CMS allows you to edit the following content files on expression.ngo:
 
 | File | Description | Content |
 |------|-------------|---------|
@@ -58,7 +80,8 @@ The CMS allows you to edit the following content files:
 ## 🎯 How to Use
 
 ### 1. Login
-- Navigate to `/admin`
+- **Local**: Navigate to `http://localhost:3000/admin`
+- **Production**: Navigate to `https://expression.ngo/admin`
 - Enter your credentials
 - You'll be automatically redirected to the dashboard
 
@@ -91,7 +114,7 @@ The CMS allows you to edit the following content files:
 ## 🔧 Configuration
 
 ### Environment Variables
-Located in `.env.local`:
+Located in `.env.local` for development:
 
 ```env
 # Security
@@ -107,6 +130,17 @@ RATE_LIMIT_WINDOW=900000
 NODE_ENV=development
 ```
 
+For production (Vercel environment variables):
+```env
+# Same variables but without escaping $ characters
+JWT_SECRET=your-generated-secret
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD_HASH=your-hashed-password
+RATE_LIMIT_MAX=10
+RATE_LIMIT_WINDOW=900000
+NODE_ENV=production
+```
+
 ### Changing Admin Password
 
 1. **Option A: Use Setup Script**
@@ -120,7 +154,7 @@ NODE_ENV=development
    const hash = await bcrypt.hash('your-new-password', 12);
    console.log(hash);
    ```
-   Then update `ADMIN_PASSWORD_HASH` in `.env.local`
+   Then update `ADMIN_PASSWORD_HASH` in `.env.local` (local) or Vercel settings (production)
 
 ## 🏗️ Technical Architecture
 
@@ -176,11 +210,11 @@ src/
 
 ## 🔒 Security Considerations
 
-### For Production Deployment
+### For Production Deployment (expression.ngo)
 
 1. **Change Default Password**: Immediately change from `admin123!`
-2. **HTTPS Only**: Ensure your site uses HTTPS in production
-3. **Environment Variables**: Use secure environment variable management
+2. **HTTPS Only**: Vercel automatically provides HTTPS for expression.ngo
+3. **Environment Variables**: Use secure environment variable management in Vercel
 4. **Regular Backups**: Implement automated backup strategies
 5. **Access Logs**: Monitor admin access logs
 6. **Security Updates**: Keep dependencies updated
@@ -189,13 +223,18 @@ src/
 - Only you should have admin credentials
 - Consider using a VPN for additional security
 - Regularly rotate JWT secrets and passwords
-- Monitor for suspicious login attempts
+- Monitor for suspicious login attempts to /admin
 
 ## 🆘 Troubleshooting
 
 ### Common Issues
 
-**Can't login**: 
+**Can't login to expression.ngo/admin**: 
+- Check username/password in Vercel environment variables
+- Verify JWT_SECRET is set in Vercel
+- Ensure password hash is NOT escaped in Vercel settings
+
+**Can't login locally**:
 - Check username/password in `.env.local`
 - Verify JWT_SECRET is set
 - Clear browser cookies and try again
@@ -234,7 +273,8 @@ If you encounter issues:
 - [ ] Test editing content files
 - [ ] **Try the preview feature** ✨
 - [ ] Verify backups are created
-- [ ] Configure production environment variables for deployment
+- [ ] Configure production environment variables for Vercel deployment
+- [ ] Deploy to expression.ngo and test production admin
 
 ## ✨ Preview Feature
 
@@ -242,7 +282,7 @@ The new **live preview system** allows you to:
 
 1. **Safe Testing**: See exactly how your changes will look before publishing
 2. **Real Layout**: Preview shows the actual website design and styling
-3. **No Risk**: Preview doesn't affect your live website
+3. **No Risk**: Preview doesn't affect your live website at expression.ngo
 4. **Easy Workflow**: Edit → Preview → Refine → Save
 
 **How it works:**
@@ -252,4 +292,8 @@ The new **live preview system** allows you to:
 - Make adjustments and preview again as needed
 - Only save when you're completely satisfied
 
-Your secure content management system is now ready to use with safe preview capabilities! 🎉
+**Available both locally and on production:**
+- Local development: Preview before deploying to expression.ngo
+- Production admin: Preview changes before they go live on expression.ngo
+
+Your secure content management system is now ready to manage content for **https://expression.ngo** with safe preview capabilities! 🎉

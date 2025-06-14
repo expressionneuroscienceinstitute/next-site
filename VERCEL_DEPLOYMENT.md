@@ -1,11 +1,12 @@
 # 🚀 Vercel Deployment Guide
 
-This guide will help you securely deploy your Content Management System to Vercel with all necessary security configurations.
+This guide will help you securely deploy your Content Management System to Vercel for your live website at **https://expression.ngo** with all necessary security configurations.
 
 ## 📋 Pre-Deployment Checklist
 
 - [ ] Run `npm run setup-admin` locally
 - [ ] Test the admin system locally at `http://localhost:3000/admin`
+- [ ] Test the preview functionality with your content
 - [ ] Change the default admin password
 - [ ] Prepare environment variables for Vercel
 
@@ -31,7 +32,7 @@ NODE_ENV=production
 
 ### How to Add Environment Variables in Vercel
 
-1. Go to your Vercel project dashboard
+1. Go to your Vercel project dashboard for expression.ngo
 2. Click on "Settings" tab
 3. Click on "Environment Variables" in the sidebar
 4. Add each variable:
@@ -79,11 +80,12 @@ These headers provide:
 
 ### Domain Security
 
-For production deployment:
+For production deployment at **expression.ngo**:
 
 1. **HTTPS Only**: Vercel automatically provides HTTPS
-2. **Custom Domain**: Configure your custom domain in Vercel
+2. **Custom Domain**: Already configured for expression.ngo
 3. **Environment Variables**: Never commit secrets to your repository
+4. **Admin Access**: Only accessible at `https://expression.ngo/admin`
 
 ## 🚀 Deployment Steps
 
@@ -91,7 +93,7 @@ For production deployment:
 
 1. Go to [vercel.com](https://vercel.com)
 2. Click "New Project"
-3. Import your GitHub repository
+3. Import your GitHub repository for expression.ngo
 4. Vercel will automatically detect it's a Next.js project
 
 ### 2. Configure Environment Variables
@@ -112,11 +114,11 @@ NODE_ENV=production
 
 1. Click "Deploy" in Vercel
 2. Wait for the build to complete
-3. Your site will be available at `https://your-project.vercel.app`
+3. Your site will be available at `https://expression.ngo`
 
 ### 4. Access Admin Panel
 
-- Visit: `https://your-project.vercel.app/admin`
+- Visit: `https://expression.ngo/admin`
 - Login with your credentials
 - **Immediately change the default password!**
 
@@ -124,11 +126,11 @@ NODE_ENV=production
 
 ### 1. Change Default Password
 
-After first login, you should:
+After first login to the production admin panel:
 1. Create a new secure password
-2. Run the setup script again with your new password
+2. Run the setup script again locally with your new password
 3. Update the `ADMIN_PASSWORD_HASH` environment variable in Vercel
-4. Redeploy
+4. Redeploy to apply the new password
 
 ### 2. Monitor Access
 
@@ -142,28 +144,42 @@ After first login, you should:
 - Regularly rotate JWT secrets and passwords
 - Monitor for security advisories in your dependencies
 
-## 🔄 Environment Variable Management
+## 🔄 Content Management Workflow
 
-### Development vs Production
+### Safe Editing Process
+
+1. **Local Testing**: Edit and preview content locally at `http://localhost:3000/admin`
+2. **Preview Changes**: Use the preview feature to see exactly how changes will look
+3. **Deploy to Production**: When satisfied, deploy your changes to https://expression.ngo
+4. **Live Admin Access**: Access the production admin at `https://expression.ngo/admin`
+
+### Environment Variable Management
 
 | Environment | Password Hash Format | Location |
 |-------------|---------------------|----------|
 | **Development** | `\$2a\$12\$...` (escaped) | `.env.local` |
 | **Production** | `$2a$12$...` (not escaped) | Vercel Settings |
 
-### Updating Environment Variables
+### Updating Content on Live Site
 
-To update variables after deployment:
+Two approaches for updating content:
 
-1. Go to Vercel project settings
-2. Update the environment variable value
-3. Redeploy the project (or it will auto-deploy if connected to Git)
+**Option A: Local Development → Deploy**
+1. Edit content locally with preview
+2. Commit and push changes to trigger deployment
+3. Changes automatically go live at expression.ngo
+
+**Option B: Direct Production Admin**
+1. Login to `https://expression.ngo/admin`
+2. Edit content directly on production
+3. Use preview to test before saving
+4. Changes go live immediately
 
 ## 🆘 Troubleshooting
 
 ### Login Issues
 
-**Problem**: "Invalid credentials" error
+**Problem**: "Invalid credentials" error at https://expression.ngo/admin
 **Solution**: 
 1. Check that environment variables are set correctly in Vercel
 2. Ensure password hash is NOT escaped in Vercel (should start with `$2a$12$`)
@@ -183,40 +199,59 @@ To update variables after deployment:
 2. Verify environment variables are set
 3. Check Vercel build logs for specific errors
 
-**Problem**: Admin panel not accessible
+**Problem**: Admin panel not accessible at expression.ngo/admin
 **Solution**:
 1. Ensure the `/admin` route is not blocked
 2. Check that all required files are committed to Git
 3. Verify environment variables are properly set
+
+### Preview Issues
+
+**Problem**: Preview not working on production
+**Solution**:
+1. Check that you're logged in when creating previews
+2. Verify content syntax is valid TypeScript
+3. Preview links expire after 30 minutes - create a new one
 
 ## 📊 Monitoring and Maintenance
 
 ### Vercel Analytics
 
 Enable Vercel Analytics to monitor:
-- Page views and performance
-- API route usage
-- Error rates
+- Page views and performance on expression.ngo
+- API route usage (including admin endpoints)
+- Error rates and user experience
 
 ### Security Monitoring
 
 Regularly check:
-- Function logs for failed login attempts
-- Unusual access patterns
-- Performance metrics
+- Function logs for failed login attempts at /admin
+- Unusual access patterns to expression.ngo
+- Performance metrics for the CMS
 
 ### Backup Strategy
 
 - Automatic backups are created before each content change
 - Consider setting up automated database backups if you extend the system
 - Keep your environment variables secure and backed up
+- Regular Git commits serve as content version control
 
 ## 🎯 Production Best Practices
 
 1. **Use Strong Passwords**: Generate secure passwords, don't use defaults
 2. **Regular Updates**: Keep your dependencies updated
-3. **Monitor Access**: Check logs regularly for suspicious activity
+3. **Monitor Access**: Check logs regularly for suspicious activity at /admin
 4. **Secure Environment Variables**: Never expose secrets in client-side code
 5. **HTTPS Only**: Always use HTTPS in production (Vercel provides this automatically)
+6. **Content Workflow**: Test locally with preview before deploying to expression.ngo
 
-Your secure Content Management System is now ready for production deployment on Vercel! 🎉
+## 🌐 Live Website Information
+
+- **Live Site**: https://expression.ngo
+- **Admin Panel**: https://expression.ngo/admin
+- **Preview Feature**: Available both locally and in production
+- **Content Updates**: Can be done locally or directly on production
+
+Your secure Content Management System is now ready for production deployment at **expression.ngo**! 🎉
+
+The preview feature allows you to safely test content changes both locally and on the live site before publishing them to your visitors.
