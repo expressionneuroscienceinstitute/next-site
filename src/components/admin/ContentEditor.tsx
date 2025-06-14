@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Save, AlertCircle, Check, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Save, AlertCircle, Check, RefreshCw, Eye } from 'lucide-react';
 
 interface ConfigFile {
   id: string;
@@ -20,6 +20,7 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
   const [originalContent, setOriginalContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isCreatingPreview, setIsCreatingPreview] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [hasChanges, setHasChanges] = useState(false);
@@ -83,6 +84,37 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
     }
   };
 
+  const handlePreview = async () => {
+    setIsCreatingPreview(true);
+    setError('');
+    
+    try {
+      const response = await fetch('/api/admin/preview', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          configId: file.id,
+          content: content
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Open preview in a new tab
+        window.open(data.previewUrl, '_blank');
+      } else {
+        setError(data.error || 'Failed to create preview');
+      }
+    } catch (error) {
+      setError('Network error creating preview');
+    } finally {
+      setIsCreatingPreview(false);
+    }
+  };
+
   const handleRevert = () => {
     setContent(originalContent);
     setError('');
@@ -115,6 +147,18 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
             </div>
           </div>
           <div className="flex items-center space-x-3">
+            <button
+              onClick={handlePreview}
+              disabled={isCreatingPreview || !content}
+              className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isCreatingPreview ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-700 mr-2"></div>
+              ) : (
+                <Eye className="h-4 w-4 mr-2" />
+              )}
+              {isCreatingPreview ? 'Creating...' : 'Preview'}
+            </button>
             {hasChanges && (
               <button
                 onClick={handleRevert}
@@ -184,7 +228,7 @@ export default function ContentEditor({ file, onBack }: ContentEditorProps) {
           </div>
           <p className="mt-2 text-xs text-gray-500">
             This editor allows you to modify TypeScript configuration files. 
-            Please ensure valid syntax to avoid breaking the website.
+            Use the Preview button to see how your changes will look on the website before saving.
           </p>
         </div>
 

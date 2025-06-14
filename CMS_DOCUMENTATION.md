@@ -1,6 +1,6 @@
 # 🔐 Secure Content Management System
 
-A secure, web-based content management system for your Expression Neuroscience Institute website. This system allows you to edit all text content through a modern, secure web interface.
+A secure, web-based content management system for your Expression Neuroscience Institute website. This system allows you to edit all text content through a modern, secure web interface with live preview functionality.
 
 ## 🚀 Quick Start
 
@@ -35,6 +35,7 @@ A secure, web-based content management system for your Expression Neuroscience I
 - **Syntax validation** to prevent breaking the website
 - **File access controls** - only predefined config files can be edited
 - **Input sanitization** and validation on all endpoints
+- **Live preview mode** - test changes before saving
 
 ### Security Headers & Best Practices
 - **Secure cookies** in production with HTTPS
@@ -65,15 +66,25 @@ The CMS allows you to edit the following content files:
 - Click "Edit Content" on any content file
 - Make your changes in the editor
 - The system shows unsaved changes with visual indicators
-- Click "Save Changes" to apply your edits
 
-### 3. Features
+### 3. Preview Your Changes ✨
+- **Click "Preview"** to see how your changes will look on the live website
+- Preview opens in a new tab showing the actual page layout
+- Make further edits if needed
+- **Preview doesn't affect the live site** - only saved changes go live
+
+### 4. Save Changes
+- Click "Save Changes" to apply your edits to the live website
+- Only save when you're satisfied with the preview
+
+### 5. Features
 - **Real-time feedback**: See character/line counts and change indicators
+- **Live preview**: Test changes safely before publishing
 - **Revert changes**: Undo modifications before saving
 - **Automatic backups**: Previous versions are saved automatically
 - **Syntax highlighting**: Code-friendly editor for TypeScript files
 
-### 4. Logout
+### 6. Logout
 - Click the "Logout" button in the top right
 - Your session will be securely terminated
 
@@ -118,12 +129,14 @@ NODE_ENV=development
 - **`/api/admin/auth/logout`** - Session termination
 - **`/api/admin/content`** - List available content files
 - **`/api/admin/content/[id]`** - Get/update specific content files
+- **`/api/admin/preview`** - Create and serve content previews ✨
 
 ### Frontend (Admin Interface)
 - **`/admin`** - Main admin page with authentication flow
+- **`/preview`** - Live preview page for testing content changes ✨
 - **`AdminLogin`** - Secure login form with error handling
 - **`AdminDashboard`** - Content file overview and navigation
-- **`ContentEditor`** - Rich text editor with save/revert functionality
+- **`ContentEditor`** - Rich text editor with preview and save functionality
 
 ### Security Middleware
 - **Authentication verification** on all protected routes
@@ -138,19 +151,22 @@ src/
 ├── app/
 │   ├── admin/
 │   │   └── page.tsx              # Main admin page
+│   ├── preview/
+│   │   └── page.tsx              # Live preview page ✨
 │   └── api/
 │       └── admin/
 │           ├── auth/
 │           │   ├── login/route.ts    # Login endpoint
 │           │   └── logout/route.ts   # Logout endpoint
-│           └── content/
-│               ├── route.ts          # List content files
-│               └── [id]/route.ts     # Get/update content
+│           ├── content/
+│           │   ├── route.ts          # List content files
+│           │   └── [id]/route.ts     # Get/update content
+│           └── preview/route.ts      # Preview API ✨
 ├── components/
 │   └── admin/
 │       ├── AdminLogin.tsx        # Login component
 │       ├── AdminDashboard.tsx    # Dashboard component
-│       └── ContentEditor.tsx     # Editor component
+│       └── ContentEditor.tsx     # Editor with preview ✨
 └── lib/
     ├── auth.ts                   # Authentication utilities
     ├── auth-middleware.ts        # Route protection
@@ -188,6 +204,11 @@ src/
 - Wait 15 minutes for rate limit reset
 - Check `RATE_LIMIT_MAX` and `RATE_LIMIT_WINDOW` settings
 
+**Preview not working**:
+- Check that content syntax is valid TypeScript
+- Ensure you're logged in when creating previews
+- Preview links expire after 30 minutes
+
 **Save errors**:
 - Check file permissions
 - Verify TypeScript syntax is valid
@@ -211,7 +232,24 @@ If you encounter issues:
 - [ ] Login at `http://localhost:3000/admin`
 - [ ] Change default password
 - [ ] Test editing content files
+- [ ] **Try the preview feature** ✨
 - [ ] Verify backups are created
 - [ ] Configure production environment variables for deployment
 
-Your secure content management system is now ready to use! 🎉
+## ✨ Preview Feature
+
+The new **live preview system** allows you to:
+
+1. **Safe Testing**: See exactly how your changes will look before publishing
+2. **Real Layout**: Preview shows the actual website design and styling
+3. **No Risk**: Preview doesn't affect your live website
+4. **Easy Workflow**: Edit → Preview → Refine → Save
+
+**How it works:**
+- Click "Preview" in the content editor
+- Your changes are temporarily processed and displayed
+- Preview opens in a new tab with a clear "Preview Mode" header
+- Make adjustments and preview again as needed
+- Only save when you're completely satisfied
+
+Your secure content management system is now ready to use with safe preview capabilities! 🎉
