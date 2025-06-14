@@ -5,7 +5,7 @@ import { requireAuth } from '@/lib/auth-middleware';
 const previewStore = new Map<string, any>();
 
 export async function POST(request: NextRequest) {
-  // Check authentication
+  // Check authentication for creating previews
   const authError = await requireAuth(request);
   if (authError) return authError;
 
@@ -67,6 +67,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  // No authentication required for GET - preview page needs to access this
   const { searchParams } = new URL(request.url);
   const previewId = searchParams.get('id');
 

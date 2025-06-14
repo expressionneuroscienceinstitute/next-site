@@ -42,10 +42,16 @@ export default function PreviewPage() {
       if (response.ok) {
         setPreviewData(data);
       } else {
-        setError(data.error || 'Failed to load preview');
+        if (response.status === 404) {
+          setError('Preview not found or has expired (previews last 30 minutes)');
+        } else if (response.status === 410) {
+          setError('Preview has expired. Please create a new preview.');
+        } else {
+          setError(data.error || 'Failed to load preview');
+        }
       }
     } catch (error) {
-      setError('Network error loading preview');
+      setError('Network error loading preview. Please check your connection.');
     } finally {
       setIsLoading(false);
     }
@@ -63,47 +69,88 @@ export default function PreviewPage() {
   };
 
   const renderPreviewContent = (configId: string, content: any) => {
+    // Safety check for content
+    if (!content || typeof content !== 'object') {
+      return (
+        <div className="max-w-4xl mx-auto py-8 px-4">
+          <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <p className="text-yellow-800">
+              Preview content is invalid or empty. Please check your configuration syntax.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
     switch (configId) {
       case 'about':
         return (
           <div className="max-w-4xl mx-auto py-8 px-4">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">{content.pageTitle}</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-8">
+              {content.pageTitle || 'About Page'}
+            </h1>
             
             {/* Mission Section */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">{content.mission.title}</h2>
-              <p className="text-lg text-gray-700 leading-relaxed">{content.mission.text}</p>
-            </section>
+            {content.mission && (
+              <section className="mb-12">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                  {content.mission.title || 'Mission'}
+                </h2>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  {content.mission.text || 'Mission text not available'}
+                </p>
+              </section>
+            )}
 
             {/* Board Members */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-8">{content.board.title}</h2>
-              <div className="grid gap-8 md:grid-cols-2">
-                {content.board.members.map((member: any, index: number) => (
-                  <div key={index} className="bg-white p-6 rounded-lg shadow-sm border">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h3>
-                    <p className="text-blue-600 font-medium mb-4">{member.role}</p>
-                    <p className="text-gray-700 leading-relaxed">{member.bio}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {content.board && content.board.members && (
+              <section className="mb-12">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-8">
+                  {content.board.title || 'Board Members'}
+                </h2>
+                <div className="grid gap-8 md:grid-cols-2">
+                  {content.board.members.map((member: any, index: number) => (
+                    <div key={index} className="bg-white p-6 rounded-lg shadow-sm border">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                        {member.name || 'Name not available'}
+                      </h3>
+                      <p className="text-blue-600 font-medium mb-4">
+                        {member.role || 'Role not specified'}
+                      </p>
+                      <p className="text-gray-700 leading-relaxed">
+                        {member.bio || 'Bio not available'}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Future Section */}
-            <section>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">{content.future.title}</h2>
-              <p className="text-lg text-gray-700 leading-relaxed">{content.future.text}</p>
-            </section>
+            {content.future && (
+              <section>
+                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                  {content.future.title || 'Future'}
+                </h2>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  {content.future.text || 'Future text not available'}
+                </p>
+              </section>
+            )}
           </div>
         );
 
       case 'donate':
         return (
           <div className="max-w-2xl mx-auto py-8 px-4 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">{content.pageTitle}</h1>
-            <p className="text-lg text-gray-700 leading-relaxed mb-8">{content.paragraph}</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-8">
+              {content.pageTitle || 'Donate'}
+            </h1>
+            <p className="text-lg text-gray-700 leading-relaxed mb-8">
+              {content.paragraph || 'Donation message not available'}
+            </p>
             <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-              {content.buttonText}
+              {content.buttonText || 'Donate'}
             </button>
             {content.note && (
               <p className="text-sm text-gray-500 mt-4">{content.note}</p>
@@ -114,72 +161,106 @@ export default function PreviewPage() {
       case 'research':
         return (
           <div className="max-w-4xl mx-auto py-8 px-4">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">{content.pageTitle}</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-8">
+              {content.pageTitle || 'Research'}
+            </h1>
             
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">{content.datasets.title}</h2>
-              <p className="text-gray-600">{content.datasets.emptyMessage}</p>
-            </section>
+            {content.datasets && (
+              <section className="mb-12">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                  {content.datasets.title || 'Datasets'}
+                </h2>
+                <p className="text-gray-600">
+                  {content.datasets.emptyMessage || 'No datasets available'}
+                </p>
+              </section>
+            )}
 
-            <section>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">{content.publications.title}</h2>
-              <p className="text-gray-600">{content.publications.emptyMessage}</p>
-            </section>
+            {content.publications && (
+              <section>
+                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                  {content.publications.title || 'Publications'}
+                </h2>
+                <p className="text-gray-600">
+                  {content.publications.emptyMessage || 'No publications available'}
+                </p>
+              </section>
+            )}
           </div>
         );
 
       case 'roadmap':
         return (
           <div className="max-w-6xl mx-auto py-8 px-4">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">{content.pageTitle}</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-8">
+              {content.pageTitle || 'Roadmap'}
+            </h1>
             
             {/* Programs */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Programs</h2>
-              <div className="grid gap-4 md:grid-cols-3">
-                {content.programs.map((program: any) => (
-                  <div key={program.id} className="bg-white p-6 rounded-lg border shadow-sm">
-                    <h3 className="font-semibold text-lg mb-2">{program.name}</h3>
-                    <p className="text-gray-600 text-sm">{program.description}</p>
-                    {program.comingSoon && (
-                      <span className="inline-block mt-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
-                        Coming Soon
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
+            {content.programs && Array.isArray(content.programs) && (
+              <section className="mb-12">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6">Programs</h2>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {content.programs.map((program: any, index: number) => (
+                    <div key={program.id || index} className="bg-white p-6 rounded-lg border shadow-sm">
+                      <h3 className="font-semibold text-lg mb-2">
+                        {program.name || 'Program Name'}
+                      </h3>
+                      <p className="text-gray-600 text-sm">
+                        {program.description || 'Program description not available'}
+                      </p>
+                      {program.comingSoon && (
+                        <span className="inline-block mt-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
+                          Coming Soon
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Company Timeline */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">{content.company.title}</h2>
-              <p className="text-gray-700 mb-6">{content.company.description}</p>
-              
-              <div className="space-y-4">
-                {content.company.timeline.milestones.map((milestone: any) => (
-                  <div key={milestone.id} className="flex items-start space-x-4 p-4 bg-white rounded-lg border">
-                    <div className={`w-3 h-3 rounded-full mt-1 ${
-                      milestone.status === 'completed' ? 'bg-green-500' :
-                      milestone.status === 'in-progress' ? 'bg-blue-500' : 'bg-gray-300'
-                    }`}></div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold">{milestone.title}</h3>
-                        <span className="text-sm text-gray-500">{milestone.date}</span>
+            {content.company && content.company.timeline && content.company.timeline.milestones && (
+              <section className="mb-12">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                  {content.company.title || 'Timeline'}
+                </h2>
+                {content.company.description && (
+                  <p className="text-gray-700 mb-6">{content.company.description}</p>
+                )}
+                
+                <div className="space-y-4">
+                  {content.company.timeline.milestones.map((milestone: any, index: number) => (
+                    <div key={milestone.id || index} className="flex items-start space-x-4 p-4 bg-white rounded-lg border">
+                      <div className={`w-3 h-3 rounded-full mt-1 ${
+                        milestone.status === 'completed' ? 'bg-green-500' :
+                        milestone.status === 'in-progress' ? 'bg-blue-500' : 'bg-gray-300'
+                      }`}></div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-semibold">
+                            {milestone.title || 'Milestone'}
+                          </h3>
+                          <span className="text-sm text-gray-500">
+                            {milestone.date || 'Date TBD'}
+                          </span>
+                        </div>
+                        <p className="text-gray-700 text-sm">
+                          {milestone.description || 'Description not available'}
+                        </p>
+                        <span className={`inline-block mt-2 px-2 py-1 text-xs rounded ${
+                          milestone.status === 'completed' ? 'bg-green-100 text-green-800' :
+                          milestone.status === 'in-progress' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {milestone.status ? milestone.status.replace('-', ' ').toUpperCase() : 'UNKNOWN'}
+                        </span>
                       </div>
-                      <p className="text-gray-700 text-sm">{milestone.description}</p>
-                      <span className={`inline-block mt-2 px-2 py-1 text-xs rounded ${
-                        milestone.status === 'completed' ? 'bg-green-100 text-green-800' :
-                        milestone.status === 'in-progress' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
-                      }`}>
-                        {milestone.status.replace('-', ' ').toUpperCase()}
-                      </span>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
         );
 
@@ -187,17 +268,25 @@ export default function PreviewPage() {
         return (
           <div className="max-w-4xl mx-auto py-8 px-4">
             <h1 className="text-4xl font-bold text-gray-900 mb-8">Document Links Preview</h1>
-            <div className="grid gap-4 md:grid-cols-2">
-              {content.documentLinks.map((link: any, index: number) => (
-                <div key={index} className="bg-white p-4 rounded-lg border shadow-sm">
-                  <h3 className="font-semibold mb-2">{link.text}</h3>
-                  <p className="text-sm text-gray-600">
-                    {link.isInternal ? 'Internal Link' : 'External Document'}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">{link.href}</p>
-                </div>
-              ))}
-            </div>
+            {content.documentLinks && Array.isArray(content.documentLinks) ? (
+              <div className="grid gap-4 md:grid-cols-2">
+                {content.documentLinks.map((link: any, index: number) => (
+                  <div key={index} className="bg-white p-4 rounded-lg border shadow-sm">
+                    <h3 className="font-semibold mb-2">
+                      {link.text || 'Document Link'}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {link.isInternal ? 'Internal Link' : 'External Document'}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {link.href || 'No URL specified'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600">No document links available</p>
+            )}
           </div>
         );
 
@@ -205,9 +294,11 @@ export default function PreviewPage() {
         return (
           <div className="max-w-4xl mx-auto py-8 px-4">
             <h1 className="text-4xl font-bold text-gray-900 mb-8">Content Preview</h1>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-auto">
-              {JSON.stringify(content, null, 2)}
-            </pre>
+            <div className="bg-gray-100 p-4 rounded-lg">
+              <pre className="text-sm overflow-auto">
+                {JSON.stringify(content, null, 2)}
+              </pre>
+            </div>
           </div>
         );
     }
@@ -216,7 +307,10 @@ export default function PreviewPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading preview...</p>
+        </div>
       </div>
     );
   }
@@ -230,13 +324,25 @@ export default function PreviewPage() {
             <h1 className="text-xl font-semibold text-gray-900">Preview Error</h1>
           </div>
           <p className="text-gray-700 mb-4">{error}</p>
-          <Link 
-            href="/admin"
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Admin
-          </Link>
+          <div className="flex space-x-3">
+            <button
+              onClick={() => {
+                setError('');
+                setIsLoading(true);
+                loadPreviewData();
+              }}
+              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Try Again
+            </button>
+            <Link 
+              href="/admin"
+              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Admin
+            </Link>
+          </div>
         </div>
       </div>
     );
