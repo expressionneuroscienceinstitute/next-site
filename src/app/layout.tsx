@@ -5,7 +5,12 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
   title: "Expression Neuroscience Institute",
