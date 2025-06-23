@@ -10,13 +10,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setMounted(true)
   }, [])
 
-  // Prevent hydration mismatch by not rendering theme-dependent content until mounted
+  // Prevent hydration mismatch by not rendering anything until mounted.
+  // Leaving the DOM untouched during SSR/first paint eliminates the flash
+  // where the light-theme markup is replaced by the dark-theme markup (or vice-versa)
+  // which was causing a perceptible "hitch" for some users.
   if (!mounted) {
-    return (
-      <div className="min-h-screen bg-white">
-        {children}
-      </div>
-    )
+    return null;
   }
 
   return (
