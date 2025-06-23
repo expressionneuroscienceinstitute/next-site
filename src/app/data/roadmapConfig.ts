@@ -26,14 +26,14 @@ export const roadmapConfig = {
           date: "April 16, 2025",
           title: "501(c)(3) Application",
           description: "Submission of the 1023-EZ 501(c)(3) application to be recognized as a public-benefit research organization by the IRS.",
-          status: "in-progress"
+          status: "completed"
         },
         {
           id: "website-launch-may62025",
           date: "May 6, 2025",
           title: "Website Launch",
           description: "Launch of the ENI website to provide a platform for our research and initiatives.",
-          status: "in-progress"
+          status: "completed"
         },
         {
           id: "board-meeting-a262025",
@@ -47,21 +47,21 @@ export const roadmapConfig = {
           date: "2025-Q2",
           title: "FTB Form 3500 Submission",
           description: "File the FTB Form 3500, Exemption Application, with the Franchise Tax Board (FTB) to be recognized as a public-benefit research organization.",
-          status: "planned"
+          status: "in-progress"
         },
         {
           id: "form-ct1-submission-2025q2",
           date: "2025-Q2",
           title: "Form CT1 Submission",
           description: "Submit the Form CT1, Initial Registration Form to the Office of the Attorney General",
-          status: "planned"
+          status: "in-progress"
         },
         {
           id:"accept-donations-2025q2",
           date: "2025-Q2",
           title: "Accept Donations",
           description: "Start accepting donations from the public to support our research programs. Fixing the website to accept donations.",
-          status: "planned"
+          status: "completed"
         }
       ]
     }

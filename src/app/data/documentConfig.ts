@@ -21,6 +21,10 @@ export const footerConfig = {
             href: "https://raw.githubusercontent.com/expressionneuroscienceinstitute/next-site/refs/heads/documents/ENI%20Meeting%20Mintutes%204_26_25_signed.pdf"
         },
         {
+            text: "IRS Determination Letter",
+            href: "https://raw.githubusercontent.com/expressionneuroscienceinstitute/next-site/refs/heads/documents/TAX_EXEMPT_DETERMINATION-flattened-redacted.pdf"
+        },
+        {
             text: "Terms of Service",
             href: "/governance/terms-of-service",
             isInternal: true

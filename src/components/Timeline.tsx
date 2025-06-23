@@ -55,27 +55,8 @@ export default function Timeline({ milestones }: TimelineProps) {
   
   /* Theme Detection and Monitoring */
   useEffect(() => {
-    const checkDocumentDarkMode = () => {
-      const isDarkMode = 
-        document.documentElement.classList.contains('dark') || 
-        document.body.classList.contains('dark') ||
-        document.querySelector('html')?.getAttribute('data-theme') === 'dark';
-      
-      console.log("Document is in dark mode:", isDarkMode);
-      setTheme(isDarkMode ? 'dark' : 'light');
-    };
-
-    if (typeof window !== 'undefined') {
-      checkDocumentDarkMode();
-      
-      const observer = new MutationObserver(checkDocumentDarkMode);
-      observer.observe(document.documentElement, { 
-        attributes: true,
-        attributeFilter: ['class', 'data-theme']
-      });
-      
-      return () => observer.disconnect();
-    }
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    setTheme(isDarkMode ? 'dark' : 'light');
   }, []);
   
   /* Dynamic Gradient Generation */
