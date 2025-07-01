@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://expression-neuroscience.org'
+  const baseUrl = 'https://www.expression.ngo'
   
   // Core pages
   const routes = [

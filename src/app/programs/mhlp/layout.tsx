@@ -6,14 +6,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Mental Health Labeling Platform | Expression Neuroscience Institute',
     description: 'Data analysis tools for mental health research and pattern recognition. Coming soon from Expression Neuroscience Institute.',
-    url: 'https://expression-neuroscience.org/programs/mhlp',
+    url: 'https://www.expression.ngo/programs/mhlp',
   },
   twitter: {
     title: 'Mental Health Labeling Platform | Expression Neuroscience Institute',
     description: 'Data analysis tools for mental health research and pattern recognition. Coming soon from Expression Neuroscience Institute.',
   },
   alternates: {
-    canonical: 'https://expression-neuroscience.org/programs/mhlp',
+    canonical: 'https://www.expression.ngo/programs/mhlp',
   },
   keywords: [
     'mental health',

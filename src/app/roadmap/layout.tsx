@@ -6,14 +6,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Roadmap | Expression Neuroscience Institute',
     description: 'Explore our development roadmap and timeline for neuroscience research programs.',
-    url: 'https://expression-neuroscience.org/roadmap',
+    url: 'https://www.expression.ngo/roadmap',
   },
   twitter: {
     title: 'Roadmap | Expression Neuroscience Institute', 
     description: 'Explore our development roadmap and timeline for neuroscience research programs.',
   },
   alternates: {
-    canonical: 'https://expression-neuroscience.org/roadmap',
+    canonical: 'https://www.expression.ngo/roadmap',
   },
   keywords: [
     'roadmap',

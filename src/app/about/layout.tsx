@@ -6,14 +6,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Us | Expression Neuroscience Institute',
     description: 'Learn about our mission, board members, and vision for advancing neuroscience through innovative, accessible research.',
-    url: 'https://expression-neuroscience.org/about',
+    url: 'https://www.expression.ngo/about',
   },
   twitter: {
     title: 'About Us | Expression Neuroscience Institute',
     description: 'Learn about our mission, board members, and vision for advancing neuroscience through innovative, accessible research.',
   },
   alternates: {
-    canonical: 'https://expression-neuroscience.org/about',
+    canonical: 'https://www.expression.ngo/about',
   },
 }
 

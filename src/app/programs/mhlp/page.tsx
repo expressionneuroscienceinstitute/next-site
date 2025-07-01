@@ -72,7 +72,7 @@ export default function MHLPProgram() {
           
           <div className="flex justify-center">
             <a 
-              href="mailto:mhlp@expression-neuroscience.org" 
+              href="mailto:mhlp@expression.ngo" 
               className="inline-block px-8 py-3 rounded-lg font-semibold bg-accent-light dark:bg-accent-dark text-background-light dark:text-background-dark hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark"
               aria-label="Contact the Mental Health Labeling Platform team via email"
             >

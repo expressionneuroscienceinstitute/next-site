@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://expression-neuroscience.org",
+    url: "https://www.expression.ngo",
     siteName: "Expression Neuroscience Institute",
     title: "Expression Neuroscience Institute",
     description: "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science and mental health research.",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     google: process.env.GOOGLE_VERIFICATION_CODE,
   },
   alternates: {
-    canonical: "https://expression-neuroscience.org",
+    canonical: "https://www.expression.ngo",
   },
   category: "Science & Technology",
 };
@@ -101,8 +101,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "NonprofitOrganization",
               "name": "Expression Neuroscience Institute",
-              "url": "https://expression-neuroscience.org",
-              "logo": "https://expression-neuroscience.org/logos/ENI_logo_pink_vector.svg",
+              "url": "https://www.expression.ngo",
+              "logo": "https://www.expression.ngo/logos/ENI_logo_pink_vector.svg",
               "description": "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science and mental health research.",
               "foundingDate": "2024",
               "address": {
