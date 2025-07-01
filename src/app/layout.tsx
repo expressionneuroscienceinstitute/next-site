@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react"
+import SkipToContent from '@/components/SkipToContent'
+import BackToTop from '@/components/BackToTop'
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -12,8 +14,67 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Expression Neuroscience Institute",
-  description: "Advancing neuroscience through innovative, accessible research.",
+  title: {
+    default: "Expression Neuroscience Institute",
+    template: "%s | Expression Neuroscience Institute",
+  },
+  description: "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science, mental health research, and making neuroscience more accessible to everyone.",
+  keywords: [
+    "neuroscience",
+    "mental health",
+    "research",
+    "nonprofit",
+    "open science",
+    "brain research",
+    "psychology",
+    "accessibility",
+    "innovation"
+  ],
+  authors: [{ name: "Expression Neuroscience Institute" }],
+  creator: "Expression Neuroscience Institute",
+  publisher: "Expression Neuroscience Institute",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://www.expression.ngo",
+    siteName: "Expression Neuroscience Institute",
+    title: "Expression Neuroscience Institute",
+    description: "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science and mental health research.",
+    images: [
+      {
+        url: "/logos/ENI_logo_pink_vector.svg",
+        width: 1200,
+        height: 630,
+        alt: "Expression Neuroscience Institute Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Expression Neuroscience Institute",
+    description: "Advancing neuroscience through innovative, accessible research.",
+    images: ["/logos/ENI_logo_pink_vector.svg"],
+    creator: "@ExpressionNeuroscience",
+    site: "@ExpressionNeuroscience",
+  },
+  verification: {
+    google: process.env.GOOGLE_VERIFICATION_CODE,
+  },
+  alternates: {
+    canonical: "https://www.expression.ngo",
+  },
+  category: "Science & Technology",
 };
 
 export default function RootLayout({
@@ -26,11 +87,49 @@ export default function RootLayout({
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/logos/ENI_logo_pink_vector.svg" as="image" type="image/svg+xml" />
+        
+        {/* Additional SEO meta tags */}
+        <meta name="theme-color" content="#4F46E5" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        
+        {/* Structured Data - Organization Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "NonprofitOrganization",
+              "name": "Expression Neuroscience Institute",
+              "url": "https://www.expression.ngo",
+              "logo": "https://www.expression.ngo/logos/ENI_logo_pink_vector.svg",
+              "description": "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science and mental health research.",
+              "foundingDate": "04/14/2025",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "US"
+              },
+              "sameAs": [
+                "https://github.com/expressionneuroscienceinstitute"
+              ],
+              "areaServed": "Worldwide",
+              "knowsAbout": [
+                "Neuroscience",
+                "Mental Health",
+                "Research",
+                "Open Science",
+                "Brain Research"
+              ]
+            })
+          }}
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning>
+        <SkipToContent />
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        <BackToTop />
         {/* Load third-party scripts after user interaction to improve initial load */}
         <Script 
           id="donorbox-popup-button-installer" 
