@@ -104,7 +104,7 @@ export default function RootLayout({
               "url": "https://www.expression.ngo",
               "logo": "https://www.expression.ngo/logos/ENI_logo_pink_vector.svg",
               "description": "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science and mental health research.",
-              "foundingDate": "2024",
+              "foundingDate": "04/14/2025",
               "address": {
                 "@type": "PostalAddress",
                 "addressCountry": "US"
