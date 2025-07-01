@@ -1,7 +1,13 @@
 import { MetadataRoute } from 'next'
 
+// Force static generation for compatibility with static export
+export const dynamic = 'force-static'
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.expression.ngo'
+  
+  // Static date for build time to ensure compatibility with static export
+  const buildDate = new Date('2024-01-01T00:00:00.000Z')
   
   // Core pages
   const routes = [
@@ -23,8 +29,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: route === '' ? 'weekly' : 'monthly',
+    lastModified: buildDate,
+    changeFrequency: route === '' ? 'weekly' : 'monthly' as const,
     priority: route === '' ? 1.0 : route.includes('governance') ? 0.6 : 0.8,
   }))
 }
