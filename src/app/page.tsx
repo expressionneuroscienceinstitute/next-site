@@ -6,7 +6,9 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <Hero />
+      <main id="main-content" tabIndex={-1}>
+        <Hero />
+      </main>
       <Footer />
     </div>
   )

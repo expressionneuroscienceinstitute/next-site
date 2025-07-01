@@ -106,39 +106,44 @@ export default function RoadmapPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+      <main id="main-content" className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full" tabIndex={-1}>
         {isConfigValid ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-8">
-              {roadmapConfig.pageTitle}
-            </h1>
+            <header className="mb-8">
+              <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-8">
+                {roadmapConfig.pageTitle}
+              </h1>
+            </header>
             
             {/* Program Selector */}
-            <div className="mb-8">
-              <div className="flex flex-wrap gap-3">
+            <nav className="mb-8" aria-label="Program selection">
+              <div className="flex flex-wrap gap-3" role="tablist">
                 {roadmapConfig.programs.map(program => (
                   <button
                     key={program.id}
                     onClick={() => !program.comingSoon && handleProgramChange(program.id)}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`px-4 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark ${
                       selectedProgram === program.id
                         ? 'bg-accent-light dark:bg-accent-dark text-white font-medium'
                         : 'bg-background-light-secondary dark:bg-background-dark-secondary hover:bg-gray-200 dark:hover:bg-gray-700'
                     } ${program.comingSoon ? 'opacity-60 cursor-not-allowed' : ''}`}
                     disabled={program.comingSoon}
+                    role="tab"
+                    aria-selected={selectedProgram === program.id}
+                    aria-label={`${program.name}${program.comingSoon ? ' (Coming Soon)' : ''}`}
                   >
                     {program.name}
                     {program.comingSoon && (
-                      <span className="ml-2 text-xs font-normal">Coming Soon</span>
+                      <span className="ml-2 text-xs font-normal" aria-hidden="true">Coming Soon</span>
                     )}
                   </button>
                 ))}
               </div>
-            </div>
+            </nav>
             
             {/* Current Program Description */}
             <section className="mb-12">
@@ -206,7 +211,7 @@ export default function RoadmapPage() {
         ) : (
           <RoadmapPageSkeleton />
         )}
-      </div>
+      </main>
       <Footer />
     </div>
   )

@@ -18,7 +18,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" tabIndex={-1}>
         {aboutConfig?.pageTitle ? (
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
@@ -68,7 +68,7 @@ export default function AboutPage() {
                   <Image 
                     className="rounded-xl mb-4 flex-shrink-0" 
                     src={member.image} 
-                    alt={member.name}
+                    alt={`${member.name} - ${member.role} at Expression Neuroscience Institute`}
                     width={192}
                     height={192}
                   />
@@ -102,7 +102,7 @@ export default function AboutPage() {
         ) : (
           <FutureSkeleton />
         )}
-      </div>
+      </main>
       <Footer />
     </div>
   )

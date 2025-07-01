@@ -70,7 +70,7 @@ export default function Timeline({ milestones }: TimelineProps) {
     
 
   return (
-    <div className="max-w-2xl mx-auto relative py-8">
+    <section className="max-w-2xl mx-auto relative py-8" aria-label="Project timeline">
       {/* Central timeline line with dynamic gradient */}
       <div 
         className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 opacity-70 z-10"
@@ -78,6 +78,7 @@ export default function Timeline({ milestones }: TimelineProps) {
           background: gradientStyle,
           transform: 'translateX(5px)' // Fine-tune the line position otherwise it is off center and will not look good with line terminator
         }} 
+        aria-hidden="true"
       />
       
       {/* Timeline Terminator */}
@@ -200,18 +201,19 @@ export default function Timeline({ milestones }: TimelineProps) {
                   
                   {/* Card Links */}
                   {milestone.links && milestone.links.length > 0 && (
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3" role="list">
                       {milestone.links.map((link) => (
                         <a
                           key={link.url}
                           href={link.url}
-                          className="inline-flex items-center text-xs font-medium hover:underline transition-transform hover:translate-x-1"
+                          className="inline-flex items-center text-xs font-medium hover:underline transition-transform hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
                           style={{ color: colorSet.text[theme] }}
                           target="_blank"
                           rel="noopener noreferrer"
+                          aria-label={`${link.title} (opens in new tab)`}
                         >
                           {link.title}
-                          <svg className="ml-1 w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                          <svg className="ml-1 w-3 h-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
                           </svg>
                         </a>
@@ -224,6 +226,6 @@ export default function Timeline({ milestones }: TimelineProps) {
           )
         })}
       </div>
-    </div>
+    </section>
   )
 }
