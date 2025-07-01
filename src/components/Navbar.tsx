@@ -20,21 +20,26 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark">
+    <nav className="bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark" role="navigation" aria-label="Main navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-accent-light dark:text-accent-dark">
+              <Link 
+                href="/" 
+                className="text-xl font-bold text-accent-light dark:text-accent-dark focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
+                aria-label="Expression Neuroscience Institute Home"
+              >
                 ENI
               </Link>
             </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8" role="menubar">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark"
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
+                  role="menuitem"
                 >
                   {item.name}
                 </Link>
@@ -50,9 +55,10 @@ export default function Navbar() {
               type="button"
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent-light dark:hover:bg-gray-800 dark:focus:ring-accent-dark"
               aria-controls="mobile-menu"
-              aria-expanded="false"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? 'Close main menu' : 'Open main menu'}
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">{isOpen ? 'Close main menu' : 'Open main menu'}</span>
               {/* Mobile Menu Icon */}
               {!isOpen ? (
                 <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -75,13 +81,14 @@ export default function Navbar() {
 
       {/* Mobile Navigation Menu */}
       <div className={`${isOpen ? 'block' : 'hidden'} sm:hidden`} id="mobile-menu">
-        <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className="px-2 pt-2 pb-3 space-y-1" role="menu">
           {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="block px-3 py-2 rounded-md text-base font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="block px-3 py-2 rounded-md text-base font-medium text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark"
               onClick={toggleMenu}
+              role="menuitem"
             >
               {item.name}
             </Link>
