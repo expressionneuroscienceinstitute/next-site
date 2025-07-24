@@ -83,37 +83,42 @@ export default function Hero() {
                 </motion.h1>
               </motion.div>
               
-              {/* Enhanced Logo with Subtle Breathing Animation */}
+              {/* Enhanced Logo with Subtle Breathing Glow Effect */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: 1, 
-                  scale: accessibilitySettings.breathingEffectsEnabled ? [1, 1.02, 1] : 1,
-                  y: accessibilitySettings.breathingEffectsEnabled ? [0, -2, 0] : 0
+                  opacity: 1,
                 }}
                 transition={{ 
                   opacity: { duration: 0.8, delay: 0.6 },
-                  scale: { 
-                    duration: 4, 
-                    repeat: accessibilitySettings.breathingEffectsEnabled ? Infinity : 0, 
-                    ease: "easeInOut" 
-                  },
-                  y: { 
-                    duration: 4, 
-                    repeat: accessibilitySettings.breathingEffectsEnabled ? Infinity : 0, 
-                    ease: "easeInOut" 
-                  }
                 }}
                 className="hidden lg:block absolute -top-10 right-10 md:right-5 sm:right-0"
               >
-                <Image
-                  src="/logos/ENI_logo_pink_vector.svg"
-                  alt="Expression Neuroscience Institute Logo"
-                  width={350}
-                  height={350}
-                  priority
-                  className="drop-shadow-lg"
-                />
+                <motion.div
+                  animate={accessibilitySettings.breathingEffectsEnabled ? {
+                    filter: [
+                      "drop-shadow(0 0 8px rgba(34, 197, 94, 0.3)) drop-shadow(0 0 16px rgba(34, 197, 94, 0.2))",
+                      "drop-shadow(0 0 16px rgba(34, 197, 94, 0.5)) drop-shadow(0 0 32px rgba(34, 197, 94, 0.3))",
+                      "drop-shadow(0 0 8px rgba(34, 197, 94, 0.3)) drop-shadow(0 0 16px rgba(34, 197, 94, 0.2))"
+                    ]
+                  } : {
+                    filter: "drop-shadow(0 0 8px rgba(34, 197, 94, 0.3)) drop-shadow(0 0 16px rgba(34, 197, 94, 0.2))"
+                  }}
+                  transition={{
+                    duration: accessibilitySettings.breathingEffectsEnabled ? 4 : 0,
+                    repeat: accessibilitySettings.breathingEffectsEnabled ? Infinity : 0,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Image
+                    src="/logos/ENI_logo_pink_vector.svg"
+                    alt="Expression Neuroscience Institute Logo"
+                    width={350}
+                    height={350}
+                    priority
+                    className="drop-shadow-lg"
+                  />
+                </motion.div>
               </motion.div>
             </div>
             
