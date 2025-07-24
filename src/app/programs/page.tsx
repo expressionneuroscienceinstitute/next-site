@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProgramLink from '@/components/ProgramLink'
+import { motion } from 'framer-motion'
 
 const programs = [
   {
@@ -21,20 +22,36 @@ const programs = [
 
 export default function Programs() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="mb-12">
+        <motion.div 
+          className="mb-12 text-center"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1 className="text-4xl font-bold text-text-light dark:text-text-dark">Our Programs</h1>
           <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">
             We build open-source tools and datasets for neuroscience and mental health research.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-12 md:gap-16">
-          {programs.map((program) => (
-            <div key={program.title} className="bg-white/80 dark:bg-background-dark/50 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-secondary/20 dark:border-purple-dark/20">
-              <h2 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4">
+        <div className="grid gap-8 md:gap-12">
+          {programs.map((program, index) => (
+            <motion.div 
+              key={program.title} 
+              className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+              whileHover={{ 
+                scale: 1.02, 
+                y: -5,
+                boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+              }}
+            >
+              <h2 className="text-2xl font-bold text-accent-light dark:text-accent-dark mb-4">
                 {program.title}
                 {program.comingSoon && (
                   <span className="ml-3 text-sm font-normal text-purple-light dark:text-purple-dark px-3 py-1 bg-purple-light/10 dark:bg-purple-dark/10 rounded-full">
@@ -42,7 +59,7 @@ export default function Programs() {
                   </span>
                 )}
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
+              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                 {program.longDescription}
               </p>
               <ProgramLink href={program.href} comingSoon={program.comingSoon}>
@@ -61,7 +78,7 @@ export default function Programs() {
                   />
                 </svg>
               </ProgramLink>
-            </div>
+            </motion.div>
           ))}
         </div>
       </main>

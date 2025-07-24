@@ -104,7 +104,7 @@ export default function RoadmapPage() {
   }
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
       <Navbar />
       <main id="main-content" className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full" tabIndex={-1}>
         {isConfigValid ? (
@@ -113,23 +113,34 @@ export default function RoadmapPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <header className="mb-8">
+            <motion.header 
+              className="mb-8 text-center"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-8">
                 {roadmapConfig.pageTitle}
               </h1>
-            </header>
+            </motion.header>
             
             {/* Program Selector */}
-            <nav className="mb-8" aria-label="Program selection">
-              <div className="flex flex-wrap gap-3" role="tablist">
+            <motion.nav 
+              className="mb-8" 
+              aria-label="Program selection"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <div className="flex flex-wrap gap-3 justify-center" role="tablist">
                 {roadmapConfig.programs.map(program => (
                   <button
                     key={program.id}
                     onClick={() => !program.comingSoon && handleProgramChange(program.id)}
-                    className={`px-4 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark ${
+                    className={`px-6 py-3 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark ${
                       selectedProgram === program.id
-                        ? 'bg-accent-light dark:bg-accent-dark text-white font-medium'
-                        : 'bg-background-light-secondary dark:bg-background-dark-secondary hover:bg-gray-200 dark:hover:bg-gray-700'
+                        ? 'bg-accent-light dark:bg-accent-dark text-white font-medium shadow-lg'
+                        : 'bg-white/90 dark:bg-background-dark/70 backdrop-blur-md border border-secondary/30 dark:border-purple-dark/30 hover:bg-gray-200 dark:hover:bg-gray-700 hover:shadow-lg'
                     } ${program.comingSoon ? 'opacity-60 cursor-not-allowed' : ''}`}
                     disabled={program.comingSoon}
                     role="tab"
@@ -143,25 +154,30 @@ export default function RoadmapPage() {
                   </button>
                 ))}
               </div>
-            </nav>
+            </motion.nav>
             
             {/* Current Program Description */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-6">
+            <motion.section 
+              className="mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
                 {roadmapContent.title}
               </h2>
-              <div className="card bg-background-light-secondary dark:bg-background-dark-secondary border border-border-light dark:border-border-dark rounded-lg p-6">
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30">
+                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                   {roadmapContent.description}
                 </p>
                 {roadmapContent.links && roadmapContent.links.length > 0 && (
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 flex-wrap">
                     {roadmapContent.links.map((link: Link) => (
                       <Link 
                         key={link.href} 
                         href={link.href}
                         target="_blank"
-                        className="text-link-light dark:text-link-dark hover:underline font-medium"
+                        className="text-accent-light dark:text-accent-dark hover:underline font-medium hover:scale-105 transition-transform duration-200"
                       >
                         {link.text}
                       </Link>
@@ -169,43 +185,68 @@ export default function RoadmapPage() {
                   </div>
                 )}
               </div>
-            </section>
+            </motion.section>
 
             {/* Timeline Section */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-6">
+            <motion.section 
+              className="mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
                 {roadmapContent.timeline.title}
               </h2>
               {roadmapContent.timeline.milestones && roadmapContent.timeline.milestones.length > 0 ? (
-                <Timeline milestones={roadmapContent.timeline.milestones.map(milestone => ({
-                  ...milestone,
-                  status: milestone.status as "completed" | "in-progress" | "planned"
-                }))} />
+                <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30">
+                  <Timeline milestones={roadmapContent.timeline.milestones.map(milestone => ({
+                    ...milestone,
+                    status: milestone.status as "completed" | "in-progress" | "planned"
+                  }))} />
+                </div>
               ) : (
-                <p className="text-gray-500 dark:text-gray-400">Timeline details coming soon.</p> 
+                <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 text-center">
+                  <p className="text-gray-500 dark:text-gray-400">Timeline details coming soon.</p> 
+                </div>
               )}
-            </section>
+            </motion.section>
 
             {/* Future Research Section - only render if futureResearch exists and has cards */}
             {roadmapContent.futureResearch && roadmapContent.futureResearch.cards && 
              roadmapContent.futureResearch.cards.length > 0 && (
-              <section className="mt-12">
-                <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-6">
+              <motion.section 
+                className="mt-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
                   {roadmapContent.futureResearch.title}
                 </h2>
                 <div className="grid gap-6 md:grid-cols-2">
                   {roadmapContent.futureResearch.cards.map((card, index) => (
-                    <div key={index} className="card bg-background-light-secondary dark:bg-background-dark-secondary border border-border-light dark:border-border-dark rounded-lg p-6">
+                    <motion.div 
+                      key={index} 
+                      className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                      whileHover={{ 
+                        scale: 1.02, 
+                        y: -5,
+                        boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+                      }}
+                    >
                       <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-2">
                         {card.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300">
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                         {card.text}
                       </p>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </section>
+              </motion.section>
             )}
           </motion.div>
         ) : (
