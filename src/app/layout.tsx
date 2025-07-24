@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react"
 import SkipToContent from '@/components/SkipToContent'
 import BackToTop from '@/components/BackToTop'
+import GlobalAccessibilityControls from '@/components/GlobalAccessibilityControls'
 
 export const metadata: Metadata = {
   title: {
@@ -78,9 +80,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preload critical resources */}
-        <link rel="preload" href="/logos/ENI_logo_pink_vector.svg" as="image" type="image/svg+xml" />
-        
         {/* Load fonts from Google Fonts with fallback optimization */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -136,7 +135,10 @@ export default function RootLayout({
       <body className="font-sans" suppressHydrationWarning>
         <SkipToContent />
         <ThemeProvider>
-          {children}
+          <AccessibilityProvider>
+            {children}
+            <GlobalAccessibilityControls />
+          </AccessibilityProvider>
         </ThemeProvider>
         <BackToTop />
         {/* Load third-party scripts after user interaction to improve initial load */}

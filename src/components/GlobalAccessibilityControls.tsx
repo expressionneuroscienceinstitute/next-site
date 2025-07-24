@@ -1,88 +1,35 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useAccessibility } from './AccessibilityProvider'
 
-interface AccessibilitySettings {
-  particlesEnabled: boolean
-  neuronBackgroundEnabled: boolean
-  allMotionEnabled: boolean
-  breathingEffectsEnabled: boolean
-}
-
-interface AccessibilityControlsProps {
-  onSettingsChange: (settings: AccessibilitySettings) => void
-}
-
-const defaultSettings: AccessibilitySettings = {
-  particlesEnabled: true,
-  neuronBackgroundEnabled: true,
-  allMotionEnabled: true,
-  breathingEffectsEnabled: true,
-}
-
-export default function AccessibilityControls({ onSettingsChange }: AccessibilityControlsProps) {
+export default function GlobalAccessibilityControls() {
   const [isOpen, setIsOpen] = useState(false)
-  const [settings, setSettings] = useState<AccessibilitySettings>(defaultSettings)
-  const [mounted, setMounted] = useState(false)
-
-  // Load settings from localStorage on mount
-  useEffect(() => {
-    setMounted(true)
-    if (typeof window !== 'undefined') {
-      const savedSettings = localStorage.getItem('accessibility-settings')
-      if (savedSettings) {
-        try {
-          const parsed = JSON.parse(savedSettings)
-          setSettings(parsed)
-        } catch (error) {
-          console.warn('Failed to parse accessibility settings:', error)
-        }
-      }
-    }
-  }, [])
-
-  // Notify parent of settings changes and save to localStorage
-  useEffect(() => {
-    if (mounted && typeof window !== 'undefined') {
-      localStorage.setItem('accessibility-settings', JSON.stringify(settings))
-      onSettingsChange(settings)
-    }
-  }, [settings, mounted, onSettingsChange])
-
-  const updateSetting = (key: keyof AccessibilitySettings, value: boolean) => {
-    setSettings(prev => ({
-      ...prev,
-      [key]: value
-    }))
-  }
+  const { settings, updateSetting, resetSettings } = useAccessibility()
 
   const toggles = [
     {
-      key: 'particlesEnabled' as keyof AccessibilitySettings,
+      key: 'particlesEnabled' as keyof typeof settings,
       label: 'Floating Particles',
       description: 'Animated background particles'
     },
     {
-      key: 'neuronBackgroundEnabled' as keyof AccessibilitySettings,
+      key: 'neuronBackgroundEnabled' as keyof typeof settings,
       label: 'Neural Network',
       description: 'Interactive neuron firing background'
     },
     {
-      key: 'breathingEffectsEnabled' as keyof AccessibilitySettings,
+      key: 'breathingEffectsEnabled' as keyof typeof settings,
       label: 'Breathing Effects',
       description: 'Subtle breathing animations'
     },
     {
-      key: 'allMotionEnabled' as keyof AccessibilitySettings,
+      key: 'allMotionEnabled' as keyof typeof settings,
       label: 'All Motion',
       description: 'All animations and transitions'
     },
   ]
-
-  if (!mounted) {
-    return null
-  }
 
   return (
     <div className="fixed bottom-4 left-4 z-50">
@@ -163,9 +110,7 @@ export default function AccessibilityControls({ onSettingsChange }: Accessibilit
 
             <div className="mt-4 pt-3 border-t border-border-light dark:border-border-dark">
               <motion.button
-                onClick={() => {
-                  setSettings(defaultSettings)
-                }}
+                onClick={resetSettings}
                 className="text-sm text-accent-light dark:text-accent-dark hover:underline"
                 whileHover={settings.allMotionEnabled ? { scale: 1.02 } : {}}
               >
@@ -178,5 +123,3 @@ export default function AccessibilityControls({ onSettingsChange }: Accessibilit
     </div>
   )
 }
-
-export type { AccessibilitySettings }
