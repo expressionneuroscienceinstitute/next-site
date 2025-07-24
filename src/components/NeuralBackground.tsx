@@ -12,7 +12,11 @@ interface Neuron {
   activationTime: number
 }
 
-export default function NeuralBackground() {
+interface NeuralBackgroundProps {
+  disabled?: boolean
+}
+
+export default function NeuralBackground({ disabled = false }: NeuralBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -38,13 +42,18 @@ export default function NeuralBackground() {
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return
 
-    const neuronCount = 12
+    const neuronCount = Math.floor((dimensions.width * dimensions.height) / 15000) // Scale with screen size
+    const minNeurons = 20
+    const maxNeurons = 60
+    const finalNeuronCount = Math.max(minNeurons, Math.min(maxNeurons, neuronCount))
+    
     const newNeurons: Neuron[] = []
+    const margin = 100 // Keep some margin from edges
 
-    // Create neurons in a grid-like pattern with some randomness
-    for (let i = 0; i < neuronCount; i++) {
-      const x = (dimensions.width / (neuronCount / 3)) * (i % 4) + Math.random() * 100
-      const y = (dimensions.height / 4) * Math.floor(i / 4) + Math.random() * 100
+    // Create neurons distributed across the entire screen
+    for (let i = 0; i < finalNeuronCount; i++) {
+      const x = margin + Math.random() * (dimensions.width - 2 * margin)
+      const y = margin + Math.random() * (dimensions.height - 2 * margin)
       
       newNeurons.push({
         id: i,
@@ -65,8 +74,8 @@ export default function NeuralBackground() {
             Math.pow(neuron.y - otherNeuron.y, 2)
           )
           
-          // Connect neurons within a certain distance
-          if (distance < 300 && neuron.connections.length < 3) {
+          // Connect neurons within a larger distance and allow more connections
+          if (distance < 250 && neuron.connections.length < 4) {
             neuron.connections.push(otherIndex)
           }
         }
@@ -78,6 +87,8 @@ export default function NeuralBackground() {
 
   // Mouse tracking and neuron activation
   useEffect(() => {
+    if (disabled) return
+    
     const handleMouseMove = (e: MouseEvent) => {
       const newMousePos = { x: e.clientX, y: e.clientY }
       setMousePosition(newMousePos)
@@ -90,7 +101,7 @@ export default function NeuralBackground() {
             Math.pow(neuron.y - newMousePos.y, 2)
           )
 
-          if (distance < 150) {
+          if (distance < 120) { // Slightly smaller activation distance
             return {
               ...neuron,
               isActive: true,
@@ -98,8 +109,8 @@ export default function NeuralBackground() {
             }
           }
 
-          // Deactivate after 2 seconds
-          if (neuron.isActive && Date.now() - neuron.activationTime > 2000) {
+          // Deactivate after 400ms for quicker firing
+          if (neuron.isActive && Date.now() - neuron.activationTime > 400) {
             return {
               ...neuron,
               isActive: false,
@@ -116,7 +127,7 @@ export default function NeuralBackground() {
       window.addEventListener('mousemove', handleMouseMove)
       return () => window.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [])
+  }, [disabled])
 
   // Animation loop
   useEffect(() => {
@@ -149,17 +160,17 @@ export default function NeuralBackground() {
             ctx.lineTo(connectedNeuron.x, connectedNeuron.y)
             ctx.stroke()
 
-            // Add pulsing effect along connections when active
+            // Add faster pulsing effect along connections when active
             if (isGlowing) {
-              const time = Date.now() * 0.005
+              const time = Date.now() * 0.01 // Faster pulsing
               const pulse = Math.sin(time) * 0.5 + 0.5
               
-              ctx.fillStyle = `rgba(76, 175, 80, ${pulse * 0.4})`
+              ctx.fillStyle = `rgba(76, 175, 80, ${pulse * 0.6})`
               ctx.beginPath()
               ctx.arc(
                 neuron.x + (connectedNeuron.x - neuron.x) * pulse,
                 neuron.y + (connectedNeuron.y - neuron.y) * pulse,
-                3,
+                4, // Slightly larger pulse dots
                 0,
                 Math.PI * 2
               )
@@ -201,7 +212,7 @@ export default function NeuralBackground() {
     }
   }, [dimensions, neurons, mousePosition])
 
-  if (dimensions.width === 0 || dimensions.height === 0) {
+  if (dimensions.width === 0 || dimensions.height === 0 || disabled) {
     return null
   }
 

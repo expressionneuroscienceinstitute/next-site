@@ -3,10 +3,11 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import ProgramCard from './ProgramCard'
 import NeuralBackground from './NeuralBackground'
 import FloatingParticles from './FloatingParticles'
+import AccessibilityControls, { AccessibilitySettings } from './AccessibilityControls'
 
 const programs = [
   {
@@ -23,39 +24,47 @@ const programs = [
 ]
 
 export default function Hero() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = useState(false)
+  const [accessibilitySettings, setAccessibilitySettings] = useState<AccessibilitySettings>({
+    particlesEnabled: true,
+    neuronBackgroundEnabled: true,
+    allMotionEnabled: true,
+    breathingEffectsEnabled: true,
+  })
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+  const handleAccessibilityChange = useCallback((settings: AccessibilitySettings) => {
+    setAccessibilitySettings(settings)
   }, [])
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-background-light via-secondary/20 to-purple-light/10 dark:from-background-dark dark:via-purple-dark/10 dark:to-accent-dark/5 min-h-screen">
       {/* Neural Background Animation */}
-      <NeuralBackground />
+      {accessibilitySettings.neuronBackgroundEnabled && (
+        <NeuralBackground disabled={!accessibilitySettings.allMotionEnabled} />
+      )}
       
       {/* Floating Particles */}
-      <FloatingParticles />
+      {accessibilitySettings.particlesEnabled && (
+        <FloatingParticles disabled={!accessibilitySettings.allMotionEnabled} />
+      )}
       
       {/* Animated Background Gradient */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-radial from-accent-light/5 via-transparent to-transparent dark:from-accent-dark/5"
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
+      {accessibilitySettings.allMotionEnabled && (
+        <motion.div
+          className="absolute inset-0 bg-gradient-radial from-accent-light/5 via-transparent to-transparent dark:from-accent-dark/5"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      )}
+
+      {/* Accessibility Controls */}
+      <AccessibilityControls onSettingsChange={handleAccessibilityChange} />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="relative pb-8 sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
@@ -63,13 +72,13 @@ export default function Hero() {
             {/* Title Section with Enhanced Animations */}
             <div className="sm:text-center lg:text-left relative">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: accessibilitySettings.allMotionEnabled ? 30 : 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, ease: "easeOut" }}
+                transition={{ duration: accessibilitySettings.allMotionEnabled ? 1 : 0, ease: "easeOut" }}
               >
                 <motion.span 
                   className="text-accent-light dark:text-accent-dark font-semibold text-lg"
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={accessibilitySettings.allMotionEnabled ? { scale: 1.05 } : {}}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
                   Science by the next generation, for the next generation.
@@ -78,33 +87,37 @@ export default function Hero() {
                 <motion.h1 
                   className="mt-2 text-4xl tracking-tight font-extrabold text-text-light dark:text-text-dark sm:text-5xl md:text-6xl"
                 >
-                  <span 
-                    className="block"
-                  >
+                  <span className="block">
                     The future is built by people
                   </span>
-                  <span 
-                    className="block text-accent-light dark:text-accent-dark"
-                  >
+                  <span className="block text-accent-light dark:text-accent-dark">
                     who show up to build it
                   </span>
                 </motion.h1>
               </motion.div>
               
-              {/* Enhanced Logo with Subtle Interactive Effects */}
+              {/* Enhanced Logo with Subtle Breathing Animation */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: accessibilitySettings.breathingEffectsEnabled ? [1, 1.02, 1] : 1,
+                  y: accessibilitySettings.breathingEffectsEnabled ? [0, -2, 0] : 0
+                }}
+                transition={{ 
+                  opacity: { duration: 0.8, delay: 0.6 },
+                  scale: { 
+                    duration: 4, 
+                    repeat: accessibilitySettings.breathingEffectsEnabled ? Infinity : 0, 
+                    ease: "easeInOut" 
+                  },
+                  y: { 
+                    duration: 4, 
+                    repeat: accessibilitySettings.breathingEffectsEnabled ? Infinity : 0, 
+                    ease: "easeInOut" 
+                  }
+                }}
                 className="hidden lg:block absolute -top-10 right-10 md:right-5 sm:right-0"
-                style={{
-                  transform: `translate(${mousePosition.x * 0.005}px, ${mousePosition.y * 0.005}px)`,
-                }}
-                whileHover={{ 
-                  scale: 1.02,
-                }}
-                onHoverStart={() => setIsHovering(true)}
-                onHoverEnd={() => setIsHovering(false)}
               >
                 <Image
                   src="/logos/ENI_logo_pink_vector.svg"

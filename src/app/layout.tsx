@@ -81,13 +81,21 @@ export default function RootLayout({
         {/* Preload critical resources */}
         <link rel="preload" href="/logos/ENI_logo_pink_vector.svg" as="image" type="image/svg+xml" />
         
-        {/* Load fonts from Google Fonts */}
+        {/* Load fonts from Google Fonts with fallback optimization */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" 
           rel="stylesheet" 
         />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* Font loading optimization - prevent layout shift */
+            html { font-family: system-ui, -apple-system, sans-serif; }
+            .font-loading { font-family: system-ui, -apple-system, sans-serif; }
+            .font-loaded { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+          `
+        }} />
         
         {/* Additional SEO meta tags */}
         <meta name="theme-color" content="#4F46E5" />
