@@ -9,6 +9,7 @@ import BackToTop from '@/components/BackToTop'
 import GlobalAccessibilityControls from '@/components/GlobalAccessibilityControls'
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.expression.ngo"),
   title: {
     default: "Expression Neuroscience Institute",
     template: "%s | Expression Neuroscience Institute",
