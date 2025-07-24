@@ -83,7 +83,7 @@ export default function Hero() {
                 </motion.h1>
               </motion.div>
               
-              {/* Enhanced Logo with Wave Breathing Glow Effect */}
+              {/* Enhanced Logo with Shape-Following Breathing Glow Effect */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ 
@@ -97,49 +97,28 @@ export default function Hero() {
                 <motion.div
                   className="relative"
                   animate={accessibilitySettings.breathingEffectsEnabled ? {
-                    // Create a gentle breathing effect with green glow
+                    // Create breathing glow that follows the logo shape using multiple drop-shadows
                     filter: [
-                      "drop-shadow(0 0 0px rgba(16, 185, 129, 0)) drop-shadow(0 2px 4px rgba(16, 185, 129, 0.1))",
-                      "drop-shadow(0 0 8px rgba(16, 185, 129, 0.3)) drop-shadow(0 2px 12px rgba(16, 185, 129, 0.2))",
-                      "drop-shadow(0 0 0px rgba(16, 185, 129, 0)) drop-shadow(0 2px 4px rgba(16, 185, 129, 0.1))"
+                      "drop-shadow(0 0 2px rgba(34, 197, 94, 0.3)) drop-shadow(0 0 4px rgba(34, 197, 94, 0.2))",
+                      "drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 16px rgba(34, 197, 94, 0.4)) drop-shadow(0 0 24px rgba(34, 197, 94, 0.2))",
+                      "drop-shadow(0 0 2px rgba(34, 197, 94, 0.3)) drop-shadow(0 0 4px rgba(34, 197, 94, 0.2))"
                     ]
                   } : {
-                    filter: "drop-shadow(0 0 4px rgba(16, 185, 129, 0.1))"
+                    filter: "drop-shadow(0 0 4px rgba(34, 197, 94, 0.1))"
                   }}
                   transition={{
-                    duration: accessibilitySettings.breathingEffectsEnabled ? 4 : 0,
+                    duration: accessibilitySettings.breathingEffectsEnabled ? 3.5 : 0,
                     repeat: accessibilitySettings.breathingEffectsEnabled ? Infinity : 0,
                     ease: "easeInOut",
                   }}
                 >
-                  {/* Bottom-to-top breathing wave glow effect */}
-                  {accessibilitySettings.breathingEffectsEnabled && (
-                    <motion.div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: 'linear-gradient(to top, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0.2) 30%, rgba(16, 185, 129, 0.1) 60%, transparent 100%)',
-                        zIndex: -1,
-                        borderRadius: '50%',
-                      }}
-                      animate={{
-                        opacity: [0, 0.7, 0],
-                        scaleY: [0.8, 1.1, 0.8],
-                        y: [10, -5, 10]
-                      }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  )}
                   <Image
                     src="/logos/ENI_logo_pink_vector.svg"
                     alt="Expression Neuroscience Institute Logo"
                     width={350}
                     height={350}
                     priority
-                    className="drop-shadow-lg relative z-10"
+                    className="drop-shadow-lg"
                   />
                 </motion.div>
               </motion.div>
