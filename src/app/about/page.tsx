@@ -41,7 +41,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <h2 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-8 text-center">{aboutConfig.board.title}</h2>
             <div className="grid gap-8 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1">
-              {aboutConfig.board.members.map((member, index) => (
+              {aboutConfig.board.members.map((member) => (
                 <div
                   key={member.name}
                   className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 flex flex-col items-center hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2"

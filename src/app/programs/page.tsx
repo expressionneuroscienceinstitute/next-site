@@ -32,7 +32,7 @@ export default function Programs() {
         </div>
 
         <div className="grid gap-8 md:gap-12">
-          {programs.map((program, index) => (
+          {programs.map((program) => (
             <div 
               key={program.title} 
               className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2"
