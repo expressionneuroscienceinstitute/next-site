@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react"
 import SkipToContent from '@/components/SkipToContent'
 import BackToTop from '@/components/BackToTop'
-
-const inter = Inter({ 
-  subsets: ["latin"],
-  display: 'swap', // Improve font loading performance
-  preload: true
-});
 
 export const metadata: Metadata = {
   title: {
@@ -88,6 +81,14 @@ export default function RootLayout({
         {/* Preload critical resources */}
         <link rel="preload" href="/logos/ENI_logo_pink_vector.svg" as="image" type="image/svg+xml" />
         
+        {/* Load fonts from Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" 
+          rel="stylesheet" 
+        />
+        
         {/* Additional SEO meta tags */}
         <meta name="theme-color" content="#4F46E5" />
         <meta name="color-scheme" content="dark light" />
@@ -124,7 +125,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className="font-sans" suppressHydrationWarning>
         <SkipToContent />
         <ThemeProvider>
           {children}
