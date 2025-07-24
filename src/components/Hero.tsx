@@ -77,62 +77,43 @@ export default function Hero() {
                 
                 <motion.h1 
                   className="mt-2 text-4xl tracking-tight font-extrabold text-text-light dark:text-text-dark sm:text-5xl md:text-6xl"
-                  style={{
-                    transform: `translate(${mousePosition.x * 0.01}px, ${mousePosition.y * 0.01}px)`,
-                  }}
                 >
-                  <motion.span 
+                  <span 
                     className="block"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
                   >
                     The future is built by people
-                  </motion.span>
-                  <motion.span 
+                  </span>
+                  <span 
                     className="block text-accent-light dark:text-accent-dark"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    whileHover={{ 
-                      scale: 1.02,
-                      textShadow: "0px 0px 20px rgba(76, 175, 80, 0.5)",
-                    }}
                   >
                     who show up to build it
-                  </motion.span>
+                  </span>
                 </motion.h1>
               </motion.div>
               
-              {/* Enhanced Logo with Interactive Effects */}
+              {/* Enhanced Logo with Subtle Interactive Effects */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 1, delay: 0.6, type: "spring", stiffness: 100 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
                 className="hidden lg:block absolute -top-10 right-10 md:right-5 sm:right-0"
+                style={{
+                  transform: `translate(${mousePosition.x * 0.005}px, ${mousePosition.y * 0.005}px)`,
+                }}
                 whileHover={{ 
-                  scale: 1.1, 
-                  rotate: 5,
-                  filter: "drop-shadow(0 0 20px rgba(76, 175, 80, 0.4))",
+                  scale: 1.02,
                 }}
                 onHoverStart={() => setIsHovering(true)}
                 onHoverEnd={() => setIsHovering(false)}
               >
-                <motion.div
-                  animate={isHovering ? {
-                    rotate: [0, 10, -10, 0],
-                  } : {}}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                >
-                  <Image
-                    src="/logos/ENI_logo_pink_vector.svg"
-                    alt="Expression Neuroscience Institute Logo"
-                    width={350}
-                    height={350}
-                    priority
-                    className="drop-shadow-lg"
-                  />
-                </motion.div>
+                <Image
+                  src="/logos/ENI_logo_pink_vector.svg"
+                  alt="Expression Neuroscience Institute Logo"
+                  width={350}
+                  height={350}
+                  priority
+                  className="drop-shadow-lg"
+                />
               </motion.div>
             </div>
             
@@ -228,7 +209,7 @@ export default function Hero() {
                     rel="noopener noreferrer"
                     aria-label="Support our research through donations (opens in new tab)"
                   >
-                    💚 Support Our Research
+                    Support Our Research
                   </Link>
                 </motion.div>
                 <motion.div
@@ -239,7 +220,7 @@ export default function Hero() {
                     href="/research#:~:text=Publications"
                     className="inline-block px-8 py-3 border-2 border-accent-light dark:border-accent-dark text-accent-light dark:text-accent-dark font-semibold rounded-lg hover:bg-accent-light hover:text-white dark:hover:bg-accent-dark dark:hover:text-background-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark"
                   >
-                    📚 Read Our Papers
+                    Read Our Papers
                   </Link>
                 </motion.div>
               </motion.div>
