@@ -97,14 +97,14 @@ export default function Hero() {
                 <motion.div
                   className="relative"
                   animate={accessibilitySettings.breathingEffectsEnabled ? {
-                    // Create a gentle breathing effect with a wave-like glow
+                    // Create a gentle breathing effect with green glow
                     filter: [
-                      "drop-shadow(0 0 0px rgba(59, 130, 246, 0)) drop-shadow(0 4px 8px rgba(59, 130, 246, 0.2))",
-                      "drop-shadow(0 0 12px rgba(59, 130, 246, 0.4)) drop-shadow(0 -2px 16px rgba(59, 130, 246, 0.3)) drop-shadow(0 4px 20px rgba(59, 130, 246, 0.5))",
-                      "drop-shadow(0 0 0px rgba(59, 130, 246, 0)) drop-shadow(0 4px 8px rgba(59, 130, 246, 0.2))"
+                      "drop-shadow(0 0 0px rgba(16, 185, 129, 0)) drop-shadow(0 2px 4px rgba(16, 185, 129, 0.1))",
+                      "drop-shadow(0 0 8px rgba(16, 185, 129, 0.3)) drop-shadow(0 2px 12px rgba(16, 185, 129, 0.2))",
+                      "drop-shadow(0 0 0px rgba(16, 185, 129, 0)) drop-shadow(0 2px 4px rgba(16, 185, 129, 0.1))"
                     ]
                   } : {
-                    filter: "drop-shadow(0 0 8px rgba(59, 130, 246, 0.2))"
+                    filter: "drop-shadow(0 0 4px rgba(16, 185, 129, 0.1))"
                   }}
                   transition={{
                     duration: accessibilitySettings.breathingEffectsEnabled ? 4 : 0,
@@ -112,18 +112,19 @@ export default function Hero() {
                     ease: "easeInOut",
                   }}
                 >
-                  {/* Wave glow effect overlay */}
+                  {/* Bottom-to-top breathing wave glow effect */}
                   {accessibilitySettings.breathingEffectsEnabled && (
                     <motion.div
-                      className="absolute inset-0 rounded-full"
+                      className="absolute inset-0 pointer-events-none"
                       style={{
-                        background: 'radial-gradient(ellipse 120% 80% at 50% 100%, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 70%)',
+                        background: 'linear-gradient(to top, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0.2) 30%, rgba(16, 185, 129, 0.1) 60%, transparent 100%)',
                         zIndex: -1,
+                        borderRadius: '50%',
                       }}
                       animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0, 0.8, 0],
-                        y: [20, -20, 20]
+                        opacity: [0, 0.7, 0],
+                        scaleY: [0.8, 1.1, 0.8],
+                        y: [10, -5, 10]
                       }}
                       transition={{
                         duration: 4,
