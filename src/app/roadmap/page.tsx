@@ -72,14 +72,14 @@ export default function RoadmapPage() {
         futureResearch: insightProgram.futureResearch,
         links: insightProgram.links
       }
-    } else if (selectedProgram === 'mhlp') {
-      const mhlpProgram = roadmapConfig.currentPrograms.mhlp
+    } else if (selectedProgram === 'ceEEG') {
+      const ceEEGProgram = roadmapConfig.currentPrograms.ceEEG
       return {
-        title: mhlpProgram.title,
-        description: mhlpProgram.text,
-        timeline: mhlpProgram.timeline,
-        futureResearch: mhlpProgram.futureResearch,
-        links: mhlpProgram.links
+        title: ceEEGProgram.title,
+        description: ceEEGProgram.text,
+        timeline: ceEEGProgram.timeline,
+        futureResearch: ceEEGProgram.futureResearch,
+        links: ceEEGProgram.links
       }
     }
     

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ProgramCard from './ProgramCard'
 import NeuralBackground from './NeuralBackground'
-import FloatingParticles from './FloatingParticles'
+// Removed FloatingParticles import
 import { useAccessibility } from './AccessibilityProvider'
 
 const programs = [
@@ -15,9 +15,9 @@ const programs = [
     href: '/programs/insight',
   },
   {
-    title: 'Mental Health Labeling Platform',
-    description: 'Data analysis tools for mental health research and pattern recognition in Electroencephalography (EEG), eye-tracking, and other neurophysiological data.',
-    href: '/programs/mhlp',
+    title: 'Continuous Embedded Electroencephalogram',
+    description: 'A novel and non-invasive method of measuring brain activity in real-time, with a maximum ambulatory duration of 3 months, compared to the current max ambulatory duration of 72 hours; ceEEG has the potential to make Brain-Computer Interfaces (BCIs) more accessible to the general public.',
+    href: '/programs/ceEEG',
     comingSoon: true,
   },
 ]
@@ -30,11 +30,6 @@ export default function Hero() {
       {/* Neural Background Animation */}
       {accessibilitySettings.neuronBackgroundEnabled && (
         <NeuralBackground disabled={!accessibilitySettings.allMotionEnabled} />
-      )}
-      
-      {/* Floating Particles */}
-      {accessibilitySettings.particlesEnabled && (
-        <FloatingParticles disabled={!accessibilitySettings.allMotionEnabled} />
       )}
       
       {/* Animated Background Gradient */}
@@ -59,9 +54,9 @@ export default function Hero() {
             {/* Title Section with Enhanced Animations */}
             <div className="sm:text-center lg:text-left relative">
               <motion.div
-                initial={{ opacity: 0, y: accessibilitySettings.allMotionEnabled ? 30 : 0 }}
+                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 20 : 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: accessibilitySettings.allMotionEnabled ? 1 : 0, ease: "easeOut" }}
+                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.5 : 0, ease: "easeOut" }}
               >
                 <motion.span 
                   className="text-accent-light dark:text-accent-dark font-semibold text-lg"
@@ -85,12 +80,12 @@ export default function Hero() {
               
               {/* Enhanced Logo with Shape-Following Breathing Glow Effect */}
               <motion.div
-                initial={{ opacity: 0 }}
+                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1 }}
                 animate={{ 
                   opacity: 1,
                 }}
                 transition={{ 
-                  opacity: { duration: 0.8, delay: 0.6 },
+                  opacity: { duration: 0.4, delay: accessibilitySettings.allMotionEnabled ? 0.2 : 0 },
                 }}
                 className="hidden lg:block absolute -top-10 right-10 md:right-5 sm:right-0"
               >
@@ -127,9 +122,9 @@ export default function Hero() {
             {/* Content Section with Staggered Animations */}
             <div className="mt-4">
               <motion.p
-                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 20 : 0 }}
+                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 15 : 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.8 : 0, delay: accessibilitySettings.allMotionEnabled ? 0.8 : 0 }}
+                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.4 : 0, delay: accessibilitySettings.allMotionEnabled ? 0.3 : 0 }}
                 className="text-base text-gray-600 dark:text-gray-300 sm:text-lg md:text-xl lg:max-w-2xl"
               >
                 We&apos;re a group of students and researchers studying how brains work by looking at electrical activity in the brain, behavior, and sociology. Our research focuses on understanding mental health conditions and brain function through open, collaborative science. We hope to also enable the next generation of scientists to more easily transition into the world of research and build the world we want to live in.
@@ -137,9 +132,9 @@ export default function Hero() {
 
               {/* Enhanced Feature Cards */}
               <motion.section
-                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 30 : 0 }}
+                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 20 : 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.8 : 0, delay: accessibilitySettings.allMotionEnabled ? 1 : 0 }}
+                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.4 : 0, delay: accessibilitySettings.allMotionEnabled ? 0.5 : 0 }}
                 className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
                 aria-label="Key features and organization values"
                 role="region"
@@ -164,9 +159,9 @@ export default function Hero() {
                   <motion.article 
                     key={feature.title}
                     className={`bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 bg-gradient-to-br ${feature.gradient} hover:shadow-2xl transition-all duration-300`}
-                    initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 20 : 0 }}
+                    initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 15 : 0 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.6 : 0, delay: accessibilitySettings.allMotionEnabled ? 1.2 + index * 0.1 : 0 }}
+                    transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.3 : 0, delay: accessibilitySettings.allMotionEnabled ? 0.6 + index * 0.05 : 0 }}
                     whileHover={accessibilitySettings.allMotionEnabled ? { 
                       scale: 1.02, 
                       y: -5,
@@ -186,9 +181,9 @@ export default function Hero() {
 
               {/* Enhanced Call-to-Action Buttons */}
               <motion.div
-                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 20 : 0 }}
+                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 15 : 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.8 : 0, delay: accessibilitySettings.allMotionEnabled ? 1.5 : 0 }}
+                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.4 : 0, delay: accessibilitySettings.allMotionEnabled ? 0.8 : 0 }}
                 className="mt-6 flex justify-center sm:justify-center lg:justify-start gap-4"
               >
                 <motion.div
@@ -237,16 +232,16 @@ export default function Hero() {
             <motion.section
               initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.8 : 0, delay: accessibilitySettings.allMotionEnabled ? 1.8 : 0 }}
+              transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.4 : 0, delay: accessibilitySettings.allMotionEnabled ? 1.0 : 0 }}
               className="mt-16"
               aria-label="Our research programs and initiatives"
               role="region"
             >
               <motion.h2 
                 className="text-3xl font-bold text-text-light dark:text-text-dark mb-8"
-                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, x: accessibilitySettings.allMotionEnabled ? -20 : 0 }}
+                initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, x: accessibilitySettings.allMotionEnabled ? -15 : 0 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.6 : 0, delay: accessibilitySettings.allMotionEnabled ? 1.9 : 0 }}
+                transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.3 : 0, delay: accessibilitySettings.allMotionEnabled ? 1.1 : 0 }}
               >
                 Our Work
               </motion.h2>
@@ -254,9 +249,9 @@ export default function Hero() {
                 {programs.map((program, index) => (
                   <motion.div
                     key={program.title}
-                    initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 30 : 0 }}
+                    initial={{ opacity: accessibilitySettings.allMotionEnabled ? 0 : 1, y: accessibilitySettings.allMotionEnabled ? 20 : 0 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.6 : 0, delay: accessibilitySettings.allMotionEnabled ? 2 + index * 0.1 : 0 }}
+                    transition={{ duration: accessibilitySettings.allMotionEnabled ? 0.3 : 0, delay: accessibilitySettings.allMotionEnabled ? 1.2 + index * 0.05 : 0 }}
                   >
                     <ProgramCard {...program} />
                   </motion.div>

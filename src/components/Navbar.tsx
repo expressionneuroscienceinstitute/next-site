@@ -51,11 +51,6 @@ export default function Navbar() {
 
   const settingsToggles = [
     {
-      key: 'particlesEnabled' as keyof typeof settings,
-      label: 'Particles',
-      description: 'Animated background particles'
-    },
-    {
       key: 'neuronBackgroundEnabled' as keyof typeof settings,
       label: 'Neural Network',
       description: 'Interactive neuron background'

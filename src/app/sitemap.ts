@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/research',
     '/roadmap',
     '/programs',
-    '/programs/mhlp',
+    '/programs/ceEEG',
     '/governance',
     '/governance/bylaws',
     '/governance/policies',

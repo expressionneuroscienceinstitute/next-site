@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
-export default function MHLPProgram() {
+export default function ceEEGProgram() {
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -22,7 +22,7 @@ export default function MHLPProgram() {
 
         <header className="mb-12">
           <div className="flex items-center">
-            <h1 className="text-4xl font-bold text-text-light dark:text-text-dark">Mental Health Labeling Platform</h1>
+            <h1 className="text-4xl font-bold text-text-light dark:text-text-dark">Continuous Embedded Electroencephalogram</h1>
             <span className="ml-4 text-sm font-medium text-purple-light dark:text-purple-dark px-3 py-1 bg-purple-light/10 dark:bg-purple-dark/10 rounded-full" aria-label="Status: Coming Soon">
               Coming Soon
             </span>
@@ -72,11 +72,11 @@ export default function MHLPProgram() {
           
           <div className="flex justify-center">
             <a 
-              href="mailto:mhlp@expression.ngo" 
+              href="mailto:ceEEG@expression.ngo" 
               className="inline-block px-8 py-3 rounded-lg font-semibold bg-accent-light dark:bg-accent-dark text-background-light dark:text-background-dark hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark"
-              aria-label="Contact the Mental Health Labeling Platform team via email"
+                              aria-label="Contact the Continuous Embedded Electroencephalogram team via email"
             >
-              Contact the MHLP Team
+              Contact the ceEEG Team
             </a>
           </div>
         </section>

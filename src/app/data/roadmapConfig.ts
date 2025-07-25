@@ -18,7 +18,7 @@ export const roadmapConfig = {
           id: "founding-a142025",
           date: "April 14, 2025",
           title: "Organization Founding",
-          description: "Incorporation of the Expression Neuroscience Initiative as a nonprofit public-benefit research organization.",
+          description: "Incorporation of the Expression Neuroscience Institute as a nonprofit public-benefit research organization.",
           status: "completed"
         },
         {
@@ -107,7 +107,7 @@ export const roadmapConfig = {
             date: "2025-Q1",
             title: "Capstone Project",
             description: "The Insight Diagnostic Platform becomes the capstone project for Dylan (Anki) Carney's undergraduate degree.",
-            status: "in-progress"
+            status: "completed"
           },
           {
             id: "design-2025q1",
@@ -146,29 +146,29 @@ export const roadmapConfig = {
         ]
       }
     },
-    mhlp: {
-      title: "Mental Health Labeling Platform",
+    ceEEG: {
+      title: "Continuous Embedded Electroencephalogram",
       text: `A platform for researchers to analyze mental health datasets and find patterns. We want to make these kinds of tools accessible to researchers who don't have big tech company budgets or machine learning expertise.`,
       links: [],
       timeline: {
-        title: "MHLP Timeline",
+        title: "ceEEG Timeline",
         milestones: [
           {
-            id: "mhlp-planning-2024q2",
+            id: "ceEEG-planning-2024q2",
             date: "2024-Q2",
             title: "Platform Planning & Design",
-            description: "Initial planning and architecture design for the Mental Health Labeling Platform.",
+            description: "Initial planning and architecture design for the Continuous Embedded Electroencephalogram Platform.",
             status: "in-progress"
           },
           {
-            id: "mhlp-development-2024q3",
+            id: "ceEEG-development-2024q3",
             date: "2024-Q3",
             title: "Development Phase",
               description: "Begin development of the platform's core functionality and data infrastructure.",
             status: "planned"
           },
           {
-            id: "mhlp-beta-2024q4",
+            id: "ceEEG-beta-2024q4",
             date: "2024-Q4",
             title: "Beta Testing",
             description: "Launch beta version for initial testing with research partners.",
@@ -177,7 +177,7 @@ export const roadmapConfig = {
         ]
       },
       futureResearch: {
-        title: "Future MHLP Research",
+        title: "Future ceEEG Research",
         cards: [
           {
             title: "Open Mental Health Datasets",
@@ -190,19 +190,5 @@ export const roadmapConfig = {
         ]
       }
     }
-  },
-
-  /* Legacy Timeline Data */
-  timeline: {
-    title: "Timeline",
-    milestones: [
-    ]
-  },
-
-  /* Legacy Future Research Data */
-  futureResearch: {
-    title: "Future Research",
-    cards: [
-    ]
   }
 }; 

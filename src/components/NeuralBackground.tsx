@@ -225,7 +225,7 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
       style={{ zIndex: -1 }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 0.3 }}
-      transition={{ duration: 2 }}
+      transition={{ duration: 0.5 }}
     />
   )
 }
