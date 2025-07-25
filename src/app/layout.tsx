@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react"
 import SkipToContent from '@/components/SkipToContent'
 import BackToTop from '@/components/BackToTop'
+import { Inter } from 'next/font/google'
 
 const inter = Inter({ 
-  subsets: ["latin"],
-  display: 'swap', // Improve font loading performance
-  preload: true
-});
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.expression.ngo"),
   title: {
     default: "Expression Neuroscience Institute",
     template: "%s | Expression Neuroscience Institute",
@@ -83,11 +85,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
-        {/* Preload critical resources */}
-        <link rel="preload" href="/logos/ENI_logo_pink_vector.svg" as="image" type="image/svg+xml" />
-        
         {/* Additional SEO meta tags */}
         <meta name="theme-color" content="#4F46E5" />
         <meta name="color-scheme" content="dark light" />
@@ -124,10 +123,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={`${inter.className} font-sans`} suppressHydrationWarning>
         <SkipToContent />
         <ThemeProvider>
-          {children}
+          <AccessibilityProvider>
+            {children}
+          </AccessibilityProvider>
         </ThemeProvider>
         <BackToTop />
         {/* Load third-party scripts after user interaction to improve initial load */}
