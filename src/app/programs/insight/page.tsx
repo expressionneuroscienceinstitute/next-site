@@ -34,7 +34,7 @@ export default function InsightProgram() {
           <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-300">
             <li>VR experiences that can measure how well your eyes work together</li>
             <li>Open-source code that anyone can use and modify - yes even you!</li>
-            <li>Better ways to diagnose and treatbinocular vision dysfunction and other visual processing disorders</li>
+            <li>Better ways to diagnose and treat binocular vision dysfunction and other visual processing disorders</li>
             <li>Tools that work for people who can&apos;t afford expensive vision testing and treatment</li>
           </ul>
           

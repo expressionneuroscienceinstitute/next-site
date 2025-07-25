@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
 
 export interface AccessibilitySettings {
-  particlesEnabled: boolean
   neuronBackgroundEnabled: boolean
   allMotionEnabled: boolean
   breathingEffectsEnabled: boolean
@@ -16,7 +15,6 @@ interface AccessibilityContextType {
 }
 
 const defaultSettings: AccessibilitySettings = {
-  particlesEnabled: true,
   neuronBackgroundEnabled: true,
   allMotionEnabled: true,
   breathingEffectsEnabled: true,

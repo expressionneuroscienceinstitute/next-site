@@ -15,7 +15,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // where the light-theme markup is replaced by the dark-theme markup (or vice-versa)
   // which was causing a perceptible "hitch" for some users.
   if (!mounted) {
-    return null;
+    return <>{children}</>;
   }
 
   return (
