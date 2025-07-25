@@ -6,7 +6,6 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react"
 import SkipToContent from '@/components/SkipToContent'
 import BackToTop from '@/components/BackToTop'
-import GlobalAccessibilityControls from '@/components/GlobalAccessibilityControls'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ 
@@ -129,7 +128,6 @@ export default function RootLayout({
         <ThemeProvider>
           <AccessibilityProvider>
             {children}
-            <GlobalAccessibilityControls />
           </AccessibilityProvider>
         </ThemeProvider>
         <BackToTop />
