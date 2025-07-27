@@ -18,7 +18,7 @@ export default function NavbarDonateButton() {
 
   return (
     <motion.div
-      whileHover={mounted && accessibilitySettings.allMotionEnabled ? { scale: 1.05 } : {}}
+      whileHover={mounted && accessibilitySettings.allMotionEnabled ? { y: -1 } : {}}
       whileTap={mounted && accessibilitySettings.allMotionEnabled ? { scale: 0.95 } : {}}
       className="relative"
     >

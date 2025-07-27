@@ -46,14 +46,14 @@ export default function Programs() {
           {programs.map((program) => (
             <div 
               key={program.title} 
-              className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+              className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
             >
               <div className="flex items-center flex-wrap gap-3 mb-4">
                 <h2 className="text-2xl font-bold text-accent-light dark:text-accent-dark">
                   {program.title}
                 </h2>
                 {program.status && (
-                  <StatusTag status={program.status} size="medium" />
+                  <StatusTag status={program.status} size="medium" className="flex-shrink-0 whitespace-nowrap" />
                 )}
               </div>
               <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">

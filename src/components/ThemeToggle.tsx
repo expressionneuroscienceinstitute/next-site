@@ -38,7 +38,7 @@ export default function ThemeToggle() {
     <motion.button
       onClick={toggle}
       className="relative p-2 rounded-full bg-secondary/20 dark:bg-purple-dark/20 hover:bg-secondary/30 dark:hover:bg-purple-dark/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-light dark:focus-visible:ring-accent-dark"
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ y: -1 }}
       whileTap={{ scale: 0.95 }}
       title="Toggle theme"
     >

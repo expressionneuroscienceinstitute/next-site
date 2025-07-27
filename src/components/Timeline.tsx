@@ -119,7 +119,7 @@ export default function Timeline({ milestones }: TimelineProps) {
                 <motion.div
                   className="relative p-6 rounded-xl bg-white dark:bg-gray-900 border shadow-[0_4px_20px_rgb(0,0,0,0.08)] z-20 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
                   style={{ borderColor: colorSet?.border[theme] }}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ y: -2 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   {/* Card Header */}
