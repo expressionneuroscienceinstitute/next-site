@@ -5,7 +5,7 @@ import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import LazyAnalytics from '@/components/LazyAnalytics'
 import SkipToContent from '@/components/SkipToContent'
 import LazyBackToTop from '@/components/LazyBackToTop'
-import LazyStickyDonateButton from '@/components/LazyStickyDonateButton'
+
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ 
@@ -141,7 +141,6 @@ export default function RootLayout({
           </AccessibilityProvider>
         </ThemeProvider>
         <LazyBackToTop />
-        <LazyStickyDonateButton />
         <LazyAnalytics />
         
         {/* Add scroll performance script after body is available */}

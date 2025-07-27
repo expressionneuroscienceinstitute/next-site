@@ -32,11 +32,6 @@ const nextConfig = {
     },
   },
   
-  // Bundle analyzer (uncomment to analyze bundle size)
-  // bundleAnalyzer: {
-  //   enabled: process.env.ANALYZE === 'true',
-  // },
-  
   // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
     // Enable production optimizations in development for testing
