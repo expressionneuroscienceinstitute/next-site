@@ -1,3 +1,5 @@
+import { StatusTagType } from '@/components/StatusTag'
+
 export interface Paper {
   id: string;
   title: string;
@@ -6,7 +8,7 @@ export interface Paper {
   year: number;
   url?: string;
   abstract?: string;
-  status: 'available' | 'coming soon';
+  status: StatusTagType;
   updates?: { date: string; description: string }[];
 }
 
@@ -19,7 +21,7 @@ export const papers: Paper[] = [
     year: 2025,
     url: 'https://raw.githubusercontent.com/expressionneuroscienceinstitute/next-site/refs/heads/documents/Insight_Design_Document.pdf',
     abstract: 'The preliminary design document for the Insight Diagnostic Platform, a virtual reality application for the diagnosis and measurement of Binocular Vision Dysfunction (BVD).',
-    status: 'available',
+    status: 'published',
     updates: [
       { date: '2025-05-04', description: 'Design document submitted to capstone advisor for review.' },
       { date: '2025-05-05', description: 'Design document uploaded to GitHub.' },
