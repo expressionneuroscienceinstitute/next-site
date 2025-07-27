@@ -2,15 +2,15 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Continuous Embedded Electroencephalogram',
-  description: 'A novel and non-invasive method of measuring brain activity in real-time, with a maximum ambulatory duration of 3 months, compared to the current max ambulatory duration of 72 hours; ceEEG has the potential to make Brain-Computer Interfaces (BCIs) more accessible to the general public.',
+  description: 'Building open source, non-invasive brain-computer interfaces that work for real people. Transparent, secure, community-driven neurotechnology - not proprietary black boxes.',
   openGraph: {
     title: 'Continuous Embedded Electroencephalogram | Expression Neuroscience Institute',
-    description: 'ceEEG is a groundbreaking, non-invasive technology for real-time brain monitoring. With a maximum ambulatory duration of 3 months—far surpassing the current 72-hour standard—ceEEG paves the way for accessible, long-term Brain-Computer Interfaces (BCIs) and new frontiers in neuroscience and clinical care.',
+    description: 'ceEEG is building open source, non-invasive BCIs that actually work for people. We believe brain-computer interfaces must be transparent, secure, and user-controlled - technology that serves humanity, not corporations.',
     url: 'https://www.expression.ngo/programs/ceEEG',
   },
   twitter: {
     title: 'Continuous Embedded Electroencephalogram | Expression Neuroscience Institute',
-    description: 'ceEEG enables non-invasive, real-time brain monitoring for up to 3 months, making advanced Brain-Computer Interfaces (BCIs) more accessible to the public and transforming neuroscience research.',
+    description: 'Building open source BCIs that work for real people. Join the movement for transparent, secure, user-controlled neurotechnology.',
   },
   alternates: {
     canonical: 'https://www.expression.ngo/programs/ceEEG',
@@ -26,10 +26,9 @@ export const metadata: Metadata = {
     'long-term EEG',
     'neurotechnology',
     'mental health',
-    'research tools',
-    'pattern recognition',
+    'research',
     'open science',
-    'datasets'
+    'EEG research'
   ],
 }
 
