@@ -74,10 +74,9 @@ export default function Timeline({ milestones }: TimelineProps) {
     <section className="max-w-2xl mx-auto relative py-8" aria-label="Project timeline">
       {/* Central timeline line with dynamic gradient */}
       <div 
-        className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 opacity-70 z-10"
+        className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 opacity-70 z-0"
         style={{ 
-          background: gradientStyle,
-          transform: 'translateX(5px)' // Fine-tune the line position otherwise it is off center and will not look good with line terminator
+          background: gradientStyle
         }} 
         aria-hidden="true"
       />
@@ -92,8 +91,8 @@ export default function Timeline({ milestones }: TimelineProps) {
           height: '16px',
           borderRadius: '50%',
           borderWidth: '3px',
-          left: '50%',
-          transform: 'translateX(-50%)'
+          left: '48.8095%',
+          
         }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -114,46 +113,6 @@ export default function Timeline({ milestones }: TimelineProps) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative"
             >
-              {/* Timeline Node */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-6 flex items-center justify-center z-20">
-                <motion.div
-                  className="relative w-4 h-4 rounded-full shadow-lg border-2 border-white dark:border-gray-900"
-                  style={{ backgroundColor: colorSet?.circle[theme] }}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  whileHover={{ scale: 1.2 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  {/* Pulse Animation for In-Progress Items */}
-                  {milestone.status === 'in-progress' && (
-                    <>
-                      <motion.div
-                        className="absolute -inset-2 rounded-full opacity-20"
-                        style={{ backgroundColor: colorSet?.circle[theme] }}
-                        initial={{ scale: 0.8, opacity: 0.2 }}
-                        animate={{ scale: 1.8, opacity: 0 }}
-                        transition={{ 
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeOut"
-                        }}
-                      />
-                      <motion.div
-                        className="absolute -inset-1 rounded-full opacity-20"
-                        style={{ backgroundColor: colorSet?.circle[theme] }}
-                        initial={{ scale: 0.8, opacity: 0.2 }}
-                        animate={{ scale: 1.4, opacity: 0 }}
-                        transition={{ 
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeOut",
-                          delay: 0.5
-                        }}
-                      />
-                    </>
-                  )}
-                </motion.div>
-              </div>
 
               {/* Milestone Content Card */}
               <div className="relative mx-auto w-full max-w-lg px-4">
