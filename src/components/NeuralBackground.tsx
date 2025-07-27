@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 
 interface Neuron {
@@ -16,11 +16,39 @@ interface NeuralBackgroundProps {
   disabled?: boolean
 }
 
+// Throttle function for performance
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function throttle(func: (...args: any[]) => any, limit: number) {
+  let inThrottle = false
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let lastArgs: any[] | null = null
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return function(...args: any[]) {
+    lastArgs = args
+    
+    if (!inThrottle) {
+      func(...args)
+      inThrottle = true
+      
+      setTimeout(() => {
+        inThrottle = false
+        if (lastArgs) {
+          func(...lastArgs)
+          lastArgs = null
+        }
+      }, limit)
+    }
+  }
+}
+
 export default function NeuralBackground({ disabled = false }: NeuralBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationRef = useRef<number | null>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [neurons, setNeurons] = useState<Neuron[]>([])
+  const [isVisible, setIsVisible] = useState(true)
 
   // Initialize dimensions
   useEffect(() => {
@@ -34,17 +62,21 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
     }
 
     updateDimensions()
-    window.addEventListener('resize', updateDimensions)
-    return () => window.removeEventListener('resize', updateDimensions)
+    
+    // Throttle resize events
+    const throttledResize = throttle(updateDimensions, 250)
+    window.addEventListener('resize', throttledResize)
+    
+    return () => window.removeEventListener('resize', throttledResize)
   }, [])
 
   // Initialize neurons
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return
 
-    const neuronCount = Math.floor((dimensions.width * dimensions.height) / 15000) // Scale with screen size
-    const minNeurons = 20
-    const maxNeurons = 60
+    const neuronCount = Math.floor((dimensions.width * dimensions.height) / 25000) // Reduced density
+    const minNeurons = 15 // Reduced from 20
+    const maxNeurons = 40 // Reduced from 60
     const finalNeuronCount = Math.max(minNeurons, Math.min(maxNeurons, neuronCount))
     
     const newNeurons: Neuron[] = []
@@ -74,8 +106,8 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
             Math.pow(neuron.y - otherNeuron.y, 2)
           )
           
-          // Connect neurons within a larger distance and allow more connections
-          if (distance < 250 && neuron.connections.length < 4) {
+          // Reduced connection distance and max connections
+          if (distance < 200 && neuron.connections.length < 3) {
             neuron.connections.push(otherIndex)
           }
         }
@@ -85,15 +117,15 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
     setNeurons(newNeurons)
   }, [dimensions])
 
-  // Mouse tracking and neuron activation
-  useEffect(() => {
-    if (disabled) return
-    
-    const handleMouseMove = (e: MouseEvent) => {
+  // Throttled mouse tracking
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (disabled || !isVisible) return
+      
       const newMousePos = { x: e.clientX, y: e.clientY }
       setMousePosition(newMousePos)
 
-      // Check if mouse is near any neuron and activate it
+      // Only update neurons if canvas is visible
       setNeurons(prevNeurons => {
         return prevNeurons.map(neuron => {
           const distance = Math.sqrt(
@@ -101,7 +133,7 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
             Math.pow(neuron.y - newMousePos.y, 2)
           )
 
-          if (distance < 120) { // Slightly smaller activation distance
+          if (distance < 100) { // Reduced activation distance
             return {
               ...neuron,
               isActive: true,
@@ -109,8 +141,7 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
             }
           }
 
-          // Deactivate after 400ms for quicker firing
-          if (neuron.isActive && Date.now() - neuron.activationTime > 400) {
+          if (neuron.isActive && Date.now() - neuron.activationTime > 300) { // Faster deactivation
             return {
               ...neuron,
               isActive: false,
@@ -121,25 +152,76 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
           return neuron
         })
       })
-    }
+    },
+    [disabled, isVisible]
+  )
 
+  // Throttled version of handleMouseMove
+  const throttledHandleMouseMove = useMemo(
+    () => throttle(handleMouseMove, 50),
+    [handleMouseMove]
+  )
+
+  // Mouse tracking effect
+  useEffect(() => {
+    if (disabled) return
+    
     if (typeof window !== 'undefined') {
-      window.addEventListener('mousemove', handleMouseMove)
-      return () => window.removeEventListener('mousemove', handleMouseMove)
+      window.addEventListener('mousemove', throttledHandleMouseMove)
+      return () => window.removeEventListener('mousemove', throttledHandleMouseMove)
     }
-  }, [disabled])
+  }, [disabled, throttledHandleMouseMove])
 
-  // Animation loop
+  // Add visibility observer to pause animation when off-screen
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas || dimensions.width === 0 || dimensions.height === 0) return
+    if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(canvas)
+    return () => observer.disconnect()
+  }, [])
+
+  // Animation loop with performance optimizations
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas || dimensions.width === 0 || dimensions.height === 0 || !isVisible) {
+      // Cancel animation if not visible
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+        animationRef.current = null
+      }
+      return
+    }
+
+    const ctx = canvas.getContext('2d', { alpha: true })
     if (!ctx) return
 
-    let animationId: number | null = null
+    // Set canvas to use GPU acceleration
+    canvas.style.willChange = 'transform'
+    ctx.imageSmoothingEnabled = false // Disable smoothing for better performance
+    
+    let lastTime = 0
+    const targetFPS = 24 // Reduced to 24fps for better performance
+    const frameInterval = 1000 / targetFPS
 
-    const animate = () => {
+    const animate = (currentTime: number) => {
+      const deltaTime = currentTime - lastTime
+      
+      // Only render at target FPS
+      if (deltaTime < frameInterval) {
+        animationRef.current = requestAnimationFrame(animate)
+        return
+      }
+      
+      lastTime = currentTime - (deltaTime % frameInterval)
+      
       ctx.clearRect(0, 0, dimensions.width, dimensions.height)
 
       // Draw connections
@@ -147,7 +229,6 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
         neuron.connections.forEach(connectionId => {
           const connectedNeuron = neurons[connectionId]
           if (connectedNeuron) {
-            // Make connections glow when either neuron is active
             const isGlowing = neuron.isActive || connectedNeuron.isActive
             
             ctx.strokeStyle = isGlowing 
@@ -160,9 +241,8 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
             ctx.lineTo(connectedNeuron.x, connectedNeuron.y)
             ctx.stroke()
 
-            // Add faster pulsing effect along connections when active
             if (isGlowing) {
-              const time = Date.now() * 0.01 // Faster pulsing
+              const time = Date.now() * 0.01
               const pulse = Math.sin(time) * 0.5 + 0.5
               
               ctx.fillStyle = `rgba(76, 175, 80, ${pulse * 0.6})`
@@ -170,7 +250,7 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
               ctx.arc(
                 neuron.x + (connectedNeuron.x - neuron.x) * pulse,
                 neuron.y + (connectedNeuron.y - neuron.y) * pulse,
-                4, // Slightly larger pulse dots
+                4,
                 0,
                 Math.PI * 2
               )
@@ -182,7 +262,6 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
 
       // Draw neurons
       neurons.forEach(neuron => {
-        // Neuron body
         ctx.fillStyle = neuron.isActive 
           ? `rgba(76, 175, 80, 0.8)`
           : `rgba(76, 175, 80, 0.3)`
@@ -191,7 +270,6 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
         ctx.arc(neuron.x, neuron.y, neuron.isActive ? 8 : 5, 0, Math.PI * 2)
         ctx.fill()
 
-        // Glow effect when active
         if (neuron.isActive) {
           ctx.fillStyle = `rgba(76, 175, 80, 0.2)`
           ctx.beginPath()
@@ -200,17 +278,20 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
         }
       })
 
-      animationId = requestAnimationFrame(animate)
+      animationRef.current = requestAnimationFrame(animate)
     }
 
-    animate()
+    animationRef.current = requestAnimationFrame(animate)
 
     return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+        animationRef.current = null
       }
+      // Clean up will-change
+      canvas.style.willChange = 'auto'
     }
-  }, [dimensions, neurons, mousePosition])
+  }, [dimensions, neurons, mousePosition, isVisible])
 
   if (dimensions.width === 0 || dimensions.height === 0 || disabled) {
     return null
@@ -222,7 +303,10 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
       width={dimensions.width}
       height={dimensions.height}
       className="absolute inset-0 pointer-events-none opacity-30"
-      style={{ zIndex: -1 }}
+      style={{ 
+        zIndex: -1,
+        transform: 'translateZ(0)', // Force GPU acceleration
+      }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 0.3 }}
       transition={{ duration: 0.5 }}
