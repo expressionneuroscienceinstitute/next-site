@@ -79,12 +79,12 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button className="bg-gradient-to-r from-accent-light to-purple-light dark:from-accent-dark dark:to-purple-dark text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transition-shadow duration-150 transform-gpu">
+              <button className="bg-gradient-to-r from-accent-light to-purple-light dark:from-accent-dark dark:to-purple-dark text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transition-shadow duration-150">
                 Support Our Research
               </button>
             </a>
             <Link href="/research">
-              <button className="border-2 border-accent-light dark:border-accent-dark text-accent-light dark:text-accent-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-accent-light hover:text-white dark:hover:bg-accent-dark dark:hover:text-white transition-colors duration-150 transform-gpu">
+              <button className="border-2 border-accent-light dark:border-accent-dark text-accent-light dark:text-accent-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-accent-light hover:text-white dark:hover:bg-accent-dark dark:hover:text-white transition-colors duration-150">
                 Read Our Papers
               </button>
             </Link>
@@ -94,15 +94,15 @@ export default function Hero() {
           <div className={`grid md:grid-cols-3 gap-6 mb-16 ${
             accessibilitySettings.allMotionEnabled ? 'animate-slide-up animation-delay-300' : ''
           }`}>
-            <div className="bg-white/95 dark:bg-background-dark/90 rounded-xl p-6 shadow-lg border border-secondary/30 dark:border-purple-dark/30 hover:shadow-xl transition-shadow duration-150 transform-gpu hover:-translate-y-0.5">
+            <div className="bg-white/95 dark:bg-background-dark/90 rounded-xl p-6 shadow-lg border border-secondary/30 dark:border-purple-dark/30 hover:shadow-xl transition-shadow duration-150 hover:-translate-y-0.5">
               <h3 className="text-xl font-semibold text-accent-light dark:text-accent-dark mb-2">Open Source</h3>
               <p className="text-gray-600 dark:text-gray-300">All our research and tools are open source, promoting transparency and collaboration.</p>
             </div>
-            <div className="bg-white/95 dark:bg-background-dark/90 rounded-xl p-6 shadow-lg border border-secondary/30 dark:border-purple-dark/30 hover:shadow-xl transition-shadow duration-150 transform-gpu hover:-translate-y-0.5">
+            <div className="bg-white/95 dark:bg-background-dark/90 rounded-xl p-6 shadow-lg border border-secondary/30 dark:border-purple-dark/30 hover:shadow-xl transition-shadow duration-150 hover:-translate-y-0.5">
               <h3 className="text-xl font-semibold text-accent-light dark:text-accent-dark mb-2">Student-Led</h3>
               <p className="text-gray-600 dark:text-gray-300">Empowering students to lead cutting-edge neuroscience research and innovation.</p>
             </div>
-            <div className="bg-white/95 dark:bg-background-dark/90 rounded-xl p-6 shadow-lg border border-secondary/30 dark:border-purple-dark/30 hover:shadow-xl transition-shadow duration-150 transform-gpu hover:-translate-y-0.5">
+            <div className="bg-white/95 dark:bg-background-dark/90 rounded-xl p-6 shadow-lg border border-secondary/30 dark:border-purple-dark/30 hover:shadow-xl transition-shadow duration-150 hover:-translate-y-0.5">
               <h3 className="text-xl font-semibold text-accent-light dark:text-accent-dark mb-2">Real Impact</h3>
               <p className="text-gray-600 dark:text-gray-300">Making neuroscience research accessible and impactful for real-world applications.</p>
             </div>

@@ -145,7 +145,7 @@ export default function RoadmapPage() {
               </div>
               
               {/* Selected Program Content */}
-              <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30">
+              <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                 <h3 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">
                   {roadmapContent.title}
                 </h3>

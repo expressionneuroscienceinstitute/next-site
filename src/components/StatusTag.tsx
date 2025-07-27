@@ -126,9 +126,10 @@ export default function StatusTag({ status, className = '', size = 'medium' }: S
   return (
     <span
       className={`
-        inline-flex items-center font-medium rounded-full border
+        inline-flex items-center justify-center font-medium rounded-full border
         ${config.bgColor} ${config.textColor} ${config.borderColor}
         ${sizeClasses} ${className}
+        flex-shrink-0 whitespace-nowrap
       `.trim()}
       role="status"
       aria-label={`Status: ${config.label}`}

@@ -44,7 +44,7 @@ export default function AboutPage() {
               {aboutConfig.board.members.map((member) => (
                 <div
                   key={member.name}
-                  className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 flex flex-col items-center hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                  className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 flex flex-col items-center hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
                 >
                   <Image 
                     className="rounded-xl mb-4 flex-shrink-0 border-2 border-accent-light/20 dark:border-accent-dark/20" 
