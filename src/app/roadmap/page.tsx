@@ -2,42 +2,47 @@
 
 import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
-import Timeline from '@/components/Timeline'
+import LazyTimeline from '@/components/LazyTimeline'
 import { roadmapConfig } from '../data/roadmapConfig'
 import { RoadmapPageSkeleton } from '@/components/RoadmapPageSkeleton'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import { StatusTagType } from '@/components/StatusTag'
 
 interface Link {
   text: string;
   href: string;
 }
 
+interface Milestone {
+  id: string;
+  title: string;
+  description: string;
+  status: StatusTagType;
+  date: string;
+}
+
+interface FutureResearchCard {
+  title: string;
+  text: string;
+}
+
+interface FutureResearch {
+  title: string;
+  cards: FutureResearchCard[];
+}
+
 interface RoadmapContent {
   title: string;
   description: string;
-  timeline: {
-    title: string;
-    milestones: {
-      id: string;
-      date: string;
-      title: string;
-      description: string;
-      status: string;
-    }[];
-  };
-  futureResearch?: {
-    title: string;
-    cards: {
-      title: string;
-      text: string;
-    }[];
-  };
-  links?: Link[];
+  timeline: Milestone[];
+  futureResearch?: FutureResearch;
+  links: Link[];
 }
 
 export default function RoadmapPage() {
   const [selectedProgram, setSelectedProgram] = useState('company')
+  const [isLoaded, setIsLoaded] = useState(false)
   
   /* URL Hash Management */
   useEffect(() => {
@@ -51,6 +56,9 @@ export default function RoadmapPage() {
     handleHashChange()
     window.addEventListener('hashchange', handleHashChange)
     
+    // Set loaded state after initial render
+    setIsLoaded(true)
+    
     return () => {
       window.removeEventListener('hashchange', handleHashChange)
     }
@@ -61,6 +69,7 @@ export default function RoadmapPage() {
     if (selectedProgram === 'company') {
       return {
         ...roadmapConfig.company,
+        timeline: roadmapConfig.company.timeline.milestones as Milestone[],
         links: []
       }
     } else if (selectedProgram === 'insight') {
@@ -68,7 +77,7 @@ export default function RoadmapPage() {
       return {
         title: insightProgram.title,
         description: insightProgram.text,
-        timeline: insightProgram.timeline,
+        timeline: insightProgram.timeline.milestones as Milestone[],
         futureResearch: insightProgram.futureResearch,
         links: insightProgram.links
       }
@@ -77,7 +86,7 @@ export default function RoadmapPage() {
       return {
         title: ceEEGProgram.title,
         description: ceEEGProgram.text,
-        timeline: ceEEGProgram.timeline,
+        timeline: ceEEGProgram.timeline.milestones as Milestone[],
         futureResearch: ceEEGProgram.futureResearch,
         links: ceEEGProgram.links
       }
@@ -85,6 +94,7 @@ export default function RoadmapPage() {
     
     return {
       ...roadmapConfig.company,
+      timeline: roadmapConfig.company.timeline.milestones as Milestone[],
       links: []
     }
   }
@@ -101,91 +111,84 @@ export default function RoadmapPage() {
     setSelectedProgram(programId)
     window.history.pushState(null, '', `#${programId}`)
   }
-  
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
       <Navbar />
       <main id="main-content" className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full" tabIndex={-1}>
         {isConfigValid ? (
           <div>
-            <header className="mb-8 text-center">
-              <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-8">
-                {roadmapConfig.pageTitle}
-              </h1>
-            </header>
+            {/* Page Header */}
+            <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-8 text-center">
+              {roadmapConfig.pageTitle}
+            </h1>
             
-            {/* Program Selector */}
-            <nav className="mb-8" aria-label="Program selection">
-              <div className="flex flex-wrap gap-3 justify-center" role="tablist">
-                {roadmapConfig.programs.map(program => (
+            {/* Program Selection */}
+            <section className="mb-12">
+              <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
+                {roadmapConfig.currentPrograms.title}
+              </h2>
+              <div className="flex flex-wrap justify-center gap-4 mb-8">
+                {roadmapConfig.programs.map((program) => (
                   <button
                     key={program.id}
-                    onClick={() => !program.comingSoon && handleProgramChange(program.id)}
-                    className={`px-6 py-3 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark ${
+                    onClick={() => handleProgramChange(program.id)}
+                    className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
                       selectedProgram === program.id
-                        ? 'bg-accent-light dark:bg-accent-dark text-white font-medium shadow-lg'
-                        : 'bg-white/90 dark:bg-background-dark/70 backdrop-blur-md border border-secondary/30 dark:border-purple-dark/30 hover:bg-gray-200 dark:hover:bg-gray-700 hover:shadow-lg'
-                    } ${program.comingSoon ? 'opacity-60 cursor-not-allowed' : ''}`}
-                    disabled={program.comingSoon}
-                    role="tab"
-                    aria-selected={selectedProgram === program.id}
-                    aria-label={`${program.name}${program.comingSoon ? ' (Coming Soon)' : ''}`}
+                        ? 'bg-accent-light dark:bg-accent-dark text-white shadow-lg'
+                        : 'bg-white/80 dark:bg-background-dark/50 text-text-light dark:text-text-dark hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
+                    }`}
                   >
                     {program.name}
-                    {program.comingSoon && (
-                      <span className="ml-2 text-xs font-normal" aria-hidden="true">Coming Soon</span>
-                    )}
                   </button>
                 ))}
               </div>
-            </nav>
-            
-            {/* Current Program Description */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
-                {roadmapContent.title}
-              </h2>
+              
+              {/* Selected Program Content */}
               <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30">
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                <h3 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">
+                  {roadmapContent.title}
+                </h3>
+                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                   {roadmapContent.description}
                 </p>
+                
+                {/* Program Links */}
                 {roadmapContent.links && roadmapContent.links.length > 0 && (
-                  <div className="flex gap-4 flex-wrap">
-                    {roadmapContent.links.map((link: Link) => (
-                      <Link 
-                        key={link.href} 
-                        href={link.href}
-                        target="_blank"
-                        className="text-accent-light dark:text-accent-dark hover:underline font-medium hover:scale-105 transition-transform duration-200"
-                      >
-                        {link.text}
-                      </Link>
-                    ))}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold text-accent-light dark:text-accent-dark mb-3">
+                      Related Links
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {roadmapContent.links.map((link, index) => (
+                        <Link
+                          key={index}
+                          href={link.href}
+                          className="inline-flex items-center px-4 py-2 bg-accent-light/10 dark:bg-accent-dark/10 text-accent-light dark:text-accent-dark rounded-lg hover:bg-accent-light/20 dark:hover:bg-accent-dark/20 transition-colors duration-300"
+                        >
+                          {link.text}
+                          <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
             </section>
-
-            {/* Timeline Section */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
-                {roadmapContent.timeline.title}
-              </h2>
-              {roadmapContent.timeline.milestones && roadmapContent.timeline.milestones.length > 0 ? (
-                <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30">
-                  <Timeline milestones={roadmapContent.timeline.milestones.map(milestone => ({
-                    ...milestone,
-                    status: milestone.status as "completed" | "in-progress" | "planned"
-                  }))} />
-                </div>
-              ) : (
-                <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 text-center">
-                  <p className="text-gray-500 dark:text-gray-400">Timeline details coming soon.</p> 
-                </div>
-              )}
-            </section>
-
-            {/* Future Research Section - only render if futureResearch exists and has cards */}
+            
+            {/* Timeline Section - Lazy Loaded */}
+            {isLoaded && roadmapContent.timeline && roadmapContent.timeline.length > 0 && (
+              <section className="mb-12">
+                <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
+                  Timeline
+                </h2>
+                <LazyTimeline milestones={roadmapContent.timeline} />
+              </section>
+            )}
+            
+            {/* Future Research Section */}
             {roadmapContent.futureResearch && roadmapContent.futureResearch.cards && 
              roadmapContent.futureResearch.cards.length > 0 && (
               <section className="mt-12">
