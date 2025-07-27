@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Dataset } from '@/lib/datasets'
 import { useState } from 'react'
+import StatusTag, { isComingSoonStatus, isAvailableStatus } from './StatusTag'
 import ProgressModal from './ProgressModal'
 import ProgressTimeline from './ProgressTimeline'
 
@@ -12,7 +13,8 @@ interface DatasetCardProps {
 }
 
 export default function DatasetCard({ dataset, index }: DatasetCardProps) {
-  const isComingSoon = dataset.status === 'coming soon';
+  const isComingSoon = isComingSoonStatus(dataset.status);
+  const isAvailable = isAvailableStatus(dataset.status);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const hasUpdates = !!dataset.updates && dataset.updates.length > 0;
 
@@ -28,26 +30,26 @@ export default function DatasetCard({ dataset, index }: DatasetCardProps) {
           <h3 className="text-xl font-semibold text-text-light dark:text-text-dark">
             {dataset.title}
           </h3>
-          {isComingSoon && (
-            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 whitespace-nowrap">
-              Coming Soon
-            </span>
-          )}
+          <StatusTag 
+            status={dataset.status} 
+            size="small" 
+            className="whitespace-nowrap" 
+          />
         </div>
         <p className="text-gray-600 dark:text-gray-300 mb-4">{dataset.description}</p>
         <div className="flex gap-4 items-center">
           <a
-            href={isComingSoon ? '#' : dataset.viewLink}
+            href={isAvailable ? dataset.viewLink : '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className={`font-medium text-sm ${isComingSoon 
+            className={`font-medium text-sm ${!isAvailable 
               ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed' 
               : 'text-accent-light dark:text-accent-dark hover:underline'}`}
-            onClick={(e) => isComingSoon && e.preventDefault()}
+            onClick={(e) => !isAvailable && e.preventDefault()}
           >
-            {isComingSoon ? 'View (Coming Soon)' : 'View Details'}
+            {!isAvailable ? 'View (Not Available)' : 'View Details'}
           </a>
-          {dataset.downloadLink && !isComingSoon && (
+          {dataset.downloadLink && isAvailable && (
             <a
               href={dataset.downloadLink}
               className="text-accent-light dark:text-accent-dark hover:underline font-medium text-sm"
@@ -55,7 +57,7 @@ export default function DatasetCard({ dataset, index }: DatasetCardProps) {
               Download Dataset
             </a>
           )}
-          {isComingSoon && hasUpdates && (
+          {!isAvailable && hasUpdates && (
             <button 
               onClick={() => setIsModalOpen(true)}
               className="text-xs text-purple-light dark:text-purple-dark hover:underline ml-auto"
