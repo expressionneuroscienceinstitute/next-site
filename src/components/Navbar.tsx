@@ -43,9 +43,11 @@ export default function Navbar() {
     }
 
     if (isSettingsOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
+      // Use the "click" event so internal button clicks (which fire before this listener)
+      // can still be processed before the menu potentially closes.
+      document.addEventListener('click', handleClickOutside)
       return () => {
-        document.removeEventListener('mousedown', handleClickOutside)
+        document.removeEventListener('click', handleClickOutside)
       }
     }
   }, [isSettingsOpen])
@@ -69,7 +71,7 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark" role="navigation" aria-label="Main navigation">
+    <nav className="bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark relative z-[99999]" role="navigation" aria-label="Main navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -115,6 +117,7 @@ export default function Navbar() {
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
               aria-label={isOpen ? 'Close main menu' : 'Open main menu'}
+              style={{ display: 'inline-flex' }} // Force visible on mobile
             >
               <span className="sr-only">{isOpen ? 'Close main menu' : 'Open main menu'}</span>
               {/* Mobile Menu Icon */}
@@ -150,7 +153,7 @@ export default function Navbar() {
 
               {/* Settings Dropdown */}
               {isSettingsOpen && (
-                <div className="absolute right-0 top-12 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-border-light dark:border-border-dark z-50">
+                <div className="absolute right-0 top-12 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-border-light dark:border-border-dark z-[9999]">
                   <div className="p-4">
                     <h3 className="text-lg font-semibold text-text-light dark:text-text-dark mb-2">
                       Accessibility Settings
@@ -175,7 +178,10 @@ export default function Navbar() {
                           </div>
                           <button
                             id={`desktop-${toggle.key}`}
-                            onClick={() => updateSetting(toggle.key, !settings[toggle.key])}
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              updateSetting(toggle.key, !settings[toggle.key])
+                            }}
                             className={`relative w-12 h-6 rounded-full transition-colors duration-200 ${
                               settings[toggle.key]
                                 ? 'bg-accent-light dark:bg-accent-dark'
@@ -197,7 +203,10 @@ export default function Navbar() {
 
                     <div className="mt-4 pt-3 border-t border-border-light dark:border-border-dark">
                       <button
-                        onClick={resetSettings}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          resetSettings()
+                        }}
                         className="text-sm text-accent-light dark:text-accent-dark hover:underline"
                       >
                         Reset to defaults
