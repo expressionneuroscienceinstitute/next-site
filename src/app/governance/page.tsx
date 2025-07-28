@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { footerConfig } from '@/app/data/documentConfig'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 export const metadata = {
   title: 'Governance | Expression Neuroscience Institute',
   description: 'Governance documents and resources for the Expression Neuroscience Institute',
@@ -21,7 +22,7 @@ export default function GovernancePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-grow container mx-auto px-4 py-12 max-w-4xl">
+      <main id="main-content" className="flex-grow container mx-auto px-4 py-12 max-w-4xl">
         <h1 className="text-3xl font-bold mb-8 text-center">Governance Documents</h1>
         
       <div className="space-y-12">
@@ -207,7 +208,8 @@ export default function GovernancePage() {
           </section>
         )}
       </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   )
 } 

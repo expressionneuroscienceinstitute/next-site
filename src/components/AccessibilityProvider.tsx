@@ -60,8 +60,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     setSettings(defaultSettings)
   }, [])
 
+  // Return default settings during SSR to prevent hydration mismatch
   if (!mounted) {
-    return <>{children}</>
+    return (
+      <AccessibilityContext.Provider value={{ 
+        settings: defaultSettings, 
+        updateSetting: () => {}, 
+        resetSettings: () => {} 
+      }}>
+        {children}
+      </AccessibilityContext.Provider>
+    )
   }
 
   return (
