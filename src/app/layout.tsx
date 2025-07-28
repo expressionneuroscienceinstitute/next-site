@@ -132,7 +132,21 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData)
           }}
         />
+        
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HKMQDNQJTV"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-HKMQDNQJTV');
+            `
+          }}
+        />
       </head>
+
       <body className={`${inter.className} font-sans`} suppressHydrationWarning>
         <SkipToContent />
         <ThemeProvider>

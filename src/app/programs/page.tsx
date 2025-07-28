@@ -5,6 +5,11 @@ import ProgramLink from '@/components/ProgramLink'
 import StatusTag from '@/components/StatusTag'
 import type { StatusTagType } from '@/components/StatusTag'
 
+export const metadata = {
+  title: 'Programs',
+  description: 'Our open-source programs and initiatives for neuroscience and mental health research.',
+}
+
 interface Program {
   title: string
   description: string
@@ -34,7 +39,7 @@ export default function Programs() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
       <Navbar />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold text-text-light dark:text-text-dark">Our Programs</h1>
           <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">

@@ -1,5 +1,3 @@
-'use client'
-
 import Navbar from '@/components/Navbar'
 import DatasetCard from '@/components/DatasetCard'
 import { datasets, Dataset } from '@/lib/datasets'
@@ -15,7 +13,7 @@ export default function ResearchPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
       <Navbar />
-      <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+      <main id="main-content" className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         {isConfigValid ? (
           <div>
             {/* Page Header */}
@@ -72,7 +70,7 @@ export default function ResearchPage() {
         ) : (
           <ResearchPageSkeleton />
         )}
-      </div>
+      </main>
       <Footer />
     </div>
   )

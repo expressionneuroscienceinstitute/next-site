@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
+import { useAccessibility } from './AccessibilityProvider'
 
 // Lazy load the NeuralBackground component
 const NeuralBackground = dynamic(() => import('./NeuralBackground'), {
@@ -9,14 +10,17 @@ const NeuralBackground = dynamic(() => import('./NeuralBackground'), {
   loading: () => null,
 })
 
-interface LazyNeuralBackgroundProps {
-  disabled?: boolean
-}
+export default function LazyNeuralBackground() {
+  const { settings } = useAccessibility()
 
-export default function LazyNeuralBackground({ disabled = false }: LazyNeuralBackgroundProps) {
+  // Only render if neuron background is enabled
+  if (!settings.neuronBackgroundEnabled) {
+    return null
+  }
+
   return (
     <Suspense fallback={null}>
-      <NeuralBackground disabled={disabled} />
+      <NeuralBackground disabled={!settings.allMotionEnabled} />
     </Suspense>
   )
 } 
