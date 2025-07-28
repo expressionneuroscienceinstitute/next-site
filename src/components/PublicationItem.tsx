@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Paper } from '@/lib/papers'
 import { useState } from 'react'
+import StatusTag, { isComingSoonStatus, isAvailableStatus } from './StatusTag'
 import ProgressModal from './ProgressModal'
 import ProgressTimeline from './ProgressTimeline'
 
@@ -12,7 +13,8 @@ interface PublicationItemProps {
 }
 
 export default function PublicationItem({ paper, index }: PublicationItemProps) {
-  const isComingSoon = paper.status === 'coming soon';
+  const isComingSoon = isComingSoonStatus(paper.status);
+  const isAvailable = isAvailableStatus(paper.status);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const hasUpdates = !!paper.updates && paper.updates.length > 0;
 
@@ -30,11 +32,11 @@ export default function PublicationItem({ paper, index }: PublicationItemProps) 
           <h3 className="text-lg font-semibold text-text-light dark:text-text-dark">
             {paper.title}
           </h3>
-          {isComingSoon && (
-            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 flex-shrink-0 ml-2 whitespace-nowrap">
-              Coming Soon
-            </span>
-          )}
+          <StatusTag 
+            status={paper.status} 
+            size="small" 
+            className="flex-shrink-0 ml-2 whitespace-nowrap" 
+          />
         </div>
         
         {/* Paper Metadata */}
@@ -54,7 +56,7 @@ export default function PublicationItem({ paper, index }: PublicationItemProps) 
         
         {/* Paper Actions */}
         <div className="flex items-center gap-4 mt-2">
-          {paper.url && !isComingSoon && (
+          {paper.url && isAvailable && (
             <a
               href={paper.url}
               target="_blank"
@@ -65,10 +67,10 @@ export default function PublicationItem({ paper, index }: PublicationItemProps) 
               <svg className="ml-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 00-1.5 0v3.25H5.75V6.75h3.25a.75.75 0 000-1.5h-4a.75.75 0 00-.75.75z" clipRule="evenodd"/><path fillRule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clipRule="evenodd"/></svg>
             </a>
           )}
-          {isComingSoon && !hasUpdates && (
+          {!isAvailable && !hasUpdates && (
             <p className="text-sm text-gray-400 dark:text-gray-500">Link available upon publication</p>
           )}
-          {isComingSoon && hasUpdates && (
+          {!isAvailable && hasUpdates && (
             <button 
               onClick={() => setIsModalOpen(true)}
               className="text-xs text-purple-light dark:text-purple-dark hover:underline"

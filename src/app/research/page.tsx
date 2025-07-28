@@ -53,7 +53,7 @@ export default function ResearchPage() {
                 {papers.map((paper: Paper, index: number) => (
                   <div
                     key={paper.id}
-                    className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                    className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
                   >
                     <PublicationItem paper={paper} index={index} /> 
                   </div>

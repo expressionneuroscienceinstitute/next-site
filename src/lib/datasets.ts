@@ -1,10 +1,12 @@
+import { StatusTagType } from '@/components/StatusTag'
+
 export interface Dataset {
   id: string
   title: string
   description: string
   viewLink: string
   downloadLink?: string
-  status: 'available' | 'coming soon'
+  status: StatusTagType
   updates?: { date: string; description: string }[];
 }
 

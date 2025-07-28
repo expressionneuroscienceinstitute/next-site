@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import StatusTag, { StatusTagType } from './StatusTag'
 
 interface MilestoneLink {
   title: string;
@@ -13,7 +14,7 @@ interface Milestone {
   date: string;
   title: string;
   description: string;
-  status: 'completed' | 'in-progress' | 'planned' | 'speculative';
+  status: StatusTagType;
   links?: MilestoneLink[];
 }
 
@@ -21,7 +22,7 @@ interface TimelineProps {
   milestones: Milestone[]
 }
 
-// Define direct color values for consistency
+// Color mapping for timeline visualization (keeping for visual consistency)
 const statusColorValues = {
   completed: {
     circle: { light: '#059669', dark: '#10B981' }, // emerald-600 / emerald-500
@@ -61,7 +62,7 @@ export default function Timeline({ milestones }: TimelineProps) {
   
   /* Dynamic Gradient Generation */
   const gradientColors = milestones.map(m => {
-    return statusColorValues[m.status].circle[theme]; 
+    return statusColorValues[m.status as keyof typeof statusColorValues]?.circle[theme]; 
   }).filter(Boolean); 
 
   const gradientStyle = gradientColors.length > 0 
@@ -73,10 +74,9 @@ export default function Timeline({ milestones }: TimelineProps) {
     <section className="max-w-2xl mx-auto relative py-8" aria-label="Project timeline">
       {/* Central timeline line with dynamic gradient */}
       <div 
-        className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 opacity-70 z-10"
+        className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1.5 opacity-70 z-0"
         style={{ 
-          background: gradientStyle,
-          transform: 'translateX(5px)' // Fine-tune the line position otherwise it is off center and will not look good with line terminator
+          background: gradientStyle
         }} 
         aria-hidden="true"
       />
@@ -91,8 +91,8 @@ export default function Timeline({ milestones }: TimelineProps) {
           height: '16px',
           borderRadius: '50%',
           borderWidth: '3px',
-          left: '50%',
-          transform: 'translateX(-50%)'
+          left: '48.8095%',
+          
         }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -103,17 +103,7 @@ export default function Timeline({ milestones }: TimelineProps) {
       <div className="space-y-12">
         {milestones.map((milestone, index) => {
           /* Color Theme Resolution */
-          const colorSet = statusColorValues[milestone.status];
-          const isLightMode = theme === 'light';
-          const pillTextColor = isLightMode 
-            ? '#FFFFFF' // White for light mode
-            : milestone.status === 'completed' 
-              ? '#34D399' // emerald-400
-              : milestone.status === 'in-progress' 
-                ? '#93C5FD' // blue-300
-                : milestone.status === 'planned' 
-                  ? '#C4B5FD' // violet-300
-                  : '#FCD34D'; // amber-300
+          const colorSet = statusColorValues[milestone.status as keyof typeof statusColorValues];
           
           return (
             <motion.div
@@ -123,72 +113,28 @@ export default function Timeline({ milestones }: TimelineProps) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative"
             >
-              {/* Timeline Node */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-6 flex items-center justify-center z-20">
-                <motion.div
-                  className="relative w-4 h-4 rounded-full shadow-lg border-2 border-white dark:border-gray-900"
-                  style={{ backgroundColor: colorSet.circle[theme] }}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  whileHover={{ scale: 1.2 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  {/* Pulse Animation for In-Progress Items */}
-                  {milestone.status === 'in-progress' && (
-                    <>
-                      <motion.div
-                        className="absolute -inset-2 rounded-full opacity-20"
-                        style={{ backgroundColor: colorSet.circle[theme] }}
-                        initial={{ scale: 0.8, opacity: 0.2 }}
-                        animate={{ scale: 1.8, opacity: 0 }}
-                        transition={{ 
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeOut"
-                        }}
-                      />
-                      <motion.div
-                        className="absolute -inset-1 rounded-full opacity-20"
-                        style={{ backgroundColor: colorSet.circle[theme] }}
-                        initial={{ scale: 0.8, opacity: 0.2 }}
-                        animate={{ scale: 1.4, opacity: 0 }}
-                        transition={{ 
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeOut",
-                          delay: 0.5
-                        }}
-                      />
-                    </>
-                  )}
-                </motion.div>
-              </div>
 
               {/* Milestone Content Card */}
               <div className="relative mx-auto w-full max-w-lg px-4">
                 <motion.div
                   className="relative p-6 rounded-xl bg-white dark:bg-gray-900 border shadow-[0_4px_20px_rgb(0,0,0,0.08)] z-20 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
-                  style={{ borderColor: colorSet.border[theme] }}
-                  whileHover={{ scale: 1.02 }}
+                  style={{ borderColor: colorSet?.border[theme] }}
+                  whileHover={{ y: -2 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   {/* Card Header */}
                   <div className="flex justify-between items-start gap-3 mb-3">
                     <h3 
                       className="text-base font-bold"
-                      style={{ color: colorSet.text[theme] }}
+                      style={{ color: colorSet?.text[theme] }}
                     >
                       {milestone.title}
                     </h3>
-                    <span 
-                      className="text-xs font-extrabold px-2.5 py-1 rounded-full"
-                      style={{ 
-                        backgroundColor: colorSet.bg[theme],
-                        color: pillTextColor
-                      }}
-                    >
-                      {milestone.status.replace('-', ' ')}
-                    </span>
+                    <StatusTag 
+                      status={milestone.status} 
+                      size="small" 
+                      className="flex-shrink-0"
+                    />
                   </div>
                   
                   {/* Card Content */}
@@ -201,20 +147,18 @@ export default function Timeline({ milestones }: TimelineProps) {
                   
                   {/* Card Links */}
                   {milestone.links && milestone.links.length > 0 && (
-                    <div className="flex flex-wrap gap-3" role="list">
-                      {milestone.links.map((link) => (
+                    <div className="flex flex-wrap gap-2">
+                      {milestone.links.map((link, linkIndex) => (
                         <a
-                          key={link.url}
+                          key={linkIndex}
                           href={link.url}
-                          className="inline-flex items-center text-xs font-medium hover:underline transition-transform hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
-                          style={{ color: colorSet.text[theme] }}
                           target="_blank"
                           rel="noopener noreferrer"
-                          aria-label={`${link.title} (opens in new tab)`}
+                          className="inline-flex items-center text-xs font-medium text-accent-light dark:text-accent-dark hover:underline transition-colors duration-200"
                         >
                           {link.title}
-                          <svg className="ml-1 w-3 h-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
+                          <svg className="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
                         </a>
                       ))}
@@ -223,9 +167,9 @@ export default function Timeline({ milestones }: TimelineProps) {
                 </motion.div>
               </div>
             </motion.div>
-          )
+          );
         })}
       </div>
     </section>
-  )
+  );
 }

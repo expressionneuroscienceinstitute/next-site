@@ -2,20 +2,31 @@ import React from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProgramLink from '@/components/ProgramLink'
+import StatusTag from '@/components/StatusTag'
+import type { StatusTagType } from '@/components/StatusTag'
 
-const programs = [
+interface Program {
+  title: string
+  description: string
+  href: string
+  longDescription: string
+  status?: StatusTagType
+}
+
+const programs: Program[] = [
   {
     title: 'Insight Program',
     description: 'Open-source VR tools for visual processing and Binocular Vision Dysfunction (BVD) research.',
     href: '/programs/insight',
     longDescription: 'Insight is a platform built to diagnose and measure Binocular Vision Dysfunction (BVD) and other visual processing disorders, then provide a personalized treatment plan and vision therapy exercises. We believe that, with open source tools like Insight, BVD could be treated by anyone, anywhere, at any time within the next decade. All our code and tools are open source and free to use for anyone.',
+    status: 'in-development',
   },
   {
     title: 'Continuous Embedded Electroencephalogram',
-    description: 'A novel and non-invasive method of measuring brain activity in real-time, with a maximum ambulatory duration of 3 months, compared to the current max ambulatory duration of 72 hours; ceEEG has the potential to make Brain-Computer Interfaces (BCIs) more accessible to the general public.',
+    description: 'Building open source, non-invasive brain-computer interfaces that work for real people. Transparent, secure, community-driven neurotechnology.',
     href: '/programs/ceEEG',
-    longDescription: 'Continuous Embedded Electroencephalogram (ceEEG) is a groundbreaking, non-invasive technology for monitoring brain activity in real time. Unlike traditional ambulatory EEG systems, which are limited to 72 hours, ceEEG enables continuous, high-fidelity brain monitoring for up to 3 months. This extended duration opens new possibilities for long-term neurological research, clinical diagnostics, and the development of accessible Brain-Computer Interfaces (BCIs) for the general public. By making advanced neurotechnology more practical and widely available, ceEEG aims to accelerate innovation in neuroscience, mental health, and human-computer interaction.',
-    comingSoon: true,
+    longDescription: 'Continuous Embedded Electroencephalogram (ceEEG) is our initiative to build brain-computer interfaces that actually work for people. We believe BCIs have failed because they&apos;ve been locked in proprietary black boxes, requiring surgery, and designed for profit rather than people. ceEEG is different: open source, non-invasive, transparent, and community-driven. Every line of code, every design decision, every algorithm - it&apos;s all open. Your brain data stays yours. No corporate servers, no hidden algorithms, no venture capital influence. Just technology that respects human autonomy.',
+    status: 'early-research',
   },
 ]
 
@@ -35,20 +46,20 @@ export default function Programs() {
           {programs.map((program) => (
             <div 
               key={program.title} 
-              className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+              className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
             >
-              <h2 className="text-2xl font-bold text-accent-light dark:text-accent-dark mb-4">
-                {program.title}
-                {program.comingSoon && (
-                  <span className="ml-3 text-sm font-normal text-purple-light dark:text-purple-dark px-3 py-1 bg-purple-light/10 dark:bg-purple-dark/10 rounded-full">
-                    Coming Soon
-                  </span>
+              <div className="flex items-center flex-wrap gap-3 mb-4">
+                <h2 className="text-2xl font-bold text-accent-light dark:text-accent-dark">
+                  {program.title}
+                </h2>
+                {program.status && (
+                  <StatusTag status={program.status} size="medium" className="flex-shrink-0 whitespace-nowrap" />
                 )}
-              </h2>
+              </div>
               <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                 {program.longDescription}
               </p>
-              <ProgramLink href={program.href} comingSoon={program.comingSoon}>
+              <ProgramLink href={program.href} status={program.status}>
                 Learn More
                 <svg
                   className="ml-2 w-4 h-4"
