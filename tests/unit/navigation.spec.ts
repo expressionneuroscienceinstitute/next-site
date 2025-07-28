@@ -72,8 +72,9 @@ test.describe('Navigation Unit Tests', () => {
     const skipLink = page.getByRole('link', { name: /skip to main content/i })
     await expect(skipLink).toBeVisible()
     
-    // Test skip functionality
-    await skipLink.click()
+    // Test skip functionality using keyboard navigation (more realistic)
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Enter')
     await expect(page.locator('#main-content')).toBeFocused()
   })
 }) 

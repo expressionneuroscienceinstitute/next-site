@@ -128,11 +128,13 @@ test.describe('Accessibility Scan Tests', () => {
   test('should have proper focus management', async ({ page }) => {
     await page.goto('/')
     
-    // Test skip link functionality
+    // Test skip link functionality using keyboard navigation
     const skipLink = page.getByRole('link', { name: /skip to main content/i })
     await expect(skipLink).toBeVisible()
     
-    await skipLink.click()
+    // Tab to the skip link and press Enter (more realistic user interaction)
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Enter')
     await expect(page.locator('#main-content')).toBeFocused()
   })
 

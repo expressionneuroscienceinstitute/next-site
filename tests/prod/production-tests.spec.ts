@@ -35,7 +35,8 @@ test.describe('Production Environment Tests @prod', () => {
     
     for (const tag of metaTags) {
       const meta = page.locator(`meta[name="${tag}"]`)
-      await expect(meta).toBeVisible()
+      const count = await meta.count()
+      expect(count).toBeGreaterThanOrEqual(1)
     }
   })
 
@@ -53,14 +54,15 @@ test.describe('Production Environment Tests @prod', () => {
     
     for (const tag of ogTags) {
       const meta = page.locator(`meta[property="${tag}"]`)
-      await expect(meta).toBeVisible()
+      const count = await meta.count()
+      expect(count).toBeGreaterThanOrEqual(1)
     }
   })
 
   test('should have proper Twitter Card tags', async ({ page }) => {
     await page.goto('/')
     
-    // Check for Twitter Card meta tags
+    // Check for Twitter Card meta tags  
     const twitterTags = [
       'twitter:card',
       'twitter:title',
@@ -70,7 +72,8 @@ test.describe('Production Environment Tests @prod', () => {
     
     for (const tag of twitterTags) {
       const meta = page.locator(`meta[name="${tag}"]`)
-      await expect(meta).toBeVisible()
+      const count = await meta.count()
+      expect(count).toBeGreaterThanOrEqual(1)
     }
   })
 
@@ -79,10 +82,11 @@ test.describe('Production Environment Tests @prod', () => {
     
     // Check for JSON-LD structured data
     const structuredData = page.locator('script[type="application/ld+json"]')
-    await expect(structuredData).toBeVisible()
+    const count = await structuredData.count()
+    expect(count).toBeGreaterThanOrEqual(1)
     
     // Verify structured data content
-    const jsonContent = await structuredData.textContent()
+    const jsonContent = await structuredData.first().textContent()
     expect(jsonContent).toBeTruthy()
     
     // Parse and validate JSON
