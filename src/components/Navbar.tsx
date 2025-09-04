@@ -57,9 +57,9 @@ export default function Navbar() {
       description: 'Interactive neuron background'
     },
     {
-      key: 'breathingEffectsEnabled' as keyof typeof settings,
-      label: 'Breathing Effects',
-      description: 'Subtle breathing animations'
+      key: 'glowEffectsEnabled' as keyof typeof settings,
+      label: 'Glow Effects',
+      description: 'Visual glow and shimmer effects'
     },
     {
       key: 'allMotionEnabled' as keyof typeof settings,
