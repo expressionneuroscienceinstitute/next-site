@@ -17,6 +17,7 @@ export type StatusTagType =
   | 'in-progress'
   | 'planned'
   | 'speculative'
+  | 'waiting-on-something'
 
 interface StatusTagProps {
   status: StatusTagType
@@ -34,9 +35,9 @@ const statusConfig = {
   },
   'coming-soon': {
     label: 'Coming Soon',
-    bgColor: 'bg-purple-100 dark:bg-purple-900/20',
+    bgColor: 'bg-gradient-to-r from-purple-100 to-pink-100 dark:bg-gradient-to-r dark:from-purple-900/30 dark:to-pink-900/30',
     textColor: 'text-purple-700 dark:text-purple-300',
-    borderColor: 'border-purple-200 dark:border-purple-700',
+    borderColor: 'border-purple-300 dark:border-purple-700',
   },
   'early-research': {
     label: 'Early Research',
@@ -111,6 +112,12 @@ const statusConfig = {
     textColor: 'text-amber-700 dark:text-amber-300',
     borderColor: 'border-amber-200 dark:border-amber-700',
   },
+  'waiting-on-something': {
+    label: 'Waiting on Something',
+    bgColor: 'bg-gradient-to-r from-indigo-100 to-sky-100 dark:bg-gradient-to-r dark:from-indigo-900/30 dark:to-sky-900/30',
+    textColor: 'text-indigo-700 dark:text-indigo-300',
+    borderColor: 'border-indigo-300 dark:border-indigo-600',
+  },
 } as const
 
 const sizeConfig = {
@@ -123,6 +130,25 @@ export default function StatusTag({ status, className = '', size = 'medium' }: S
   const config = statusConfig[status]
   const sizeClasses = sizeConfig[size]
   
+  // Icon for special statuses
+  const getStatusIcon = () => {
+    if (status === 'waiting-on-something') {
+      return (
+        <svg className="w-3.5 h-3.5 mr-1.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    }
+    if (status === 'coming-soon') {
+      return (
+        <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      )
+    }
+    return null
+  }
+  
   return (
     <span
       className={`
@@ -130,10 +156,12 @@ export default function StatusTag({ status, className = '', size = 'medium' }: S
         ${config.bgColor} ${config.textColor} ${config.borderColor}
         ${sizeClasses} ${className}
         flex-shrink-0 whitespace-nowrap
+        ${status === 'waiting-on-something' || status === 'coming-soon' ? 'shadow-sm' : ''}
       `.trim()}
       role="status"
       aria-label={`Status: ${config.label}`}
     >
+      {getStatusIcon()}
       {config.label}
     </span>
   )
@@ -162,3 +190,7 @@ export function isPlannedStatus(status: StatusTagType): boolean {
 export function isSpeculativeStatus(status: StatusTagType): boolean {
   return status === 'speculative'
 } 
+
+export function isWaitingOnSomethingStatus(status: StatusTagType): boolean {
+  return status === 'waiting-on-something'
+}

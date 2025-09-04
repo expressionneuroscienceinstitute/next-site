@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import StatusTag, { StatusTagType } from './StatusTag'
+import { useAccessibility } from './AccessibilityProvider'
 
 interface MilestoneLink {
   title: string;
@@ -47,12 +48,25 @@ const statusColorValues = {
     border: { light: '#F59E0B', dark: '#FBBF24' },
     text: { light: '#B45309', dark: '#FCD34D' }, // amber-700 / amber-300
     bg: { light: '#92400E', dark: 'rgba(120, 53, 15, 0.3)' }, // amber-800 / amber-900 with opacity
+  },
+  'waiting-on-something': {
+    circle: { light: '#6366F1', dark: '#818CF8' }, // indigo-500 / indigo-400
+    border: { light: '#6366F1', dark: '#818CF8' },
+    text: { light: '#4338CA', dark: '#A5B4FC' }, // indigo-700 / indigo-300
+    bg: { light: '#3730A3', dark: 'rgba(49, 46, 129, 0.3)' }, // indigo-800 / indigo-900 with opacity
+  },
+  'coming-soon': {
+    circle: { light: '#A855F7', dark: '#C084FC' }, // purple-500 / purple-400
+    border: { light: '#A855F7', dark: '#C084FC' },
+    text: { light: '#7C3AED', dark: '#E9D5FF' }, // purple-700 / purple-300
+    bg: { light: '#6B21A8', dark: 'rgba(88, 28, 135, 0.3)' }, // purple-800 / purple-900 with opacity
   }
 }
 
 export default function Timeline({ milestones }: TimelineProps) {
   /* Theme State Management */
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const { settings } = useAccessibility();
   
   /* Theme Detection and Monitoring */
   useEffect(() => {
@@ -117,11 +131,66 @@ export default function Timeline({ milestones }: TimelineProps) {
               {/* Milestone Content Card */}
               <div className="relative mx-auto w-full max-w-lg px-4">
                 <motion.div
-                  className="relative p-6 rounded-xl bg-white dark:bg-gray-900 border shadow-[0_4px_20px_rgb(0,0,0,0.08)] z-20 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                  className={`relative p-6 rounded-xl border z-20 transition-all duration-300 overflow-hidden ${
+                    milestone.status === 'waiting-on-something' 
+                      ? 'bg-gradient-to-br from-white via-indigo-50 to-sky-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-indigo-950 dark:to-sky-950 shadow-[0_4px_20px_rgb(99,102,241,0.15)] hover:shadow-[0_8px_30px_rgb(99,102,241,0.25)]' 
+                      : milestone.status === 'coming-soon'
+                      ? 'bg-gradient-to-br from-white via-purple-50 to-pink-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-purple-950 dark:to-pink-950 shadow-[0_4px_20px_rgb(168,85,247,0.15)] hover:shadow-[0_8px_30px_rgb(168,85,247,0.25)]'
+                      : milestone.status === 'completed'
+                      ? 'bg-gradient-to-br from-white via-emerald-50 to-green-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-emerald-950 dark:to-green-950 shadow-[0_4px_20px_rgb(16,185,129,0.15)] hover:shadow-[0_8px_30px_rgb(16,185,129,0.25)]'
+                      : milestone.status === 'in-progress'
+                      ? 'bg-gradient-to-br from-white via-blue-50 to-cyan-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-950 dark:to-cyan-950 shadow-[0_4px_20px_rgb(59,130,246,0.15)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.25)]'
+                      : milestone.status === 'planned'
+                      ? 'bg-gradient-to-br from-white via-violet-50 to-purple-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-violet-950 dark:to-purple-950 shadow-[0_4px_20px_rgb(139,92,246,0.15)] hover:shadow-[0_8px_30px_rgb(139,92,246,0.25)]'
+                      : milestone.status === 'speculative'
+                      ? 'bg-gradient-to-br from-white via-amber-50 to-yellow-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-amber-950 dark:to-yellow-950 shadow-[0_4px_20px_rgb(245,158,11,0.15)] hover:shadow-[0_8px_30px_rgb(245,158,11,0.25)]'
+                      : 'bg-white dark:bg-gray-900 shadow-[0_4px_20px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]'
+                  }`}
                   style={{ borderColor: colorSet?.border[theme] }}
                   whileHover={{ y: -2 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
+                  {/* Glow Effects (if enabled) */}
+                  {settings.glowEffectsEnabled && (
+                    <>
+                      {/* Shimmer effect for coming-soon */}
+                      {milestone.status === 'coming-soon' && (
+                        <div className="absolute inset-0 -translate-x-full animate-[shimmer_3s_infinite]">
+                          <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                        </div>
+                      )}
+                      
+                      {/* Waiting indicator overlay */}
+                      {milestone.status === 'waiting-on-something' && (
+                        <div className="absolute top-3 right-3">
+                          <div className="w-2 h-2 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-ping" />
+                        </div>
+                      )}
+                      
+                      {/* Pulse effect for completed */}
+                      {milestone.status === 'completed' && (
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/20 to-green-500/20 rounded-xl blur-md animate-pulse" />
+                      )}
+                      
+                      {/* Progress wave effect */}
+                      {milestone.status === 'in-progress' && (
+                        <div className="absolute bottom-0 left-0 right-0 h-1">
+                          <div className="h-full bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 animate-[wave_2s_ease-in-out_infinite]" />
+                        </div>
+                      )}
+                      
+                      {/* Subtle glow for planned */}
+                      {milestone.status === 'planned' && (
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-xl blur animate-[glow_4s_ease-in-out_infinite]" />
+                      )}
+                      
+                      {/* Sparkle effect for speculative */}
+                      {milestone.status === 'speculative' && (
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(245,158,11,0.1),transparent_50%)] animate-[sparkle_3s_ease-in-out_infinite]" />
+                      )}
+                    </>
+                  )}
+                  
                   {/* Card Header */}
                   <div className="flex justify-between items-start gap-3 mb-3">
                     <h3 
@@ -138,10 +207,10 @@ export default function Timeline({ milestones }: TimelineProps) {
                   </div>
                   
                   {/* Card Content */}
-                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-100 mb-2">
                     {milestone.date}
                   </p>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
+                  <p className="text-sm text-gray-900 dark:text-gray-100 mb-3 leading-relaxed">
                     {milestone.description}
                   </p>
                   
