@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 export interface AccessibilitySettings {
   neuronBackgroundEnabled: boolean
   allMotionEnabled: boolean
-  breathingEffectsEnabled: boolean
+  glowEffectsEnabled: boolean
 }
 
 interface AccessibilityContextType {
@@ -17,7 +17,7 @@ interface AccessibilityContextType {
 const defaultSettings: AccessibilitySettings = {
   neuronBackgroundEnabled: true,
   allMotionEnabled: true,
-  breathingEffectsEnabled: false,
+  glowEffectsEnabled: true,
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined)

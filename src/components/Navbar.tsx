@@ -13,6 +13,7 @@ const navItems = [
   { name: 'About', href: '/about' },
   { name: 'Roadmap', href: '/roadmap' },
   { name: 'Programs', href: '/programs' },
+  { name: 'Contact', href: '/contact' },
 ]
 
 export default function Navbar() {
@@ -57,9 +58,9 @@ export default function Navbar() {
       description: 'Interactive neuron background'
     },
     {
-      key: 'breathingEffectsEnabled' as keyof typeof settings,
-      label: 'Breathing Effects',
-      description: 'Subtle breathing animations'
+      key: 'glowEffectsEnabled' as keyof typeof settings,
+      label: 'Glow Effects',
+      description: 'Visual glow and shimmer effects'
     },
     {
       key: 'allMotionEnabled' as keyof typeof settings,

@@ -111,42 +111,42 @@ export const roadmapConfig: {
           date: "2025-Q2",
           title: "FTB Form 3500 Submission",
           description: "File the FTB Form 3500, Exemption Application, with the Franchise Tax Board (FTB) to be recognized as a public-benefit research organization.",
-          status: "in-progress" as StatusTagType
+          status: "waiting-on-something" as StatusTagType
         },
         {
           id: "form-ct1-submission-2025q2",
           date: "2025-Q2",
           title: "Form CT1 Submission",
           description: "Submit the Form CT1, Initial Registration Form to the Office of the Attorney General",
-          status: "in-progress" as StatusTagType
+          status: "waiting-on-something" as StatusTagType
         },
         {
           id: "501c3-approval-2025q3",
           date: "2025-Q3",
           title: "501(c)(3) Approval",
           description: "Receive approval from the IRS for 501(c)(3) status, allowing us to accept tax-deductible donations.",
-          status: "planned" as StatusTagType
+          status: "completed" as StatusTagType
         },
         {
-          id: "first-grant-application-2025q4",
+          id: "first-ad-campaign-2025q4",
           date: "2025-Q4",
-          title: "First Grant Application",
-          description: "Submit our first grant application to fund our research programs.",
-          status: "planned" as StatusTagType
+          title: "First Ad Campaign",
+          description: "Launch our first ad campaign (thanks to Google For Nonprofits Grant) to fund raise for our Insight Program.",
+          status: "coming-soon" as StatusTagType
         },
         {
           id: "research-partnerships-2026q1",
           date: "2026-Q1",
           title: "Research Partnerships",
-          description: "Establish partnerships with universities and research institutions to collaborate on neuroscience research.",
-          status: "planned" as StatusTagType
+          description: "It is almost our first birthday, time to build some partnerships.",
+          status: "speculative" as StatusTagType
         },
         {
-          id: "community-outreach-2026q2",
+          id: "irb-formation-2026q2",
           date: "2026-Q2",
-          title: "Community Outreach",
-          description: "Launch community outreach programs to educate the public about neuroscience and mental health.",
-          status: "planned" as StatusTagType
+          title: "IRB Formation",
+          description: "We are wishing (and working) really hard to get ourselves an IRB for our first birthday!",
+          status: "speculative" as StatusTagType
         }
       ]
     }
