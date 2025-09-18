@@ -190,7 +190,3 @@ export function isPlannedStatus(status: StatusTagType): boolean {
 export function isSpeculativeStatus(status: StatusTagType): boolean {
   return status === 'speculative'
 } 
-
-export function isWaitingOnSomethingStatus(status: StatusTagType): boolean {
-  return status === 'waiting-on-something'
-}
