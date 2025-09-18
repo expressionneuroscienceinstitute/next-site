@@ -17,7 +17,7 @@ interface AccessibilityContextType {
 const defaultSettings: AccessibilitySettings = {
   neuronBackgroundEnabled: true,
   allMotionEnabled: true,
-  glowEffectsEnabled: false,
+  glowEffectsEnabled: true,
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined)

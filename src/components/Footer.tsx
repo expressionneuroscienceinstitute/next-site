@@ -1,13 +1,24 @@
 'use client'
 
 import Link from 'next/link'
+import SocialLinks, { defaultSocialLinks } from './SocialLinks'
 
 export default function Footer() {
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600 dark:text-gray-300 text-sm">
         <p>&copy; {new Date().getFullYear()} Expression Neuroscience Institute. All rights reserved.</p>
-        <div className="mt-4">
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-text-light dark:text-text-dark mb-4">Stay Connected</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+            Follow us for the latest research updates, insights, and neuroscience discoveries.
+          </p>
+          <div className="flex justify-center mb-6">
+            <SocialLinks links={defaultSocialLinks} />
+          </div>
+        </div>
+
+        <div className="mt-6">
           <h3 className="text-lg font-semibold text-text-light dark:text-text-dark mb-2">Governance</h3>
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
             Our governance documents outline our organizational structure, policies,

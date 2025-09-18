@@ -5,6 +5,7 @@ import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import LazyAnalytics from '@/components/LazyAnalytics'
 import SkipToContent from '@/components/SkipToContent'
 import LazyBackToTop from '@/components/LazyBackToTop'
+import { GoogleTagManager } from '@next/third-parties/google'
 
 import { Inter } from 'next/font/google'
 
@@ -133,21 +134,10 @@ export default function RootLayout({
           }}
         />
         
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HKMQDNQJTV"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-HKMQDNQJTV');
-            `
-          }}
-        />
       </head>
 
       <body className={`${inter.className} font-sans`} suppressHydrationWarning>
+        <GoogleTagManager gtmId="GTM-MFDMW9W8" />
         <SkipToContent />
         <ThemeProvider>
           <AccessibilityProvider>
