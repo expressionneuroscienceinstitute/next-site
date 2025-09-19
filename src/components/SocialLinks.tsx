@@ -13,17 +13,28 @@ interface SocialLinksProps {
 }
 
 export default function SocialLinks({ links, className = '' }: SocialLinksProps) {
-  const handleSocialClick = (socialType: string, url: string) => {
+  const handleSocialClick = (e: React.MouseEvent, socialType: string, url: string) => {
+    e.preventDefault()
+
     // Track social media conversions
     if (typeof window !== 'undefined' && window.dataLayer) {
+      // Generate unique transaction ID
+      const transactionId = `social_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
+
       window.dataLayer.push({
         'event': 'conversion_complete',
         'conversion_type': 'social_follow',
         'social_platform': socialType,
         'social_url': url,
+        'transaction_id': transactionId,
         'value': 1
       })
     }
+
+    // Open link after tracking
+    setTimeout(() => {
+      window.open(url, '_blank', 'noopener,noreferrer')
+    }, 100)
   }
 
   return (
@@ -34,7 +45,7 @@ export default function SocialLinks({ links, className = '' }: SocialLinksProps)
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => handleSocialClick(link.type, link.href)}
+          onClick={(e) => handleSocialClick(e, link.type, link.href)}
           className="text-gray-600 dark:text-gray-300 hover:text-accent-light dark:hover:text-accent-dark transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
           aria-label={link.name}
           title={link.name}
