@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import ProgramCard from './ProgramCard'
-import LazyNeuralBackground from './LazyNeuralBackground'
 import HeroContent from './HeroContent'
 import type { StatusTagType } from './StatusTag'
 
@@ -30,8 +29,7 @@ const programs: HeroProgram[] = [
 export default function Hero() {
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-background-light via-secondary/20 to-purple-light/10 dark:from-background-dark dark:via-purple-dark/10 dark:to-accent-dark/5 min-h-screen">
-      {/* Neural Background Animation - Lazy Loaded */}
-      <LazyNeuralBackground />
+      {/* Neural background is rendered globally in layout */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">

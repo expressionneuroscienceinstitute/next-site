@@ -5,6 +5,8 @@ import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import LazyAnalytics from '@/components/LazyAnalytics'
 import SkipToContent from '@/components/SkipToContent'
 import LazyBackToTop from '@/components/LazyBackToTop'
+import DonorboxPopupButton from '@/components/DonorboxPopupButton'
+import LazyNeuralBackground from '@/components/LazyNeuralBackground'
 import { GoogleTagManager } from '@next/third-parties/google'
 
 import { Inter } from 'next/font/google'
@@ -137,7 +139,10 @@ export default function RootLayout({
       </head>
 
       <body className={`${inter.className} font-sans`} suppressHydrationWarning>
-        <GoogleTagManager gtmId="GTM-MFDMW9W8" />
+        <GoogleTagManager gtmId="GTM-MFDMW9W8"  />
+        {/* Global neural background behind all content (excludes footer area) */}
+        <LazyNeuralBackground />
+        <DonorboxPopupButton />
         <SkipToContent />
         <ThemeProvider>
           <AccessibilityProvider>
