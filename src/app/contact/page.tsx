@@ -63,9 +63,13 @@ export default function ContactPage() {
 
         // Track conversion for Google Ads
         if (typeof window !== 'undefined' && window.dataLayer) {
+          // Generate unique transaction ID
+          const transactionId = `contact_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
+
           window.dataLayer.push({
             'event': 'conversion_complete',
             'conversion_type': 'contact_form',
+            'transaction_id': transactionId,
             'value': 1
           })
         }

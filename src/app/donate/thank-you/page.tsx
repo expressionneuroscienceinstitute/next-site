@@ -9,9 +9,13 @@ export default function DonateThankYouPage() {
   useEffect(() => {
     // Track donation conversion for Google Ads
     if (typeof window !== 'undefined' && window.dataLayer) {
+      // Generate unique transaction ID
+      const transactionId = `donation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
       window.dataLayer.push({
         'event': 'conversion_complete',
         'conversion_type': 'donation',
+        'transaction_id': transactionId,
         'value': 1
       })
     }
