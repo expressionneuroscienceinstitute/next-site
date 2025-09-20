@@ -27,7 +27,8 @@ export default function SocialLinks({ links, className = '' }: SocialLinksProps)
         'social_platform': socialType,
         'social_url': url,
         'transaction_id': transactionId,
-        'value': 1
+        'value': 1,
+        'page_location': window.location.href
       })
     }
 
@@ -43,8 +44,6 @@ export default function SocialLinks({ links, className = '' }: SocialLinksProps)
         <a
           key={link.name}
           href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
           onClick={(e) => handleSocialClick(e, link.type, link.href)}
           className="text-gray-600 dark:text-gray-300 hover:text-accent-light dark:hover:text-accent-dark transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
           aria-label={link.name}

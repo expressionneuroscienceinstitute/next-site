@@ -138,14 +138,29 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
   const mousePositionRef = useRef({ x: 0, y: 0 })
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [isVisible, setIsVisible] = useState(true)
-
+  
   // Initialize dimensions
   useEffect(() => {
     const updateDimensions = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+        const footer = document.querySelector('footer') as HTMLElement | null
+        const footerHeight = footer?.offsetHeight || 0
+        const doc = document.documentElement
+        const body = document.body
+        // Use full document height so the background spans the entire page,
+        // but stop at the top of the footer area.
+        const fullHeight = Math.max(
+          body?.scrollHeight || 0,
+          doc?.scrollHeight || 0,
+          body?.offsetHeight || 0,
+          doc?.offsetHeight || 0,
+          body?.clientHeight || 0,
+          doc?.clientHeight || 0,
+        )
+
         setDimensions({
           width: window.innerWidth,
-          height: window.innerHeight
+          height: Math.max(0, fullHeight - footerHeight)
         })
       }
     }
@@ -155,7 +170,16 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
     const throttledResize = throttle(updateDimensions, 250)
     window.addEventListener('resize', throttledResize)
     
-    return () => window.removeEventListener('resize', throttledResize)
+    // Observe body and footer size changes to keep canvas height in sync
+    const resizeObserver = new ResizeObserver(throttledResize)
+    if (document.body) resizeObserver.observe(document.body)
+    const footer = document.querySelector('footer') as HTMLElement | null
+    if (footer) resizeObserver.observe(footer)
+    
+    return () => {
+      window.removeEventListener('resize', throttledResize)
+      resizeObserver.disconnect()
+    }
   }, [])
 
   // Initialize neurons with better procedural generation
@@ -396,7 +420,7 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
       ref={canvasRef}
       width={dimensions.width}
       height={dimensions.height}
-      className="absolute inset-0 pointer-events-none opacity-30"
+      className="fixed left-0 right-0 top-0 pointer-events-none opacity-30"
       style={{ 
         zIndex: -1,
         transform: 'translateZ(0)',

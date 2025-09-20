@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
-import NavbarDonateButton from './NavbarDonateButton'
 import { useState, useEffect, useRef } from 'react'
 import { useAccessibility } from './AccessibilityProvider'
 
@@ -105,8 +104,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-4">
-            <NavbarDonateButton />
+          <div className="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-3">
             <ThemeToggle />
             
             {/* Settings Toggle */}
@@ -215,8 +213,7 @@ export default function Navbar() {
           </div>
           
           <div className="pt-4 pb-3 border-t border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark">
-            <div className="flex items-center justify-between px-4">
-              <NavbarDonateButton />
+            <div className="flex items-center justify-end px-4">
               <ThemeToggle />
             </div>
           </div>

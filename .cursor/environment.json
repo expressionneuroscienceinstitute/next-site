@@ -1,4 +1,0 @@
-{
-  "install": "npm install && npm audit fix",
-  "start": "npm run dev"
-}
