@@ -34,7 +34,7 @@ export default function SocialLinks({ links, className = '' }: SocialLinksProps)
 
     // Open link after tracking
     setTimeout(() => {
-      window.open(url, '_blank', 'noopener noreferrer nofollow')
+      window.open(url, '_blank', 'noopener,noreferrer')
     }, 100)
   }
 
