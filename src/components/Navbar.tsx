@@ -10,7 +10,6 @@ const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Research', href: '/research' },
   { name: 'About', href: '/about' },
-  { name: 'Roadmap', href: '/roadmap' },
   { name: 'Programs', href: '/programs' },
   { name: 'Contact', href: '/contact' },
 ]
@@ -53,8 +52,13 @@ export default function Navbar() {
   const settingsToggles = [
     {
       key: 'neuronBackgroundEnabled' as keyof typeof settings,
-      label: 'Neural Network',
+      label: 'Neuron Background',
       description: 'Interactive neuron background'
+    },
+    {
+      key: 'stickyNeuronBackgroundEnabled' as keyof typeof settings,
+      label: 'Sticky Neuron Background',
+      description: 'Sticky neuron background that follows you as you scroll'
     },
     {
       key: 'glowEffectsEnabled' as keyof typeof settings,

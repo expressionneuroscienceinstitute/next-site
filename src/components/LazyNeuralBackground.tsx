@@ -14,13 +14,13 @@ export default function LazyNeuralBackground() {
   const { settings } = useAccessibility()
 
   // Only render if neuron background is enabled
-  if (!settings.neuronBackgroundEnabled) {
+  if (!settings.neuronBackgroundEnabled || !settings.allMotionEnabled) {
     return null
   }
 
   return (
     <Suspense fallback={null}>
-      <NeuralBackground disabled={!settings.allMotionEnabled} />
+      <NeuralBackground disabled={!settings.allMotionEnabled || !settings.neuronBackgroundEnabled} />
     </Suspense>
   )
 } 

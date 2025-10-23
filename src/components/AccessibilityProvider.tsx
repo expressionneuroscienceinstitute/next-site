@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 
 export interface AccessibilitySettings {
   neuronBackgroundEnabled: boolean
+  stickyNeuronBackgroundEnabled: boolean
   allMotionEnabled: boolean
   glowEffectsEnabled: boolean
 }
@@ -16,6 +17,7 @@ interface AccessibilityContextType {
 
 const defaultSettings: AccessibilitySettings = {
   neuronBackgroundEnabled: true,
+  stickyNeuronBackgroundEnabled: false,
   allMotionEnabled: true,
   glowEffectsEnabled: true,
 }
