@@ -30,7 +30,10 @@ export default function Navbar() {
   }
 
   const isActivePage = (href: string) => {
-    return pathname === href
+    if (href === '/') {
+      return pathname === href
+    }
+    return pathname.startsWith(href)
   }
 
   // Close settings dropdown when clicking outside

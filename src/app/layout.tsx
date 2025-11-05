@@ -139,18 +139,18 @@ export default function RootLayout({
       </head>
 
       <body className={`${inter.className} font-sans`} suppressHydrationWarning>
-        <GoogleTagManager gtmId="GTM-MFDMW9W8"  />
-        {/* Global neural background behind all content (excludes footer area) */}
-        <LazyNeuralBackground />
-        <DonorboxPopupButton />
-        <SkipToContent />
-        <ThemeProvider>
-          <AccessibilityProvider>
+        <AccessibilityProvider>
+          <ThemeProvider>
+            {/* Global neural background behind all content (excludes footer area) */}
+            <LazyNeuralBackground />
+            <SkipToContent />
             {children}
-          </AccessibilityProvider>
-        </ThemeProvider>
-        <LazyBackToTop />
+            <LazyBackToTop />
+          </ThemeProvider>
+        </AccessibilityProvider>
+        <DonorboxPopupButton />
         <LazyAnalytics />
+        <GoogleTagManager gtmId="GTM-MFDMW9W8"  />
         
         {/* Add scroll performance script after body is available */}
         <script

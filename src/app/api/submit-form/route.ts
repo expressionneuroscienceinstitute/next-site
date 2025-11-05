@@ -75,6 +75,16 @@ export async function POST(request: NextRequest) {
       })
     })
 
+    // Check if HTTP response is successful before parsing JSON
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('Monday.com API HTTP error:', response.status, errorText)
+      return NextResponse.json(
+        { error: 'Failed to submit to Monday.com', details: `HTTP ${response.status}: ${errorText}` },
+        { status: 500 }
+      )
+    }
+
     const result = await response.json()
 
     if (result.errors) {

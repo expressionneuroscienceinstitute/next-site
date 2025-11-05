@@ -10,7 +10,7 @@ export default function DonateThankYouPage() {
     // Track donation conversion for Google Ads
     if (typeof window !== 'undefined' && window.dataLayer) {
       // Generate unique transaction ID
-      const transactionId = `donation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      const transactionId = `donation_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
 
       window.dataLayer.push({
         'event': 'conversion_complete',
