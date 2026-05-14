@@ -8,9 +8,10 @@ import { useAccessibility } from './AccessibilityProvider'
 
 const navItems = [
   { name: 'Home', href: '/' },
+  { name: 'Programs', href: '/programs' },
+  { name: 'Roadmap', href: '/roadmap' },
   { name: 'Research', href: '/research' },
   { name: 'About', href: '/about' },
-  { name: 'Programs', href: '/programs' },
   { name: 'Contact', href: '/contact' },
 ]
 
@@ -76,30 +77,35 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark relative z-[99999]" role="navigation" aria-label="Main navigation">
+    <nav
+      className="sticky top-0 z-[99999] bg-background-light/85 dark:bg-background-dark/85 backdrop-blur-xl border-b border-purple-200/60 dark:border-purple-500/20"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <Link 
-                href="/" 
-                className="text-xl font-bold text-accent-light dark:text-accent-dark focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
-                aria-label="Expression Neuroscience Institute Home"
+            <div className="flex-shrink-0 flex items-center gap-2">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 font-mono text-sm font-bold uppercase tracking-[0.18em] text-accent-light dark:text-accent-dark focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
+                aria-label="Expression Neuroscience Institute home"
               >
+                <span className="inline-block w-2 h-2 rounded-full bg-accent-light dark:bg-accent-dark shadow-glow" />
                 ENI
               </Link>
             </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8" role="menubar">
+            <div className="hidden sm:ml-8 sm:flex sm:space-x-6 lg:space-x-8" role="menubar">
               {navItems.map((item) => {
                 const isActive = isActivePage(item.href)
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded-t ${
+                    className={`inline-flex items-center px-1 pt-1 text-xs uppercase tracking-[0.18em] font-mono font-medium border-b-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded-t ${
                       isActive
                         ? 'text-accent-light dark:text-accent-dark border-accent-light dark:border-accent-dark'
-                        : 'text-text-light dark:text-text-dark border-transparent hover:text-accent-light dark:hover:text-accent-dark hover:border-gray-300 dark:hover:border-gray-600'
+                        : 'text-text-light dark:text-text-dark border-transparent hover:text-accent-light dark:hover:text-accent-dark hover:border-purple-300 dark:hover:border-purple-500'
                     }`}
                     role="menuitem"
                     aria-current={isActive ? 'page' : undefined}
@@ -199,7 +205,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       {isOpen && (
         <div className="sm:hidden">
-          <div className="pt-2 pb-3 space-y-1 bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark">
+          <div className="pt-2 pb-3 space-y-1 bg-background-light dark:bg-background-dark border-t border-purple-200/60 dark:border-purple-500/20">
             {navItems.map((item) => {
               const isActive = isActivePage(item.href)
               return (
@@ -219,7 +225,7 @@ export default function Navbar() {
             })}
           </div>
           
-          <div className="pt-4 pb-3 border-t border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark">
+          <div className="pt-4 pb-3 border-t border-purple-200/60 dark:border-purple-500/20 bg-background-light dark:bg-background-dark">
             <div className="flex items-center justify-end px-4">
               <ThemeToggle />
             </div>

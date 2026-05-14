@@ -7,98 +7,80 @@ import { roadmapConfig } from '../app/data/roadmapConfig'
 import { StatusTagType } from './StatusTag'
 
 interface Link {
-  text: string;
-  href: string;
+  text: string
+  href: string
 }
 
 interface Milestone {
-  id: string;
-  title: string;
-  description: string;
-  status: StatusTagType;
-  date: string;
+  id: string
+  title: string
+  description: string
+  status: StatusTagType
+  date: string
 }
 
 interface FutureResearchCard {
-  title: string;
-  text: string;
+  title: string
+  text: string
 }
 
 interface FutureResearch {
-  title: string;
-  cards: FutureResearchCard[];
+  title: string
+  cards: FutureResearchCard[]
 }
 
 interface RoadmapContent {
-  title: string;
-  description: string;
-  timeline: Milestone[];
-  futureResearch?: FutureResearch;
-  links: Link[];
+  title: string
+  description: string
+  timeline: Milestone[]
+  futureResearch?: FutureResearch
+  links: Link[]
 }
+
+const SUPPORTED_PROGRAMS = new Set(roadmapConfig.programs.map((p) => p.id))
 
 export default function RoadmapContent() {
   const [selectedProgram, setSelectedProgram] = useState('company')
   const [isLoaded, setIsLoaded] = useState(false)
-  
-  /* URL Hash Management */
+
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '')
-      if (hash && roadmapConfig.programs.some(program => program.id === hash)) {
+      if (hash && SUPPORTED_PROGRAMS.has(hash)) {
         setSelectedProgram(hash)
       }
     }
-    
+
     handleHashChange()
     window.addEventListener('hashchange', handleHashChange)
-    
-    // Set loaded state after initial render
     setIsLoaded(true)
-    
+
     return () => {
       window.removeEventListener('hashchange', handleHashChange)
     }
   }, [])
-  
-  /* Roadmap Content Resolution */
+
   const getRoadmapContent = (): RoadmapContent => {
-    if (selectedProgram === 'company') {
+    if (selectedProgram === 'microneedle-eeg') {
+      const program = roadmapConfig.currentPrograms.microneedleEeg
       return {
-        ...roadmapConfig.company,
-        timeline: roadmapConfig.company.timeline.milestones as Milestone[],
-        links: []
-      }
-    } else if (selectedProgram === 'insight') {
-      const insightProgram = roadmapConfig.currentPrograms.insight
-      return {
-        title: insightProgram.title,
-        description: insightProgram.text,
-        timeline: insightProgram.timeline.milestones as Milestone[],
-        futureResearch: insightProgram.futureResearch,
-        links: insightProgram.links
-      }
-    } else if (selectedProgram === 'ceEEG') {
-      const ceEEGProgram = roadmapConfig.currentPrograms.ceEEG
-      return {
-        title: ceEEGProgram.title,
-        description: ceEEGProgram.text,
-        timeline: ceEEGProgram.timeline.milestones as Milestone[],
-        futureResearch: ceEEGProgram.futureResearch,
-        links: ceEEGProgram.links
+        title: program.title,
+        description: program.text,
+        timeline: program.timeline.milestones as Milestone[],
+        futureResearch: program.futureResearch,
+        links: program.links,
       }
     }
-    
+
     return {
       ...roadmapConfig.company,
       timeline: roadmapConfig.company.timeline.milestones as Milestone[],
-      links: []
+      links: [],
     }
   }
 
   const roadmapContent = getRoadmapContent()
-  
-  /* Program Selection Handler */
+
   const handleProgramChange = (programId: string) => {
     setSelectedProgram(programId)
     window.history.pushState(null, '', `#${programId}`)
@@ -106,88 +88,95 @@ export default function RoadmapContent() {
 
   return (
     <>
-      {/* Program Selection */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
-          {roadmapConfig.currentPrograms.title}
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
-          {roadmapConfig.programs.map((program) => (
-            <button
-              key={program.id}
-              onClick={() => handleProgramChange(program.id)}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                selectedProgram === program.id
-                  ? 'bg-accent-light dark:bg-accent-dark text-white shadow-lg'
-                  : 'bg-white/80 dark:bg-background-dark/50 text-text-light dark:text-text-dark hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
-              }`}
-            >
-              {program.name}
-            </button>
-          ))}
+        <div className="flex flex-wrap gap-3 mb-8">
+          {roadmapConfig.programs.map((program) => {
+            const isActive = selectedProgram === program.id
+            return (
+              <button
+                key={program.id}
+                onClick={() => handleProgramChange(program.id)}
+                className={`px-5 py-2.5 rounded-lg font-mono text-sm uppercase tracking-[0.15em] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark ${
+                  isActive
+                    ? 'bg-accent-light dark:bg-accent-dark text-white shadow-glow'
+                    : 'bg-white/80 dark:bg-surface-dark/50 text-text-light dark:text-text-dark border border-purple-200/60 dark:border-purple-500/30 hover:border-accent-light dark:hover:border-accent-dark'
+                }`}
+              >
+                {program.name}
+              </button>
+            )
+          })}
         </div>
-        
-        {/* Selected Program Content */}
-        <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-          <h3 className="text-2xl font-semibold text-text-light dark:text-text-dark mb-4">
+
+        <div className="panel p-8 md:p-10">
+          <h3 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4">
             {roadmapContent.title}
           </h3>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+          <p className="text-lg text-muted-light dark:text-muted-dark mb-6 leading-relaxed">
             {roadmapContent.description}
           </p>
-          
-          {/* Program Links */}
-          {roadmapContent.links && roadmapContent.links.length > 0 && (
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold text-accent-light dark:text-accent-dark mb-3">
-                Related Links
+
+          {roadmapContent.links.length > 0 && (
+            <div>
+              <h4 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mb-3">
+                Related links
               </h4>
               <div className="flex flex-wrap gap-3">
-                {roadmapContent.links.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    className="inline-flex items-center px-4 py-2 bg-accent-light/10 dark:bg-accent-dark/10 text-accent-light dark:text-accent-dark rounded-lg hover:bg-accent-light/20 dark:hover:bg-accent-dark/20 transition-colors duration-300"
-                  >
-                    {link.text}
-                    <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </Link>
-                ))}
+                {roadmapContent.links.map((link, index) => {
+                  const external = link.href.startsWith('http')
+                  return external ? (
+                    <a
+                      key={index}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 rounded-lg font-mono text-xs uppercase tracking-[0.18em] bg-accent-light/10 dark:bg-accent-dark/10 text-accent-light dark:text-accent-dark hover:bg-accent-light/20 dark:hover:bg-accent-dark/20"
+                    >
+                      {link.text}
+                      <svg className="ml-2 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <Link
+                      key={index}
+                      href={link.href}
+                      className="inline-flex items-center px-4 py-2 rounded-lg font-mono text-xs uppercase tracking-[0.18em] bg-accent-light/10 dark:bg-accent-dark/10 text-accent-light dark:text-accent-dark hover:bg-accent-light/20 dark:hover:bg-accent-dark/20"
+                    >
+                      {link.text}
+                      <svg className="ml-2 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           )}
         </div>
       </section>
-      
-      {/* Timeline Section - Lazy Loaded */}
-      {isLoaded && roadmapContent.timeline && roadmapContent.timeline.length > 0 && (
+
+      {isLoaded && roadmapContent.timeline.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-text-light dark:text-text-dark mb-6">
             Timeline
           </h2>
           <LazyTimeline milestones={roadmapContent.timeline} />
         </section>
       )}
-      
-      {/* Future Research Section */}
-      {roadmapContent.futureResearch && roadmapContent.futureResearch.cards && 
-       roadmapContent.futureResearch.cards.length > 0 && (
+
+      {roadmapContent.futureResearch && roadmapContent.futureResearch.cards.length > 0 && (
         <section className="mt-12">
-          <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-text-light dark:text-text-dark mb-6">
             {roadmapContent.futureResearch.title}
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             {roadmapContent.futureResearch.cards.map((card, index) => (
-              <div 
-                key={index} 
-                className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2"
-              >
-                <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-2">
+              <div key={index} className="panel p-6">
+                <h3 className="text-xl font-semibold text-text-light dark:text-text-dark mb-2 font-mono">
                   {card.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-muted-light dark:text-muted-dark leading-relaxed">
                   {card.text}
                 </p>
               </div>
@@ -197,4 +186,4 @@ export default function RoadmapContent() {
       )}
     </>
   )
-} 
+}

@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 
+:root {
+  --grid-color: rgba(124, 58, 237, 0.08);
+  --noise-opacity: 0.04;
+}
+
+.dark {
+  --grid-color: rgba(168, 85, 247, 0.12);
+  --noise-opacity: 0.06;
+}
+
 @layer base {
   /* Performance optimizations */
   html {
@@ -106,24 +116,82 @@
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 rounded-lg font-semibold bg-accent-light dark:bg-accent-dark text-text-light dark:text-background-dark hover:opacity-90;
-    /* Use transform for hover instead of scale for better performance */
-    transform: translateZ(0);
-  }
-  
-  .btn-primary:hover {
-    transform: scale(1.02) translateZ(0);
-  }
-  
-  .card {
-    @apply p-6 rounded-xl shadow-lg bg-white bg-opacity-90 dark:bg-background-dark dark:bg-opacity-70 border border-secondary border-opacity-20 dark:border-purple-dark dark:border-opacity-20;
-    /* Use GPU acceleration only when needed */
+    @apply px-6 py-3 rounded-lg font-semibold bg-accent-light dark:bg-accent-dark text-white hover:opacity-90;
     transform: translateZ(0);
   }
 
-  /* Optimize hover states */
+  .btn-primary:hover {
+    transform: scale(1.02) translateZ(0);
+  }
+
+  .card {
+    @apply p-6 rounded-xl shadow-lg bg-white/95 dark:bg-surface-dark/80 border border-purple-200/60 dark:border-purple-500/20;
+    transform: translateZ(0);
+  }
+
   .card:hover {
     transform: translateY(-2px) translateZ(0);
+  }
+
+  /* Cutting-edge components used across the refreshed marketing pages. */
+
+  /* Subtle dotted-grid background that nods to lab notebooks and oscilloscope screens. */
+  .bg-tech-grid {
+    background-image: var(--tw-gradient-base, none),
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 100% 100%, 48px 48px, 48px 48px;
+  }
+
+  /* Brutalist outlined "kicker" used in section headers. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-light/50 dark:border-accent-dark/50 text-[11px] uppercase tracking-[0.18em] font-mono text-accent-light dark:text-accent-dark bg-accent-light/5 dark:bg-accent-dark/10;
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply inline-block w-1.5 h-1.5 rounded-full bg-accent-light dark:bg-accent-dark;
+    box-shadow: 0 0 8px currentColor;
+  }
+
+  /* Terminal-style caret used after headings. */
+  .caret::after {
+    content: '_';
+    @apply ml-1 text-accent-light dark:text-accent-dark;
+    animation: caret-blink 1.25s ease-in-out infinite;
+  }
+
+  /* Glassy bordered card with subtle accent shadow on hover. */
+  .panel {
+    @apply relative overflow-hidden rounded-2xl border border-purple-200/60 dark:border-purple-500/20 bg-white/85 dark:bg-surface-dark/70 backdrop-blur-xl shadow-lg transition-shadow duration-300;
+  }
+
+  .panel:hover {
+    @apply shadow-glow;
+  }
+
+  /* Diagonal "tape" used to label unfunded/early-research banners. */
+  .tape {
+    @apply inline-flex items-center gap-2 px-3 py-1 text-[11px] font-mono uppercase tracking-[0.2em] bg-neon-lime/90 text-black border-y-2 border-black/10 select-none;
+  }
+
+  /* Mono "system message" used in process-log section. */
+  .log-line {
+    @apply font-mono text-sm text-muted-light dark:text-muted-dark;
+  }
+
+  .log-line .log-tag {
+    @apply text-accent-light dark:text-accent-dark font-semibold mr-2;
+  }
+
+  /* Gradient text utility used for hero headlines. */
+  .gradient-text {
+    background: linear-gradient(110deg, #a855f7 0%, #ff2bd6 35%, #00f5d4 70%, #a855f7 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-x 12s ease-in-out infinite;
   }
 
   /* Enhanced focus states for interactive elements */

@@ -11,19 +11,25 @@ export default function ResearchPage() {
   const isConfigValid = researchConfig?.pageTitle && researchConfig?.datasets && researchConfig?.publications;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
+    <div className="min-h-screen flex flex-col bg-tech-grid bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
       <Navbar />
-      <main id="main-content" className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+      <main id="main-content" className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
         {isConfigValid ? (
           <div>
-            {/* Page Header */}
-            <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-8 text-center">
-              {researchConfig.pageTitle}
-            </h1> 
-            
-            {/* Datasets Section */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
+            <div className="mb-12">
+              <span className="eyebrow">{'// research'}</span>
+              <h1 className="mt-4 text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark">
+                {researchConfig.pageTitle}
+              </h1>
+              {researchConfig.intro && (
+                <p className="mt-4 text-lg md:text-xl text-muted-light dark:text-muted-dark max-w-3xl leading-relaxed">
+                  {researchConfig.intro}
+                </p>
+              )}
+            </div>
+
+            <section className="mb-16">
+              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mb-4">
                 {researchConfig.datasets.title}
               </h2>
               <div className="grid gap-6 md:grid-cols-2">
@@ -34,38 +40,33 @@ export default function ResearchPage() {
                 ))}
               </div>
               {datasets.length === 0 && (
-                <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 text-center">
-                  <p className="text-gray-600 dark:text-gray-300 mt-4">
+                <div className="panel p-8">
+                  <p className="text-muted-light dark:text-muted-dark">
                     {researchConfig.datasets.emptyMessage}
                   </p>
                 </div>
               )}
             </section>
-            
-            {/* Publications Section */}
+
             <section>
-              <h2 className="text-2xl font-semibold text-accent-light dark:text-accent-dark mb-6 text-center">
+              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mb-4">
                 {researchConfig.publications.title}
               </h2>
-              <div className="space-y-6"> 
+              <div className="space-y-6">
                 {papers.map((paper: Paper, index: number) => (
-                  <div
-                    key={paper.id}
-                    className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-6 shadow-xl border border-secondary/30 dark:border-purple-dark/30 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-                  >
-                    <PublicationItem paper={paper} index={index} /> 
+                  <div key={paper.id} className="panel p-6">
+                    <PublicationItem paper={paper} index={index} />
                   </div>
                 ))}
               </div>
               {papers.length === 0 && (
-                <div className="bg-white/90 dark:bg-background-dark/70 backdrop-blur-md rounded-xl p-8 shadow-xl border border-secondary/30 dark:border-purple-dark/30 text-center">
-                  <p className="text-gray-600 dark:text-gray-300 mt-4">
+                <div className="panel p-8">
+                  <p className="text-muted-light dark:text-muted-dark">
                     {researchConfig.publications.emptyMessage}
                   </p>
                 </div>
               )}
             </section>
-            
           </div>
         ) : (
           <ResearchPageSkeleton />

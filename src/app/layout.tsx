@@ -7,16 +7,27 @@ import SkipToContent from '@/components/SkipToContent'
 import LazyBackToTop from '@/components/LazyBackToTop'
 import DonorboxPopupButton from '@/components/DonorboxPopupButton'
 import LazyNeuralBackground from '@/components/LazyNeuralBackground'
+import ScrollPerformanceScript from '@/components/ScrollPerformanceScript'
 import { GoogleTagManager } from '@next/third-parties/google'
 
-import { Inter } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
   preload: true,
 })
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mono',
+  preload: false,
+})
+
+const SITE_DESCRIPTION =
+  "A Gen-Z, neurodivergent-led nonprofit building open-source neuroscience. Currently documenting the design of microneedle-array EEGs in public."
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.expression.ngo"),
@@ -24,17 +35,18 @@ export const metadata: Metadata = {
     default: "Expression Neuroscience Institute",
     template: "%s | Expression Neuroscience Institute",
   },
-  description: "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science, mental health research, and making neuroscience more accessible to everyone.",
+  description: SITE_DESCRIPTION,
   keywords: [
     "neuroscience",
-    "mental health",
-    "research",
-    "nonprofit",
+    "microneedle EEG",
+    "microneedle array",
+    "open hardware",
     "open science",
-    "brain research",
-    "psychology",
-    "accessibility",
-    "innovation"
+    "brain-computer interface",
+    "neurodivergent",
+    "nonprofit research",
+    "mental health",
+    "neurotechnology",
   ],
   authors: [{ name: "Expression Neuroscience Institute" }],
   creator: "Expression Neuroscience Institute",
@@ -56,7 +68,7 @@ export const metadata: Metadata = {
     url: "https://www.expression.ngo",
     siteName: "Expression Neuroscience Institute",
     title: "Expression Neuroscience Institute",
-    description: "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science and mental health research.",
+    description: SITE_DESCRIPTION,
     images: [
       {
         url: "/logos/ENI_logo_pink_vector.svg",
@@ -69,7 +81,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Expression Neuroscience Institute",
-    description: "Advancing neuroscience through innovative, accessible research.",
+    description: SITE_DESCRIPTION,
     images: ["/logos/ENI_logo_pink_vector.svg"],
     creator: "@ExpressionNeuroscience",
     site: "@ExpressionNeuroscience",
@@ -91,57 +103,52 @@ export default function RootLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "NonprofitOrganization",
-    "name": "Expression Neuroscience Institute",
-    "url": "https://www.expression.ngo",
-    "logo": "https://www.expression.ngo/logos/ENI_logo_pink_vector.svg",
-    "description": "Advancing neuroscience through innovative, accessible research. A nonprofit organization dedicated to open science and mental health research.",
-    "foundingDate": "04/14/2025",
-    "address": {
+    name: "Expression Neuroscience Institute",
+    url: "https://www.expression.ngo",
+    logo: "https://www.expression.ngo/logos/ENI_logo_pink_vector.svg",
+    description: SITE_DESCRIPTION,
+    foundingDate: "2025-04-14",
+    address: {
       "@type": "PostalAddress",
-      "addressCountry": "US"
+      addressCountry: "US",
     },
-    "sameAs": [
-      "https://github.com/expressionneuroscienceinstitute"
+    sameAs: [
+      "https://github.com/expressionneuroscienceinstitute",
     ],
-    "areaServed": "Worldwide",
-    "knowsAbout": [
+    areaServed: "Worldwide",
+    knowsAbout: [
+      "Microneedle Array EEG",
+      "Open Hardware",
+      "Open Science",
       "Neuroscience",
       "Mental Health",
-      "Research",
-      "Open Science",
-      "Brain Research"
-    ]
+      "Neurodivergent Research",
+    ],
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
       <head>
-        {/* Preload critical resources */}
         <link rel="preload" href="/logos/ENI_logo_pink_vector.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/favicon.ico" as="image" />
-        
-        {/* DNS prefetch for external domains */}
+
         <link rel="dns-prefetch" href="//vercel.live" />
-        
-        {/* Additional SEO meta tags */}
-        <meta name="theme-color" content="#4F46E5" />
+
+        <meta name="theme-color" content="#10002b" />
         <meta name="color-scheme" content="dark light" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        
-        {/* Structured Data - Organization Schema */}
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData)
+            __html: JSON.stringify(structuredData),
           }}
         />
-        
       </head>
 
       <body className={`${inter.className} font-sans`} suppressHydrationWarning>
         <AccessibilityProvider>
           <ThemeProvider>
-            {/* Global neural background behind all content (excludes footer area) */}
             <LazyNeuralBackground />
             <SkipToContent />
             {children}
@@ -150,36 +157,8 @@ export default function RootLayout({
         </AccessibilityProvider>
         <DonorboxPopupButton />
         <LazyAnalytics />
-        <GoogleTagManager gtmId="GTM-MFDMW9W8"  />
-        
-        {/* Add scroll performance script after body is available */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-                  let scrollTimeout;
-                  const body = document.body;
-                  
-                  if (body) {
-                    function handleScroll() {
-                      if (!body.classList.contains('is-scrolling')) {
-                        body.classList.add('is-scrolling');
-                      }
-                      
-                      clearTimeout(scrollTimeout);
-                      scrollTimeout = setTimeout(() => {
-                        body.classList.remove('is-scrolling');
-                      }, 150);
-                    }
-                    
-                    window.addEventListener('scroll', handleScroll, { passive: true });
-                  }
-                }
-              })();
-            `
-          }}
-        />
+        <GoogleTagManager gtmId="GTM-MFDMW9W8" />
+        <ScrollPerformanceScript />
       </body>
     </html>
   );
