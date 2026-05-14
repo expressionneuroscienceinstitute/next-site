@@ -202,18 +202,25 @@
     animation: float-soft 14s ease-in-out infinite;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .animate-float-soft {
-      animation: none;
-    }
-  }
-
   .animation-delay-100 {
     animation-delay: 100ms;
   }
 
   .animation-delay-200 {
     animation-delay: 200ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up {
+      opacity: 1 !important;
+      animation: none !important;
+      transform: none !important;
+    }
+
+    .animate-float-soft {
+      animation: none !important;
+    }
   }
 
   .animate-fade-in,
