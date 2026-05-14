@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
 import { useState, useEffect, useRef } from 'react'
 import { useAccessibility } from './AccessibilityProvider'
+import { siteIdentity } from '@/app/data/siteIdentity'
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -22,11 +23,11 @@ export default function Navbar() {
   const pathname = usePathname()
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen)
+    setIsOpen((v) => !v)
   }
 
   const toggleSettings = () => {
-    setIsSettingsOpen(!isSettingsOpen)
+    setIsSettingsOpen((v) => !v)
   }
 
   const isActivePage = (href: string) => {
@@ -50,6 +51,10 @@ export default function Navbar() {
       }
     }
   }, [isSettingsOpen])
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
 
   const settingsToggles = [
     {
@@ -85,9 +90,9 @@ export default function Navbar() {
         aria-hidden
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-14">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
+        <div className="flex h-14 min-h-[3.5rem] items-center justify-between gap-3">
+          <div className="flex min-w-0 flex-1 items-center">
+            <div className="flex flex-shrink-0 items-center">
               <Link
                 href="/"
                 className="font-display text-lg font-bold text-text-light dark:text-text-dark hover:text-coral-light dark:hover:text-coral-dark focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
@@ -118,15 +123,17 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="hidden sm:ml-6 sm:flex sm:items-center sm:gap-2">
+          <div className="flex flex-shrink-0 items-center gap-1 sm:gap-2">
             <ThemeToggle />
 
             <div className="relative" ref={settingsRef}>
               <button
+                type="button"
                 onClick={toggleSettings}
                 className="p-2 rounded-md text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
                 title="Accessibility settings"
                 aria-label="Accessibility settings"
+                aria-expanded={isSettingsOpen}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -139,6 +146,7 @@ export default function Navbar() {
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-semibold text-text-light dark:text-text-dark">Accessibility</h3>
                     <button
+                      type="button"
                       onClick={resetSettings}
                       className="text-sm text-accent-light dark:text-accent-dark hover:underline"
                     >
@@ -156,6 +164,7 @@ export default function Navbar() {
                           <p className="text-xs text-muted-light dark:text-muted-dark">{toggle.description}</p>
                         </div>
                         <button
+                          type="button"
                           onClick={() => updateSetting(toggle.key, !settings[toggle.key])}
                           className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark ${
                             settings[toggle.key]
@@ -177,12 +186,11 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-          </div>
 
-          <div className="flex items-center sm:hidden">
             <button
+              type="button"
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
+              className="inline-flex items-center justify-center rounded-md p-2 text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark sm:hidden"
               aria-expanded={isOpen}
               aria-label="Toggle navigation menu"
             >
@@ -196,17 +204,41 @@ export default function Navbar() {
             </button>
           </div>
         </div>
+
+        {pathname === '/' && (
+          <div className="border-t border-gray-200/70 py-2 text-center text-[11px] leading-snug text-muted-light dark:border-white/10 dark:text-muted-dark sm:text-xs">
+            <span className="inline-block max-w-3xl">
+              <span className="font-medium text-text-light dark:text-text-dark">EIN {siteIdentity.ein}</span>
+              <span aria-hidden className="mx-1.5">
+                ·
+              </span>
+              <span>{siteIdentity.taxDesignation}</span>
+              <span aria-hidden className="mx-1.5">
+                ·
+              </span>
+              <a
+                href={siteIdentity.determinationLetterUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-light underline decoration-accent-light/40 underline-offset-2 hover:opacity-90 dark:text-accent-dark dark:decoration-accent-dark/40"
+              >
+                IRS determination letter (PDF)
+              </a>
+            </span>
+          </div>
+        )}
       </div>
 
       {isOpen && (
-        <div className="sm:hidden border-t border-gray-200 dark:border-white/10 bg-background-light dark:bg-background-dark">
-          <div className="pt-2 pb-3 space-y-1 px-2">
+        <div className="border-t border-gray-200 bg-background-light dark:border-white/10 dark:bg-background-dark sm:hidden">
+          <div className="max-w-7xl mx-auto space-y-1 px-2 py-2">
             {navItems.map((item) => {
               const isActive = isActivePage(item.href)
               return (
                 <Link
                   key={item.name}
                   href={item.href}
+                  onClick={() => setIsOpen(false)}
                   className={`block rounded-md px-3 py-2 text-base font-medium ${
                     isActive
                       ? 'text-accent-light dark:text-accent-dark bg-accent-light/10 dark:bg-accent-dark/10'
@@ -218,10 +250,6 @@ export default function Navbar() {
                 </Link>
               )
             })}
-          </div>
-
-          <div className="pt-3 pb-3 border-t border-gray-200 dark:border-white/10 px-4 flex justify-end">
-            <ThemeToggle />
           </div>
         </div>
       )}

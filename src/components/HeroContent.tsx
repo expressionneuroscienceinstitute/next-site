@@ -5,9 +5,9 @@ import Link from 'next/link'
 export default function HeroContent() {
   return (
     <div className="max-w-3xl">
-      <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-text-light dark:text-text-dark md:text-5xl lg:text-6xl">
+      <h1 className="font-display text-4xl font-bold leading-tight tracking-normal text-balance text-text-light dark:text-text-dark md:text-5xl lg:text-5xl xl:text-6xl">
         Demystifying neuroscience,{' '}
-        <span className="relative whitespace-nowrap text-coral-light dark:text-coral-dark">
+        <span className="relative inline-block text-coral-light dark:text-coral-dark">
           in public
           <span
             className="absolute -bottom-1 left-0 right-0 h-1 rounded-full bg-gradient-to-r from-rose-400 via-emerald-400 to-sky-400 opacity-90 dark:opacity-100"
