@@ -16,6 +16,9 @@ interface AccessibilityContextType {
   resetSettings: () => void
 }
 
+const STORAGE_KEY = 'eni-a11y-v2'
+const LEGACY_STORAGE_KEY = 'accessibility-settings'
+
 const defaultSettings: AccessibilitySettings = {
   neuronBackgroundEnabled: true,
   stickyNeuronBackgroundEnabled: false,
@@ -28,6 +31,23 @@ function mergeWithDefaults(raw: Partial<AccessibilitySettings>): AccessibilitySe
   return { ...defaultSettings, ...raw }
 }
 
+function readStoredSettings(): Partial<AccessibilitySettings> | null {
+  if (typeof window === 'undefined') return null
+  try {
+    const next = localStorage.getItem(STORAGE_KEY)
+    if (next) return JSON.parse(next) as Partial<AccessibilitySettings>
+    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY)
+    if (legacy) {
+      const parsed = JSON.parse(legacy) as Partial<AccessibilitySettings>
+      localStorage.removeItem(LEGACY_STORAGE_KEY)
+      return parsed
+    }
+  } catch {
+    return null
+  }
+  return null
+}
+
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined)
 
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
@@ -37,21 +57,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
-      const savedSettings = localStorage.getItem('accessibility-settings')
-      if (savedSettings) {
-        try {
-          const parsed = JSON.parse(savedSettings) as Partial<AccessibilitySettings>
-          setSettings(mergeWithDefaults(parsed))
-        } catch (error) {
-          console.warn('Failed to parse accessibility settings:', error)
-        }
+      const parsed = readStoredSettings()
+      if (parsed) {
+        setSettings(mergeWithDefaults(parsed))
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(mergeWithDefaults(parsed)))
       }
     }
   }, [])
 
   useEffect(() => {
     if (mounted && typeof window !== 'undefined') {
-      localStorage.setItem('accessibility-settings', JSON.stringify(settings))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
     }
   }, [settings, mounted])
 

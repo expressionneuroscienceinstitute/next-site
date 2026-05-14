@@ -151,7 +151,7 @@ export default function RootLayout({
           <ThemeProvider>
             <div className="relative isolate min-h-screen w-full">
               <LazyNeuralBackground />
-              <div className="relative z-[1] flex min-h-screen w-full flex-col">
+              <div className="relative z-10 flex min-h-screen w-full flex-col">
                 <SkipToContent />
                 {children}
                 <LazyBackToTop />
