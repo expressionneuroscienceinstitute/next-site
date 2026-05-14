@@ -2,7 +2,7 @@ export const aboutConfig = {
   pageTitle: 'About ENI',
   mission: {
     title: 'Our Mission',
-    text: `Expression Neuroscience Institute (ENI) is a Gen-Z, neurodivergent-led nonprofit demystifying neuroscience by doing it in public. We were founded by people who live with OCD, ADHD, autism, anxiety and PTSD, and we are tired of waiting for closed labs and venture-backed startups to decide what tools the rest of us deserve. Our current research project is designing an open-source microneedle-array EEG — and writing down everything we learn while we figure it out.`,
+    text: `Expression Neuroscience Institute (ENI) is a Gen-Z, neurodivergent-led nonprofit demystifying neuroscience by doing it in public. We were founded by people who live with OCD, ADHD, autism, anxiety and PTSD, and we are tired of waiting for closed labs and venture-backed startups to decide what tools the rest of us deserve. Our current research project is an open-source microneedle-array EEG, with notes published as we learn.`,
   },
   board: {
     title: 'Board Members',
@@ -35,6 +35,6 @@ export const aboutConfig = {
   },
   future: {
     title: 'Building the future, with the wires showing',
-    text: `Openness is not a marketing line for us — it is the work. Researchers, students, patients, makers, and curious humans: if you want to help us design, document, or debug the open neurotech we wish existed, the door is open. The future belongs to whoever bothers to show up. You did. Let's keep the wires showing.`,
+    text: `We treat openness as part of the actual work: design files, logs, and questions out where people can see them. Researchers, students, patients, makers, and curious humans: if you want to help us design, document, or debug open neurotech, the door is open. The future belongs to whoever bothers to show up. You did. Let's keep the wires showing.`,
   },
 }; 

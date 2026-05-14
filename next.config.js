@@ -63,8 +63,14 @@ const buildCsp = () => {
     "base-uri": ["'self'"],
     "form-action": ["'self'", "https://donorbox.org"],
     "frame-ancestors": ["'none'"],
-    "upgrade-insecure-requests": [],
   };
+
+  // Only on real Vercel deploys. `upgrade-insecure-requests` on plain
+  // http://127.0.0.1 makes the browser fetch CSS/JS over https://127.0.0.1
+  // (no TLS) — the page looks totally unstyled in local preview.
+  if (process.env.VERCEL === "1") {
+    directives["upgrade-insecure-requests"] = [];
+  }
 
   return Object.entries(directives)
     .map(([key, values]) => (values.length ? `${key} ${values.join(" ")}` : key))
@@ -76,10 +82,14 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: buildCsp(),
   },
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
-  },
+  ...(process.env.VERCEL === "1"
+    ? [
+        {
+          key: "Strict-Transport-Security",
+          value: "max-age=63072000; includeSubDomains; preload",
+        },
+      ]
+    : []),
   {
     key: "X-Frame-Options",
     value: "DENY",

@@ -17,8 +17,8 @@ export default function HeroContent() {
       </h1>
 
       <p className="mt-5 text-lg leading-relaxed text-muted-light dark:text-muted-dark md:text-xl">
-        Expression Neuroscience Institute documents the open-source design of a microneedle-array EEG — the messy middle,
-        not just the highlight reel.
+        Expression Neuroscience Institute publishes open design work for a microneedle-array EEG: schematics, mistakes,
+        and the parts that finally work.
       </p>
 
       <div className="mt-8 flex flex-col flex-wrap gap-3 sm:flex-row">

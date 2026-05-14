@@ -11,7 +11,7 @@ const pillars = [
   },
   {
     title: 'Built by people who live it',
-    body: 'We research conditions many of us have — ADHD, OCD, autism, anxiety — without pretending we are neutral observers.',
+    body: 'We research conditions many of us live with (ADHD, OCD, autism, anxiety). We show up as people with a stake in the work.',
     stripe: 'border-l-emerald-600 dark:border-l-emerald-400',
   },
   {
@@ -70,8 +70,8 @@ export default function Hero() {
               Science shouldn&apos;t feel like a locked room.
             </p>
             <p className="leading-relaxed">
-              We publish the messy middle — failed prints, noisy channels, and the questions we still do not know how to
-              answer — because that is how trust gets built.
+              We publish failed prints, noisy channels, and the questions we still cannot answer. That is how trust gets
+              built.
             </p>
           </aside>
         </div>
@@ -92,11 +92,10 @@ export default function Hero() {
               <StatusTag status="early-research" size="small" />
             </div>
             <h2 className="font-display text-2xl font-bold leading-snug text-text-light dark:text-text-dark md:text-3xl">
-              Microneedle-array EEG — open hardware we are designing in public
+              Microneedle-array EEG, documented in public
             </h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-muted-light dark:text-muted-dark">
-              We are exploring gel-free, comfortable electrodes and publishing the path as we go. No product claims here —
-              just honest early work.
+              We are exploring gel-free, comfortable electrodes and writing up what we try as we go. Early research only.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link

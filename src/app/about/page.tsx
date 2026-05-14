@@ -59,7 +59,7 @@ export default function AboutPage() {
                   <Image
                     className="rounded-xl border-2 border-accent-light/20 dark:border-accent-dark/20 flex-shrink-0 object-cover w-32 h-32 sm:w-40 sm:h-40"
                     src={member.image}
-                    alt={`${member.name} — ${member.role} at Expression Neuroscience Institute`}
+                    alt={`${member.name}, ${member.role} at Expression Neuroscience Institute`}
                     width={160}
                     height={160}
                   />

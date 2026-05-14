@@ -24,10 +24,10 @@ const programs: Program[] = [
   {
     title: 'Microneedle Array EEG',
     description:
-      'A comfortable, gel-free, open-source EEG headset built on microneedle electrodes — designed in public.',
+      'A comfortable, gel-free, open-source EEG headset built on microneedle electrodes. Design work happens in public.',
     href: '/programs/microneedle-eeg',
     longDescription:
-      'Microneedle Array EEG is our one and only current research focus. We are exploring how tiny, painless electrode arrays can replace messy gel and bulky caps, then publishing every step — CAD, firmware, datasets, the experiments that fail — under permissive open licenses. This program is unfunded; we work on it because the next generation deserves neurotech they can actually inspect.',
+      'Microneedle Array EEG is our only active research focus right now. We are testing how tiny, painless electrode arrays could replace messy gel and bulky caps, and we publish CAD, firmware, datasets, and failed experiments under permissive open licenses. The program is unfunded. We keep at it because the next generation deserves neurotech they can open up and inspect.',
     status: 'early-research',
     funded: false,
   },
@@ -44,8 +44,7 @@ export default function Programs() {
             What we&apos;re building
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-light dark:text-muted-dark max-w-3xl leading-relaxed">
-            One project at a time, fully in the open. We&apos;d rather do one
-            thing rigorously than spread thin across a portfolio.
+            One project at a time, fully in the open. We would rather go deep on one thing than juggle a big portfolio.
           </p>
         </div>
 
@@ -85,8 +84,7 @@ export default function Programs() {
           <p className="text-muted-light dark:text-muted-dark leading-relaxed">
             We&apos;ll only ever open a new program once the current one is at a
             stable checkpoint and has the people, ethics oversight, and funding
-            to do it right. Want to suggest a direction? Email us — we read
-            everything.
+            to do it right. Want to suggest a direction? Email us. We read everything.
           </p>
         </aside>
       </main>

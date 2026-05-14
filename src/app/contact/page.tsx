@@ -11,7 +11,7 @@ export default function ContactPage() {
     email: '',
     subject: '',
     message: '',
-    // Honeypot — must stay empty. Hidden from real users via CSS.
+    // Honeypot: must stay empty (hidden from users via CSS).
     website: '',
   })
   const [renderedAt, setRenderedAt] = useState<number>(0)
@@ -100,8 +100,7 @@ export default function ContactPage() {
               Say hi
             </h1>
             <p className="mt-3 text-lg text-muted-light dark:text-muted-dark">
-              Questions, collaborations, criticism, weird ideas about
-              microneedles — bring them all. We read everything.
+              Questions, collaborations, criticism, weird microneedle ideas. Bring them all. We read everything.
             </p>
           </div>
 
@@ -206,7 +205,7 @@ export default function ContactPage() {
                 />
               </div>
 
-              {/* Honeypot field — hidden from humans, attractive to bots. */}
+              {/* Honeypot field (hidden from people, visible to bots). */}
               <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
                 <label htmlFor="website">Leave this field blank</label>
                 <input
@@ -250,8 +249,7 @@ export default function ContactPage() {
                   Collaborate
                 </h3>
                 <p className="text-muted-light dark:text-muted-dark text-sm">
-                  Research partnership, lab loaner, or co-authoring? Tell us
-                  what you&apos;re working on — we don&apos;t bite.
+                  Research partnership, lab loaner, or co-authoring? Tell us what you&apos;re working on. We are friendly.
                 </p>
               </div>
               <div>

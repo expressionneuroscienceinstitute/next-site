@@ -37,10 +37,9 @@ export default function MicroneedleEegProgram() {
             Microneedle Array EEG
           </h1>
           <p className="mt-6 text-lg md:text-xl text-muted-light dark:text-muted-dark max-w-3xl leading-relaxed">
-            We are designing — out loud, in public — a comfortable, low-impedance,
-            gel-free EEG headset built around microneedle arrays. No surgery, no
-            messy goop, no proprietary black boxes. Every CAD file, every dataset,
-            every dead-end belongs to everyone.
+            We are designing a comfortable, low-impedance, gel-free EEG headset around microneedle arrays, out loud and in
+            public. No surgery, no messy goop, no proprietary black boxes. Every CAD file, every dataset, every dead-end
+            belongs to everyone.
           </p>
         </header>
 
@@ -57,9 +56,8 @@ export default function MicroneedleEegProgram() {
             less prep time, and no needles you can actually feel.
           </p>
           <p className="text-muted-light dark:text-muted-dark leading-relaxed">
-            It is an active research area, not a solved problem — and that is
-            exactly why we want to document the journey instead of waiting for a
-            corporate vendor to ship a closed box.
+            The field is still wide open. We want to document the journey instead of waiting for a corporate vendor to ship
+            a closed box.
           </p>
         </section>
 
@@ -67,7 +65,7 @@ export default function MicroneedleEegProgram() {
           {[
             {
               title: 'Open by default',
-              body: 'Hardware, firmware, signal-processing code, datasets, lab notes — all CC-BY / permissive licensed from day one.',
+              body: 'Hardware, firmware, signal-processing code, datasets, and lab notes under CC-BY or other permissive licenses from day one.',
             },
             {
               title: 'Comfortable for real people',
@@ -113,8 +111,8 @@ export default function MicroneedleEegProgram() {
             </li>
             <li className="log-line">
               <span className="log-tag">[future]</span>
-              Public dataset of comfort, signal quality, and wearability
-              feedback — collected with explicit, revocable consent.
+              Public dataset of comfort, signal quality, and wearability feedback, collected with explicit, revocable
+              consent.
             </li>
           </ul>
           <p className="mt-6 text-sm text-muted-light dark:text-muted-dark">
@@ -127,11 +125,8 @@ export default function MicroneedleEegProgram() {
             Learn alongside us
           </h2>
           <p className="text-muted-light dark:text-muted-dark leading-relaxed mb-6">
-            We are not a polished startup. We are a group of Gen-Z, neurodivergent
-            researchers and engineers writing down everything we learn so the next
-            person doesn&apos;t have to start from scratch. If you want to follow
-            along, we publish accessible deep-dives on the science and the
-            engineering as we go.
+            Small Gen-Z, neurodivergent research and engineering group writing down what we learn so the next person has a
+            starting point. Follow along for accessible deep-dives on the science and the build as we go.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
