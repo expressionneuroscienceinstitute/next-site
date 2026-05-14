@@ -40,7 +40,7 @@ export default function Programs() {
       <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
           <p className="kicker">Programs</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark mt-4">
+          <h1 className="mt-4 font-display text-4xl font-bold text-text-light dark:text-text-dark md:text-5xl">
             What we&apos;re building
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-light dark:text-muted-dark max-w-3xl leading-relaxed">

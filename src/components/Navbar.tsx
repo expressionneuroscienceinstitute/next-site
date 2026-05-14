@@ -76,17 +76,21 @@ export default function Navbar() {
 
   return (
     <nav
-      className="sticky top-0 z-[99999] border-b border-gray-200/80 bg-background-light/90 backdrop-blur-md dark:border-white/10 dark:bg-background-dark/90"
+      className="sticky top-0 z-[99999] border-b border-gray-200/90 bg-background-light/90 backdrop-blur-md dark:border-white/10 dark:bg-background-dark/90"
       role="navigation"
       aria-label="Main navigation"
     >
+      <div
+        className="h-0.5 w-full bg-gradient-to-r from-rose-500 via-emerald-500 to-sky-500 opacity-90 dark:opacity-100"
+        aria-hidden
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-14">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <Link
                 href="/"
-                className="text-base font-semibold text-text-light dark:text-text-dark hover:text-accent-light dark:hover:text-accent-dark focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
+                className="font-display text-lg font-bold text-text-light dark:text-text-dark hover:text-coral-light dark:hover:text-coral-dark focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark rounded"
                 aria-label="Expression Neuroscience Institute home"
               >
                 ENI

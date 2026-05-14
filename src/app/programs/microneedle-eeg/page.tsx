@@ -33,7 +33,7 @@ export default function MicroneedleEegProgram() {
             <span className="badge-soft">Unfunded · building in public</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark leading-tight">
+          <h1 className="font-display text-4xl font-bold leading-tight text-text-light dark:text-text-dark md:text-5xl">
             Microneedle Array EEG
           </h1>
           <p className="mt-6 text-lg md:text-xl text-muted-light dark:text-muted-dark max-w-3xl leading-relaxed">
