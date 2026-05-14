@@ -109,8 +109,10 @@
     transform: translateY(-1px) translateZ(0);
   }
 
+  /* Transparent shell so the neuron canvas (z-0 under this column) can show through.
+     Base color still comes from `body`; these are light tints only. */
   .page-shell {
-    @apply min-h-screen bg-background-light dark:bg-background-dark;
+    @apply min-h-screen bg-transparent;
     background-image:
       radial-gradient(ellipse 90% 55% at 100% -5%, rgba(225, 29, 72, 0.06), transparent 45%),
       radial-gradient(ellipse 70% 45% at 0% 30%, rgba(5, 150, 105, 0.05), transparent 42%);

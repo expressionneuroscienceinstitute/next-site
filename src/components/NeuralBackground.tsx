@@ -463,7 +463,7 @@ export default function NeuralBackground({
         ref={canvasRef}
         width={dimensions.width}
         height={dimensions.height}
-        className="block h-full w-full opacity-[0.28] dark:opacity-[0.24]"
+        className="block h-full w-full opacity-[0.38] dark:opacity-[0.34]"
         style={{ transform: 'translateZ(0)' }}
       />
     </div>
