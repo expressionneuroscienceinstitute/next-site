@@ -189,11 +189,13 @@
   }
 
   .animate-fade-in {
+    opacity: 0;
     animation: fade-in 0.45s ease-out forwards;
     animation-fill-mode: both;
   }
 
   .animate-slide-up {
+    opacity: 0;
     animation: slide-up 0.45s ease-out forwards;
     animation-fill-mode: both;
   }
@@ -221,10 +223,5 @@
     .animate-float-soft {
       animation: none !important;
     }
-  }
-
-  .animate-fade-in,
-  .animate-slide-up {
-    opacity: 0;
   }
 }

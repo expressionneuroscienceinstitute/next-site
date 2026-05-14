@@ -65,12 +65,11 @@ const buildCsp = () => {
     "frame-ancestors": ["'none'"],
   };
 
-  // Only on real Vercel deploys. `upgrade-insecure-requests` on plain
-  // http://127.0.0.1 makes the browser fetch CSS/JS over https://127.0.0.1
-  // (no TLS) — the page looks totally unstyled in local preview.
-  if (process.env.VERCEL === "1") {
-    directives["upgrade-insecure-requests"] = [];
-  }
+  // Intentionally omit `upgrade-insecure-requests`. It forces subresources to
+  // HTTPS even when the page is opened over HTTP (local dev, `vercel dev`,
+  // some tunnels), which makes `/_next/static/*.css` fail and the site look
+  // completely unstyled. Production traffic on Vercel is already HTTPS at
+  // the edge; mixed-content upgrades are handled by the browser for HTTPS pages.
 
   return Object.entries(directives)
     .map(([key, values]) => (values.length ? `${key} ${values.join(" ")}` : key))
@@ -82,7 +81,7 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: buildCsp(),
   },
-  ...(process.env.VERCEL === "1"
+  ...(process.env.VERCEL === "1" && process.env.VERCEL_ENV !== "development"
     ? [
         {
           key: "Strict-Transport-Security",
