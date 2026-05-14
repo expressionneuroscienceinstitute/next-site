@@ -149,10 +149,14 @@ export default function RootLayout({
       <body className={`${inter.className} font-sans`} suppressHydrationWarning>
         <AccessibilityProvider>
           <ThemeProvider>
-            <LazyNeuralBackground />
-            <SkipToContent />
-            {children}
-            <LazyBackToTop />
+            <div className="relative isolate min-h-screen w-full">
+              <LazyNeuralBackground />
+              <div className="relative z-[1] flex min-h-screen w-full flex-col">
+                <SkipToContent />
+                {children}
+                <LazyBackToTop />
+              </div>
+            </div>
           </ThemeProvider>
         </AccessibilityProvider>
         <DonorboxPopupButton />

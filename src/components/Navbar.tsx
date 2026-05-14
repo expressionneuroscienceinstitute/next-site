@@ -59,23 +59,28 @@ export default function Navbar() {
   const settingsToggles = [
     {
       key: 'neuronBackgroundEnabled' as keyof typeof settings,
-      label: 'Neuron Background',
-      description: 'Interactive neuron background',
+      label: 'Neuron background',
+      description: 'Soft network graphic behind the site (canvas, low CPU).',
     },
     {
       key: 'stickyNeuronBackgroundEnabled' as keyof typeof settings,
-      label: 'Sticky Neuron Background',
-      description: 'Sticky neuron background that follows you as you scroll',
+      label: 'Neurons scroll with the page',
+      description: 'Off: fills the viewport only. On: tall layer that moves as you scroll long pages.',
     },
     {
       key: 'glowEffectsEnabled' as keyof typeof settings,
-      label: 'Glow Effects',
-      description: 'Visual glow and shimmer effects',
+      label: 'Brighter neuron pulses',
+      description: 'Stronger glow on active nodes and signals when motion is on.',
     },
     {
       key: 'allMotionEnabled' as keyof typeof settings,
-      label: 'All Motion',
-      description: 'All animations and transitions',
+      label: 'Motion and micro-interactions',
+      description: 'Animates the neuron field and small hover motion on some controls.',
+    },
+    {
+      key: 'preferLargeText' as keyof typeof settings,
+      label: 'Larger text',
+      description: 'Slightly increases base text size across the site.',
     },
   ]
 
@@ -131,8 +136,8 @@ export default function Navbar() {
                 type="button"
                 onClick={toggleSettings}
                 className="p-2 rounded-md text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
-                title="Accessibility settings"
-                aria-label="Accessibility settings"
+                title="Display and motion settings"
+                aria-label="Display and motion settings"
                 aria-expanded={isSettingsOpen}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,7 +149,7 @@ export default function Navbar() {
               {isSettingsOpen && (
                 <div className="absolute right-0 mt-2 w-80 rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-white/10 dark:bg-gray-900 z-50">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-text-light dark:text-text-dark">Accessibility</h3>
+                    <h3 className="text-lg font-semibold text-text-light dark:text-text-dark">Display and motion</h3>
                     <button
                       type="button"
                       onClick={resetSettings}

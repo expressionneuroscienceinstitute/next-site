@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
-import { motion } from 'framer-motion'
 
 interface Neuron {
   id: number
@@ -24,11 +23,15 @@ interface Signal {
   intensity: number
 }
 
-interface NeuralBackgroundProps {
-  disabled?: boolean
+export interface NeuralBackgroundProps {
+  /** When false, draws a single idle frame (no signals, no mouse pulses). */
+  motionEnabled?: boolean
+  /** Extra halos and brighter trails on active nodes. */
+  glowEffectsEnabled?: boolean
+  /** True: canvas is in the document layer (scrolls with the page). False: fills the viewport (fixed). */
+  stickyWithPage?: boolean
 }
 
-// Throttle function for performance
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function throttle(func: (...args: any[]) => any, limit: number) {
   let inThrottle = false
@@ -36,13 +39,13 @@ function throttle(func: (...args: any[]) => any, limit: number) {
   let lastArgs: any[] | null = null
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return function(...args: any[]) {
+  return function (...args: any[]) {
     lastArgs = args
-    
+
     if (!inThrottle) {
       func(...args)
       inThrottle = true
-      
+
       setTimeout(() => {
         inThrottle = false
         if (lastArgs) {
@@ -54,16 +57,17 @@ function throttle(func: (...args: any[]) => any, limit: number) {
   }
 }
 
-// Check if two neurons overlap
-function neuronsOverlap(neuron1: { x: number; y: number }, neuron2: { x: number; y: number }, minDistance: number = 40): boolean {
+function neuronsOverlap(
+  neuron1: { x: number; y: number },
+  neuron2: { x: number; y: number },
+  minDistance: number = 40,
+): boolean {
   const distance = Math.sqrt(
-    Math.pow(neuron1.x - neuron2.x, 2) + 
-    Math.pow(neuron1.y - neuron2.y, 2)
+    Math.pow(neuron1.x - neuron2.x, 2) + Math.pow(neuron1.y - neuron2.y, 2),
   )
   return distance < minDistance
 }
 
-// Generate neurons with no overlaps
 function generateNeurons(width: number, height: number, count: number): Neuron[] {
   const neurons: Neuron[] = []
   const margin = 80
@@ -78,17 +82,16 @@ function generateNeurons(width: number, height: number, count: number): Neuron[]
     while (attempts < maxAttempts && !validPosition) {
       x = margin + Math.random() * (width - 2 * margin)
       y = margin + Math.random() * (height - 2 * margin)
-      
+
       validPosition = true
-      
-      // Check against existing neurons
+
       for (const existingNeuron of neurons) {
         if (neuronsOverlap({ x, y }, existingNeuron, minDistance)) {
           validPosition = false
           break
         }
       }
-      
+
       attempts++
     }
 
@@ -101,7 +104,7 @@ function generateNeurons(width: number, height: number, count: number): Neuron[]
         isActive: false,
         activationTime: 0,
         lastFired: 0,
-        signalQueue: []
+        signalQueue: [],
       })
     }
   }
@@ -109,7 +112,6 @@ function generateNeurons(width: number, height: number, count: number): Neuron[]
   return neurons
 }
 
-// Create network connections
 function createNetworkConnections(neurons: Neuron[], maxConnections: number = 4, maxDistance: number = 250): void {
   neurons.forEach((neuron, index) => {
     const nearbyNeurons = neurons
@@ -118,10 +120,7 @@ function createNetworkConnections(neurons: Neuron[], maxConnections: number = 4,
       .map(({ neuron: other, index: otherIndex }) => ({
         neuron: other,
         index: otherIndex,
-        distance: Math.sqrt(
-          Math.pow(neuron.x - other.x, 2) + 
-          Math.pow(neuron.y - other.y, 2)
-        )
+        distance: Math.sqrt(Math.pow(neuron.x - other.x, 2) + Math.pow(neuron.y - other.y, 2)),
       }))
       .filter(({ distance }) => distance <= maxDistance)
       .sort((a, b) => a.distance - b.distance)
@@ -131,58 +130,65 @@ function createNetworkConnections(neurons: Neuron[], maxConnections: number = 4,
   })
 }
 
-export default function NeuralBackground({ disabled = false }: NeuralBackgroundProps) {
+export default function NeuralBackground({
+  motionEnabled = true,
+  glowEffectsEnabled = true,
+  stickyWithPage = false,
+}: NeuralBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number | null>(null)
   const neuronsRef = useRef<Neuron[]>([])
   const mousePositionRef = useRef({ x: 0, y: 0 })
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [isVisible, setIsVisible] = useState(true)
-  
-  // Initialize dimensions
+
   useEffect(() => {
     const updateDimensions = () => {
-      if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-        const footer = document.querySelector('footer') as HTMLElement | null
-        const footerHeight = footer?.offsetHeight || 0
-        const doc = document.documentElement
-        const body = document.body
-        // Use full document height so the background spans the entire page,
-        // but stop at the top of the footer area.
-        const fullHeight = Math.max(
-          body?.scrollHeight || 0,
-          doc?.scrollHeight || 0,
-          body?.offsetHeight || 0,
-          doc?.offsetHeight || 0,
-          body?.clientHeight || 0,
-          doc?.clientHeight || 0,
-        )
+      if (typeof window === 'undefined' || typeof document === 'undefined') return
 
+      if (!stickyWithPage) {
         setDimensions({
           width: window.innerWidth,
-          height: Math.max(0, fullHeight - footerHeight)
+          height: window.innerHeight,
         })
+        return
       }
+
+      const footer = document.querySelector('footer') as HTMLElement | null
+      const footerHeight = footer?.offsetHeight || 0
+      const doc = document.documentElement
+      const body = document.body
+      const fullHeight = Math.max(
+        body?.scrollHeight || 0,
+        doc?.scrollHeight || 0,
+        body?.offsetHeight || 0,
+        doc?.offsetHeight || 0,
+        body?.clientHeight || 0,
+        doc?.clientHeight || 0,
+      )
+
+      setDimensions({
+        width: window.innerWidth,
+        height: Math.max(0, fullHeight - footerHeight),
+      })
     }
 
     updateDimensions()
-    
+
     const throttledResize = throttle(updateDimensions, 250)
     window.addEventListener('resize', throttledResize)
-    
-    // Observe body and footer size changes to keep canvas height in sync
+
     const resizeObserver = new ResizeObserver(throttledResize)
     if (document.body) resizeObserver.observe(document.body)
     const footer = document.querySelector('footer') as HTMLElement | null
     if (footer) resizeObserver.observe(footer)
-    
+
     return () => {
       window.removeEventListener('resize', throttledResize)
       resizeObserver.disconnect()
     }
-  }, [])
+  }, [stickyWithPage])
 
-  // Initialize neurons with better procedural generation
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return
 
@@ -190,38 +196,38 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
     const minNeurons = 25
     const maxNeurons = 60
     const finalNeuronCount = Math.max(minNeurons, Math.min(maxNeurons, neuronCount))
-    
+
     const newNeurons = generateNeurons(dimensions.width, dimensions.height, finalNeuronCount)
     createNetworkConnections(newNeurons)
-    
+
     neuronsRef.current = newNeurons
   }, [dimensions])
 
-  // Mouse tracking with very close proximity detection
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (disabled || !isVisible) return
-      
-      mousePositionRef.current = { x: e.clientX, y: e.clientY }
+      if (!motionEnabled || !isVisible) return
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const r = canvas.getBoundingClientRect()
+      mousePositionRef.current = {
+        x: e.clientX - r.left,
+        y: e.clientY - r.top,
+      }
     },
-    [disabled, isVisible]
+    [motionEnabled, isVisible],
   )
 
-  const throttledHandleMouseMove = useMemo(
-    () => throttle(handleMouseMove, 16), // ~60fps
-    [handleMouseMove]
-  )
+  const throttledHandleMouseMove = useMemo(() => throttle(handleMouseMove, 16), [handleMouseMove])
 
   useEffect(() => {
-    if (disabled) return
-    
+    if (!motionEnabled) return
+
     if (typeof window !== 'undefined') {
       window.addEventListener('mousemove', throttledHandleMouseMove)
       return () => window.removeEventListener('mousemove', throttledHandleMouseMove)
     }
-  }, [disabled, throttledHandleMouseMove])
+  }, [motionEnabled, throttledHandleMouseMove])
 
-  // Visibility observer
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -230,14 +236,13 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
       ([entry]) => {
         setIsVisible(entry.isIntersecting)
       },
-      { threshold: 0.1 }
+      { threshold: 0.01, rootMargin: stickyWithPage ? '200px 0px 200px 0px' : '0px' },
     )
 
     observer.observe(canvas)
     return () => observer.disconnect()
-  }, [])
+  }, [stickyWithPage])
 
-  // Animation loop with optimized performance
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas || dimensions.width === 0 || dimensions.height === 0 || !isVisible) {
@@ -253,35 +258,69 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
 
     canvas.style.willChange = 'transform'
     ctx.imageSmoothingEnabled = false
-    
+
+    const drawIdle = () => {
+      ctx.clearRect(0, 0, dimensions.width, dimensions.height)
+      const neurons = neuronsRef.current
+      const dim = glowEffectsEnabled ? 0.15 : 0.1
+      const dimActive = glowEffectsEnabled ? 0.35 : 0.22
+
+      neurons.forEach((neuron) => {
+        neuron.connections.forEach((connectionId) => {
+          const connectedNeuron = neurons[connectionId]
+          if (connectedNeuron) {
+            ctx.strokeStyle = `rgba(76, 175, 80, ${dim})`
+            ctx.lineWidth = 1
+            ctx.beginPath()
+            ctx.moveTo(neuron.x, neuron.y)
+            ctx.lineTo(connectedNeuron.x, connectedNeuron.y)
+            ctx.stroke()
+          }
+        })
+      })
+
+      neurons.forEach((neuron) => {
+        ctx.fillStyle = `rgba(76, 175, 80, ${dimActive})`
+        ctx.beginPath()
+        ctx.arc(neuron.x, neuron.y, 5, 0, Math.PI * 2)
+        ctx.fill()
+      })
+    }
+
+    if (!motionEnabled) {
+      drawIdle()
+      canvas.style.willChange = 'auto'
+      return () => {
+        canvas.style.willChange = 'auto'
+      }
+    }
+
     let lastTime = 0
     const targetFPS = 30
     const frameInterval = 1000 / targetFPS
 
     const animate = (currentTime: number) => {
       const deltaTime = currentTime - lastTime
-      
+
       if (deltaTime < frameInterval) {
         animationRef.current = requestAnimationFrame(animate)
         return
       }
-      
+
       lastTime = currentTime - (deltaTime % frameInterval)
-      
+
       ctx.clearRect(0, 0, dimensions.width, dimensions.height)
 
       const neurons = neuronsRef.current
       const mousePos = mousePositionRef.current
       const currentTimeMs = currentTime
 
-      // Update neuron states based on mouse proximity
-      neurons.forEach(neuron => {
+      neurons.forEach((neuron) => {
         const distance = Math.sqrt(
-          Math.pow(neuron.x - mousePos.x, 2) + 
-          Math.pow(neuron.y - mousePos.y, 2)
+          Math.pow(neuron.x - mousePos.x, 2) + Math.pow(neuron.y - mousePos.y, 2),
         )
 
-        const activationDistance = 60 // Increased proximity distance
+        const activationDistance = 60
 
         if (distance < activationDistance) {
           if (!neuron.isActive) {
@@ -293,47 +332,45 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
           neuron.activationTime = 0
         }
 
-        // Propagate signals
         if (neuron.isActive && currentTimeMs - neuron.lastFired > 800) {
-          neuron.connections.forEach(connectionId => {
-            const signalId = `${neuron.id}-${connectionId}-${currentTimeMs}`
+          neuron.connections.forEach((connectionId) => {
             const signal: Signal = {
-              id: signalId,
+              id: `${neuron.id}-${connectionId}-${currentTimeMs}`,
               fromNeuron: neuron.id,
               toNeuron: connectionId,
               progress: 0,
               startTime: currentTimeMs,
               duration: 1200 + Math.random() * 800,
-              intensity: 1.0
+              intensity: 1.0,
             }
-            
+
             neurons[connectionId].signalQueue.push(signal)
           })
-          
+
           neuron.lastFired = currentTimeMs
         }
 
-        // Update existing signals
-        neuron.signalQueue = neuron.signalQueue.filter(signal => {
+        neuron.signalQueue = neuron.signalQueue.filter((signal) => {
           const elapsed = currentTimeMs - signal.startTime
           signal.progress = Math.min(1, elapsed / signal.duration)
-          signal.intensity = 1 - (signal.progress * 0.8)
+          signal.intensity = 1 - signal.progress * 0.8
           return signal.progress < 1
         })
       })
 
-      // Draw connections
-      neurons.forEach(neuron => {
-        neuron.connections.forEach(connectionId => {
+      const edge = glowEffectsEnabled ? 0.4 : 0.28
+      const edgeMuted = glowEffectsEnabled ? 0.15 : 0.1
+      const lw = glowEffectsEnabled ? 2 : 1
+
+      neurons.forEach((neuron) => {
+        neuron.connections.forEach((connectionId) => {
           const connectedNeuron = neurons[connectionId]
           if (connectedNeuron) {
             const isGlowing = neuron.isActive || connectedNeuron.isActive
-            
-            ctx.strokeStyle = isGlowing 
-              ? `rgba(76, 175, 80, 0.4)`
-              : `rgba(76, 175, 80, 0.15)`
-            ctx.lineWidth = isGlowing ? 2 : 1
-            
+
+            ctx.strokeStyle = isGlowing ? `rgba(76, 175, 80, ${edge})` : `rgba(76, 175, 80, ${edgeMuted})`
+            ctx.lineWidth = isGlowing ? lw : 1
+
             ctx.beginPath()
             ctx.moveTo(neuron.x, neuron.y)
             ctx.lineTo(connectedNeuron.x, connectedNeuron.y)
@@ -342,24 +379,24 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
         })
       })
 
-      // Draw signals traveling through connections
-      neurons.forEach(neuron => {
-        neuron.signalQueue.forEach(signal => {
+      const signalAlpha = glowEffectsEnabled ? 0.8 : 0.55
+      const trailAlpha = glowEffectsEnabled ? 0.3 : 0.18
+
+      neurons.forEach((neuron) => {
+        neuron.signalQueue.forEach((signal) => {
           const fromNeuron = neurons[signal.fromNeuron]
           const toNeuron = neurons[signal.toNeuron]
-          
+
           if (fromNeuron && toNeuron) {
             const x = fromNeuron.x + (toNeuron.x - fromNeuron.x) * signal.progress
             const y = fromNeuron.y + (toNeuron.y - fromNeuron.y) * signal.progress
-            
-            // Draw signal particle
-            ctx.fillStyle = `rgba(76, 175, 80, ${signal.intensity * 0.8})`
+
+            ctx.fillStyle = `rgba(76, 175, 80, ${signal.intensity * signalAlpha})`
             ctx.beginPath()
             ctx.arc(x, y, 3 + signal.intensity * 2, 0, Math.PI * 2)
             ctx.fill()
-            
-            // Draw signal trail
-            ctx.strokeStyle = `rgba(76, 175, 80, ${signal.intensity * 0.3})`
+
+            ctx.strokeStyle = `rgba(76, 175, 80, ${signal.intensity * trailAlpha})`
             ctx.lineWidth = 2
             ctx.beginPath()
             ctx.moveTo(fromNeuron.x, fromNeuron.y)
@@ -369,27 +406,24 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
         })
       })
 
-      // Draw neurons
-      neurons.forEach(neuron => {
+      neurons.forEach((neuron) => {
         const baseOpacity = neuron.isActive ? 0.9 : 0.4
         const baseSize = neuron.isActive ? 10 : 6
-        
-        // Neuron core
+
         ctx.fillStyle = `rgba(76, 175, 80, ${baseOpacity})`
         ctx.beginPath()
         ctx.arc(neuron.x, neuron.y, baseSize, 0, Math.PI * 2)
         ctx.fill()
 
-        // Active neuron glow
-        if (neuron.isActive) {
+        if (neuron.isActive && glowEffectsEnabled) {
           const time = currentTime * 0.005
           const pulse = Math.sin(time) * 0.3 + 0.7
-          
+
           ctx.fillStyle = `rgba(76, 175, 80, ${0.2 * pulse})`
           ctx.beginPath()
           ctx.arc(neuron.x, neuron.y, 20, 0, Math.PI * 2)
           ctx.fill()
-          
+
           ctx.fillStyle = `rgba(76, 175, 80, ${0.1 * pulse})`
           ctx.beginPath()
           ctx.arc(neuron.x, neuron.y, 30, 0, Math.PI * 2)
@@ -409,25 +443,29 @@ export default function NeuralBackground({ disabled = false }: NeuralBackgroundP
       }
       canvas.style.willChange = 'auto'
     }
-  }, [dimensions, isVisible])
+  }, [dimensions, isVisible, motionEnabled, glowEffectsEnabled])
 
-  if (dimensions.width === 0 || dimensions.height === 0 || disabled) {
+  if (dimensions.width === 0 || dimensions.height === 0) {
     return null
   }
 
   return (
-    <motion.canvas
-      ref={canvasRef}
-      width={dimensions.width}
-      height={dimensions.height}
-      className="fixed left-0 right-0 top-0 pointer-events-none opacity-30"
-      style={{ 
-        zIndex: -1,
-        transform: 'translateZ(0)',
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 0.3 }}
-      transition={{ duration: 0.5 }}
-    />
+    <div
+      className={
+        stickyWithPage
+          ? 'pointer-events-none absolute left-0 right-0 top-0 z-0 w-full'
+          : 'pointer-events-none fixed inset-0 z-0 h-full w-full overflow-hidden'
+      }
+      style={stickyWithPage ? { height: dimensions.height } : undefined}
+      aria-hidden
+    >
+      <canvas
+        ref={canvasRef}
+        width={dimensions.width}
+        height={dimensions.height}
+        className="block h-full w-full opacity-[0.28] dark:opacity-[0.24]"
+        style={{ transform: 'translateZ(0)' }}
+      />
+    </div>
   )
 }
