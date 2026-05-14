@@ -2,15 +2,18 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Roadmap',
-  description: 'Explore the development roadmap and timeline for Expression Neuroscience Institute programs including Insight for visual processing disorders and ceEEG for open source brain-computer interfaces.',
+  description:
+    'The development roadmap for Expression Neuroscience Institute and the open-source Microneedle Array EEG research program.',
   openGraph: {
     title: 'Roadmap | Expression Neuroscience Institute',
-    description: 'Explore our development roadmap and timeline for neuroscience research programs.',
+    description:
+      'The development roadmap for our open-source Microneedle Array EEG research program.',
     url: 'https://www.expression.ngo/roadmap',
   },
   twitter: {
-    title: 'Roadmap | Expression Neuroscience Institute', 
-    description: 'Explore our development roadmap and timeline for neuroscience research programs.',
+    title: 'Roadmap | Expression Neuroscience Institute',
+    description:
+      'The development roadmap for our open-source Microneedle Array EEG research program.',
   },
   alternates: {
     canonical: 'https://www.expression.ngo/roadmap',
@@ -18,10 +21,10 @@ export const metadata: Metadata = {
   keywords: [
     'roadmap',
     'timeline',
-    'development',
-    'neuroscience programs',
-    'research timeline',
-    'project milestones'
+    'microneedle EEG',
+    'open hardware',
+    'neuroscience research',
+    'project milestones',
   ],
 }
 

@@ -1,6 +1,6 @@
 export const donateConfig = {
-  pageTitle: "Support Our Research",
-  paragraph: `Your donation helps us build open-source tools for neuroscience research and keep our work freely available to everyone.`,
+  pageTitle: "Fund the lab",
+  paragraph: `We are an unfunded, neurodivergent-led nonprofit prototyping microneedle-array EEGs in the open. Donations buy electrodes, oscilloscope time, IRB paperwork, and the right to keep everything we make freely licensed.`,
   buttonText: "Support Expression",
   href: "https://donorbox.org/expression-neuroscience-institute"
 };

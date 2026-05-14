@@ -5,18 +5,18 @@ export const dynamic = 'force-static'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.expression.ngo'
-  
-  // Static date for build time to ensure compatibility with static export
-  const buildDate = new Date('2024-01-01T00:00:00.000Z')
-  
-  // Core pages
+
+  const buildDate = new Date('2026-05-14T00:00:00.000Z')
+
   const routes = [
     '',
     '/about',
     '/research',
+    '/roadmap',
     '/programs',
-    '/programs/ceEEG',
+    '/programs/microneedle-eeg',
     '/contact',
+    '/donate',
     '/governance',
     '/governance/bylaws',
     '/governance/policies',
@@ -24,7 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/governance/other-documents',
     '/governance/terms-of-service',
     '/governance/privacy-policy',
-    '/donate',
   ]
 
   return routes.map((route) => ({

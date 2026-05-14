@@ -2,7 +2,7 @@ export const aboutConfig = {
   pageTitle: 'About ENI',
   mission: {
     title: 'Our Mission',
-    text: `Expression Neuroscience Institute (ENI) is a Gen Z-led nonprofit researching how the brain works. We're particularly interested in mental health conditions like Obsessive Compulsive Disorder (OCD), Attention Deficit Hyperactivity Disorder (ADHD), and Autism Spectrum Disorder (ASD) - partly because our founders live with these conditions. Our goal is to make neuroscience research more open, accessible, and useful for everyone.`,
+    text: `Expression Neuroscience Institute (ENI) is a Gen-Z, neurodivergent-led nonprofit demystifying neuroscience by doing it in public. We were founded by people who live with OCD, ADHD, autism, anxiety and PTSD, and we are tired of waiting for closed labs and venture-backed startups to decide what tools the rest of us deserve. Our current research project is designing an open-source microneedle-array EEG — and writing down everything we learn while we figure it out.`,
   },
   board: {
     title: 'Board Members',
@@ -34,7 +34,7 @@ export const aboutConfig = {
     ],
   },
   future: {
-    title: 'Building the Future Together',
-    text: `Our work thrives on openness and collaboration. Whether you're a researcher, a student, a patient, or simply passionate about understanding the brain, your engagement matters. The future belongs to those who show up to build it. You showed up. Let's shape the future of neuroscience, together.`,
+    title: 'Building the future, with the wires showing',
+    text: `Openness is not a marketing line for us — it is the work. Researchers, students, patients, makers, and curious humans: if you want to help us design, document, or debug the open neurotech we wish existed, the door is open. The future belongs to whoever bothers to show up. You did. Let's keep the wires showing.`,
   },
 }; 
