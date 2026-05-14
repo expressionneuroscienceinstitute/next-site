@@ -1,14 +1,11 @@
 # Robots.txt for Expression Neuroscience Institute
 User-agent: *
 Allow: /
-
-# Disallow admin or private areas if any exist
 Disallow: /api/
 Disallow: /_next/
-Disallow: /admin/
 
 # Sitemap location
 Sitemap: https://www.expression.ngo/sitemap.xml
 
-# Crawl delay (optional, helps with server load)
+# Be polite — this is a small nonprofit site
 Crawl-delay: 1

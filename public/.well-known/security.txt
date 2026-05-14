@@ -1,0 +1,9 @@
+# Coordinated security disclosure policy for Expression Neuroscience Institute.
+# See https://securitytxt.org/ for the spec.
+
+Contact: mailto:security@expression.ngo
+Contact: mailto:support@expressionneuroscienceinstitute.org
+Expires: 2027-05-14T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.expression.ngo/.well-known/security.txt
+Policy: https://www.expression.ngo/governance/privacy-policy
