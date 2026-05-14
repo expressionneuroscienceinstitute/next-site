@@ -11,7 +11,7 @@ import {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-tech-grid bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
+    <div className="page-shell">
       <Navbar />
       <main
         id="main-content"
@@ -20,7 +20,7 @@ export default function AboutPage() {
       >
         {aboutConfig?.pageTitle ? (
           <div className="mb-12">
-            <span className="eyebrow">{'// about'}</span>
+            <p className="kicker">About</p>
             <h1 className="mt-4 text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark">
               {aboutConfig.pageTitle}
             </h1>
@@ -31,7 +31,7 @@ export default function AboutPage() {
 
         {aboutConfig?.mission?.title && aboutConfig?.mission?.text ? (
           <section className="mb-16 panel p-8 md:p-10">
-            <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mb-3">
+            <h2 className="text-base font-semibold text-accent-light dark:text-accent-dark mb-3">
               {aboutConfig.mission.title}
             </h2>
             <p className="text-lg md:text-xl text-text-light dark:text-text-dark leading-relaxed">
@@ -45,7 +45,7 @@ export default function AboutPage() {
         {aboutConfig?.board?.title && aboutConfig.board.members?.length > 0 ? (
           <section className="mb-16" aria-label="Board members">
             <div className="mb-8">
-              <span className="eyebrow">{'// the humans'}</span>
+              <p className="kicker">Board</p>
               <h2 className="mt-3 text-3xl font-bold text-text-light dark:text-text-dark">
                 {aboutConfig.board.title}
               </h2>
@@ -67,7 +67,7 @@ export default function AboutPage() {
                     <h3 className="text-xl font-semibold text-text-light dark:text-text-dark">
                       {member.name}
                     </h3>
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mt-1">
+                    <p className="text-sm text-accent-light dark:text-accent-dark mt-1">
                       {member.role}
                     </p>
                     <p className="mt-3 text-sm text-muted-light dark:text-muted-dark leading-relaxed">
@@ -84,7 +84,7 @@ export default function AboutPage() {
 
         {aboutConfig?.future?.title && aboutConfig?.future?.text ? (
           <section className="panel p-10 md:p-12 text-center">
-            <span className="eyebrow">{'// invitation'}</span>
+            <p className="kicker">What&apos;s next</p>
             <h2 className="mt-4 text-2xl md:text-3xl font-bold text-text-light dark:text-text-dark">
               {aboutConfig.future.title}
             </h2>

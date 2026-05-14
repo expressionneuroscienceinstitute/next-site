@@ -10,20 +10,13 @@ import LazyNeuralBackground from '@/components/LazyNeuralBackground'
 import ScrollPerformanceScript from '@/components/ScrollPerformanceScript'
 import { GoogleTagManager } from '@next/third-parties/google'
 
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
   preload: true,
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-mono',
-  preload: false,
 })
 
 const SITE_DESCRIPTION =
@@ -127,7 +120,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
         <link rel="preload" href="/logos/ENI_logo_pink_vector.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/favicon.ico" as="image" />

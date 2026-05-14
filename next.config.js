@@ -194,6 +194,11 @@ const nextConfig = {
         destination: '/programs/microneedle-eeg',
         permanent: true,
       },
+      {
+        source: '/roadmap',
+        destination: '/',
+        permanent: true,
+      },
     ]
   },
 

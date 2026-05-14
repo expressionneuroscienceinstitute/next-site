@@ -90,12 +90,12 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-tech-grid bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
+    <div className="page-shell">
       <Navbar />
       <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16" tabIndex={-1}>
         <div className="panel p-8 md:p-10">
           <div className="mb-8">
-            <span className="eyebrow">{'// contact'}</span>
+            <p className="kicker">Contact</p>
             <h1 className="mt-4 text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark">
               Say hi
             </h1>
@@ -240,9 +240,9 @@ export default function ContactPage() {
             </form>
           )}
 
-          <div className="mt-12 pt-8 border-t border-purple-200/60 dark:border-purple-500/20">
-            <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mb-4">
-              {'// other ways in'}
+          <div className="mt-12 pt-8 border-t border-gray-200 dark:border-white/10">
+            <h2 className="text-base font-semibold text-text-light dark:text-text-dark mb-4">
+              Other ways to reach us
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>

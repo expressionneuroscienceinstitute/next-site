@@ -35,11 +35,11 @@ const programs: Program[] = [
 
 export default function Programs() {
   return (
-    <div className="min-h-screen bg-tech-grid bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
+    <div className="page-shell">
       <Navbar />
       <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
-          <span className="eyebrow mb-4">{'// programs'}</span>
+          <p className="kicker">Programs</p>
           <h1 className="text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark mt-4">
             What we&apos;re building
           </h1>
@@ -57,9 +57,7 @@ export default function Programs() {
                   {program.title}
                 </h2>
                 <StatusTag status={program.status} size="medium" className="flex-shrink-0" />
-                {!program.funded && (
-                  <span className="tape">UNFUNDED</span>
-                )}
+                {!program.funded && <span className="badge-soft">Unfunded</span>}
               </div>
               <p className="text-muted-light dark:text-muted-dark leading-relaxed mb-6 md:text-lg">
                 {program.longDescription}
@@ -80,9 +78,9 @@ export default function Programs() {
           ))}
         </div>
 
-        <aside className="mt-12 panel p-8 border-dashed">
-          <h2 className="text-xl font-bold text-text-light dark:text-text-dark mb-3 font-mono">
-            {'// future ideas'}
+        <aside className="mt-12 panel p-8 border-dashed border-gray-300 dark:border-white/20">
+          <h2 className="text-lg font-semibold text-text-light dark:text-text-dark mb-2">
+            Future programs
           </h2>
           <p className="text-muted-light dark:text-muted-dark leading-relaxed">
             We&apos;ll only ever open a new program once the current one is at a

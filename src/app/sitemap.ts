@@ -12,7 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/about',
     '/research',
-    '/roadmap',
     '/programs',
     '/programs/microneedle-eeg',
     '/contact',

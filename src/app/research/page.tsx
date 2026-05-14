@@ -11,13 +11,13 @@ export default function ResearchPage() {
   const isConfigValid = researchConfig?.pageTitle && researchConfig?.datasets && researchConfig?.publications;
 
   return (
-    <div className="min-h-screen flex flex-col bg-tech-grid bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
+    <div className="page-shell flex flex-col">
       <Navbar />
       <main id="main-content" className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
         {isConfigValid ? (
           <div>
             <div className="mb-12">
-              <span className="eyebrow">{'// research'}</span>
+              <p className="kicker">Research</p>
               <h1 className="mt-4 text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark">
                 {researchConfig.pageTitle}
               </h1>
@@ -29,7 +29,7 @@ export default function ResearchPage() {
             </div>
 
             <section className="mb-16">
-              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mb-4">
+              <h2 className="text-base font-semibold text-text-light dark:text-text-dark mb-4">
                 {researchConfig.datasets.title}
               </h2>
               <div className="grid gap-6 md:grid-cols-2">
@@ -49,7 +49,7 @@ export default function ResearchPage() {
             </section>
 
             <section>
-              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-accent-light dark:text-accent-dark mb-4">
+              <h2 className="text-base font-semibold text-text-light dark:text-text-dark mb-4">
                 {researchConfig.publications.title}
               </h2>
               <div className="space-y-6">

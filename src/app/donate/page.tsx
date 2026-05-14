@@ -5,12 +5,12 @@ import DonorBoxLoader from '@/components/DonorBoxLoader'
 
 export default function DonatePage() {
   return (
-    <div className="min-h-screen bg-tech-grid bg-gradient-to-br from-background-light via-secondary/10 to-purple-light/5 dark:from-background-dark dark:via-purple-dark/5 dark:to-accent-dark/3">
+    <div className="page-shell">
       <Navbar />
       <main id="main-content" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16" tabIndex={-1}>
         {donateConfig?.pageTitle ? (
           <div className="text-center mb-10">
-            <span className="eyebrow">{'// donate'}</span>
+            <p className="kicker">Donate</p>
             <h1 className="mt-4 text-4xl md:text-5xl font-bold text-text-light dark:text-text-dark">
               {donateConfig.pageTitle}
             </h1>

@@ -2,54 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-
-:root {
-  --grid-color: rgba(124, 58, 237, 0.08);
-  --noise-opacity: 0.04;
-}
-
-.dark {
-  --grid-color: rgba(168, 85, 247, 0.12);
-  --noise-opacity: 0.06;
-}
-
 @layer base {
-  /* Performance optimizations */
   html {
     scroll-behavior: smooth;
-    /* Enable smooth scrolling with better performance */
     -webkit-overflow-scrolling: touch;
-    /* Prevent layout shifts */
     overflow-x: hidden;
   }
 
   body {
     @apply text-text-light dark:text-text-dark bg-background-light dark:bg-background-dark;
     font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    /* Prevent horizontal scrolling */
     overflow-x: hidden;
-    /* Optimize font rendering */
     text-rendering: optimizeLegibility;
-    /* Improve text rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Apply transitions only to interactive elements with shorter duration */
   a, button, input, select, textarea {
-    @apply transition-all duration-100 ease-out;
+    @apply transition-colors duration-150 ease-out;
   }
 
-  /* Ensure text remains crisp during hover transitions */
   a:hover, button:hover, input:hover, select:hover, textarea:hover {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
-  /* Accessibility improvements */
-  
-  /* Skip links for screen readers */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -73,13 +51,11 @@
     white-space: normal;
   }
 
-  /* High contrast focus indicators */
   *:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
   }
 
-  /* Ensure buttons have proper focus states */
   button:focus-visible,
   a:focus-visible,
   input:focus-visible,
@@ -88,7 +64,6 @@
     @apply ring-2 ring-accent-light dark:ring-accent-dark ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark;
   }
 
-  /* Reduce motion for users who prefer it */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -98,17 +73,14 @@
     }
   }
 
-  /* Ensure proper text contrast */
   h1, h2, h3, h4, h5, h6 {
     @apply text-text-light dark:text-text-dark;
   }
 
-  /* Ensure containers don't cause reflows during scroll */
   .scroll-container {
     contain: layout style paint;
   }
 
-  /* Disable pointer events during scroll for better performance */
   body.is-scrolling * {
     pointer-events: none !important;
   }
@@ -125,145 +97,74 @@
   }
 
   .card {
-    @apply p-6 rounded-xl shadow-lg bg-white/95 dark:bg-surface-dark/80 border border-purple-200/60 dark:border-purple-500/20;
+    @apply p-6 rounded-xl shadow-md bg-white dark:bg-white/[0.06] border border-gray-200 dark:border-white/10;
     transform: translateZ(0);
   }
 
   .card:hover {
-    transform: translateY(-2px) translateZ(0);
+    transform: translateY(-1px) translateZ(0);
   }
 
-  /* Cutting-edge components used across the refreshed marketing pages. */
-
-  /* Subtle dotted-grid background that nods to lab notebooks and oscilloscope screens. */
-  .bg-tech-grid {
-    background-image: var(--tw-gradient-base, none),
-      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-    background-size: 100% 100%, 48px 48px, 48px 48px;
+  /* Soft page shell — no grid, no glow */
+  .page-shell {
+    @apply min-h-screen bg-gradient-to-b from-background-light to-gray-100 dark:from-background-dark dark:to-[#0d0518];
   }
 
-  /* Brutalist outlined "kicker" used in section headers. */
-  .eyebrow {
-    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-light/50 dark:border-accent-dark/50 text-[11px] uppercase tracking-[0.18em] font-mono text-accent-light dark:text-accent-dark bg-accent-light/5 dark:bg-accent-dark/10;
+  /* Small kicker above a heading */
+  .kicker {
+    @apply text-sm font-medium text-muted-light dark:text-muted-dark;
   }
 
-  .eyebrow::before {
-    content: '';
-    @apply inline-block w-1.5 h-1.5 rounded-full bg-accent-light dark:bg-accent-dark;
-    box-shadow: 0 0 8px currentColor;
-  }
-
-  /* Terminal-style caret used after headings. */
-  .caret::after {
-    content: '_';
-    @apply ml-1 text-accent-light dark:text-accent-dark;
-    animation: caret-blink 1.25s ease-in-out infinite;
-  }
-
-  /* Glassy bordered card with subtle accent shadow on hover. */
   .panel {
-    @apply relative overflow-hidden rounded-2xl border border-purple-200/60 dark:border-purple-500/20 bg-white/85 dark:bg-surface-dark/70 backdrop-blur-xl shadow-lg transition-shadow duration-300;
+    @apply rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.06] shadow-sm;
   }
 
-  .panel:hover {
-    @apply shadow-glow;
+  .badge-soft {
+    @apply inline-flex items-center rounded-md border border-amber-200/90 bg-amber-50 text-amber-950 text-xs font-medium px-2.5 py-1 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-100;
   }
 
-  /* Diagonal "tape" used to label unfunded/early-research banners. */
-  .tape {
-    @apply inline-flex items-center gap-2 px-3 py-1 text-[11px] font-mono uppercase tracking-[0.2em] bg-neon-lime/90 text-black border-y-2 border-black/10 select-none;
-  }
-
-  /* Mono "system message" used in process-log section. */
   .log-line {
-    @apply font-mono text-sm text-muted-light dark:text-muted-dark;
+    @apply text-sm text-muted-light dark:text-muted-dark leading-relaxed;
   }
 
   .log-line .log-tag {
-    @apply text-accent-light dark:text-accent-dark font-semibold mr-2;
+    @apply text-accent-light dark:text-accent-dark font-medium mr-2;
   }
 
-  /* Gradient text utility used for hero headlines. */
-  .gradient-text {
-    background: linear-gradient(110deg, #a855f7 0%, #ff2bd6 35%, #00f5d4 70%, #a855f7 100%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradient-x 12s ease-in-out infinite;
-  }
-
-  /* Enhanced focus states for interactive elements */
   .focus-enhanced:focus {
     @apply ring-2 ring-accent-light dark:ring-accent-dark ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark outline-none;
   }
 
-  /* Performance-optimized animations */
   @keyframes fade-in {
-    from { 
+    from {
       opacity: 0;
     }
-    to { 
+    to {
       opacity: 1;
     }
   }
 
   @keyframes slide-up {
-    from { 
-      transform: translateY(20px);
+    from {
+      transform: translateY(12px);
       opacity: 0;
     }
-    to { 
+    to {
       transform: translateY(0);
       opacity: 1;
     }
   }
 
-  @keyframes shimmer {
-    to {
-      transform: translateX(200%);
-    }
-  }
-
-  @keyframes wave {
-    0%, 100% {
-      transform: translateX(-100%);
-    }
-    50% {
-      transform: translateX(100%);
-    }
-  }
-
-  @keyframes glow {
-    0%, 100% {
-      opacity: 0.5;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes sparkle {
-    0%, 100% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 0.3;
-    }
-  }
-
   .animate-fade-in {
-    animation: fade-in 0.3s ease-out forwards;
+    animation: fade-in 0.35s ease-out forwards;
     animation-fill-mode: both;
   }
 
   .animate-slide-up {
-    animation: slide-up 0.3s ease-out forwards;
+    animation: slide-up 0.35s ease-out forwards;
     animation-fill-mode: both;
   }
 
-  /* Animation delays */
   .animation-delay-100 {
     animation-delay: 100ms;
   }
@@ -272,17 +173,8 @@
     animation-delay: 200ms;
   }
 
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-
-  /* Ensure elements are invisible before animation */
   .animate-fade-in,
   .animate-slide-up {
     opacity: 0;
   }
-} 
+}
