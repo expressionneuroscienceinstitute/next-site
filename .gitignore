@@ -44,6 +44,9 @@ next-env.d.ts
 /test-results
 /playwright-report
 
+# Local screenshot captures (QA)
+/screenshots/
+
 # cursor
 .cursor/
 AGENTS.md
